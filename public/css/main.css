@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Monda|Orbitron');
+
+body {
+    background-image: url("/images/background.jpg");
+}
+#main {
+    background:#FFF;
+    min-height:1000px;
+    padding:0px !important;
+}
+.header {
+    padding: 20px 0 20px 0;
+    background-image: url("/images/background.jpg");
+    position:relative;
+}
+.header_bg {
+    position:absolute;
+    right: 0px;
+    top:23px;
+    width:430px;
+    height:182px;
+}
+.logo {
+    padding-top:20px;
+}
+.logo a, .logo a:hover {
+    text-decoration: none;
+    outline-width: 0px;
+}
+.logo a:hover {
+    color: #A0A0A0;
+}
+.logo img {
+    display: inline-block;
+    margin-top:-30px;
+}
+.clanColor {
+    color: #173f73;
+}
+.clanShadow {
+    text-shadow: 2px 2px #ffcc23;
+}
+.logo a {
+    color:#FFF;
+    margin-top:10px;
+    font-family:'Orbitron', sans-serif;
+    font-weight:bold;
+    font-size:40px;
+}
+.menu * {
+    font-family:'Orbitron', sans-serif;
+    font-size:18px;
+    font-weight:bold;
+}
+.content {
+    font-family:'Monda', sans-serif;
+    padding: 10px;
+}
+.content * {
+    font-family:'Monda', sans-serif;
+}
+h1, h2, h3 {
+    margin-top:20px;
+}
+.recruit-tank-list li {
+    margin-bottom:30px;
+}
+/* Tank images */
+.med-tank {
+    display: inline-block;
+    border: solid #666;
+    border-width: 1px 1px 1px 1px;
+    margin:2px 0 2px 0;
+}
+.med-tank span {
+    padding: 0 3px 0 3px;
+    display: block;
+    background:#fff;
+    width:100%;
+    border-bottom:1px solid #666;
+}
