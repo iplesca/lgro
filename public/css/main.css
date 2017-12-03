@@ -3,6 +3,9 @@
 body {
     background-image: url("/images/background.jpg");
 }
+a {
+    outline-width:0px;
+}
 #main {
     background:#FFF;
     min-height:1000px;
@@ -47,20 +50,50 @@ body {
     font-weight:bold;
     font-size:40px;
 }
+/* Menu */
 .menu * {
     font-family:'Orbitron', sans-serif;
     font-size:18px;
     font-weight:bold;
 }
+.menu .active  a.nav-link {
+    color:#173f73 !important;
+    text-shadow: 2px 2px #ffcc23;;
+}
+.menu .small small {
+    font-size:80%;
+}
+/* Content */
 .content {
     font-family:'Monda', sans-serif;
-    padding: 10px;
+    padding: 10px 20px;
 }
 .content * {
     font-family:'Monda', sans-serif;
 }
 h1, h2, h3 {
     margin-top:20px;
+}
+.stats input {
+    display: inline-block;
+    height: 11px;
+    vertical-align: middle;
+    cursor:pointer;
+}
+.stats label {
+    display: inline-block;
+    padding-top: 2px;
+    height: 12px;
+    vertical-align: top;
+    margin-right:30px;
+    cursor:pointer;
+}
+.tabel_stats {
+    display: none;
+}
+.tabel_stats td {
+    vertical-align: top;
+    width: 32%;
 }
 .recruit-tank-list li {
     margin-bottom:30px;
