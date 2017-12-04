@@ -5,5 +5,5 @@ return [
     'default_realm'          => 'eu',
     'redirect_uri'           => env('APP_DEBUG') ?
         'http://7f65d997.ngrok.io/wot_redirect/'
-        : url('authenticate')
+        : 'http://lg-ro.isteam.ro/auth_wargaming/'
 ];
