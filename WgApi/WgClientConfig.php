@@ -9,7 +9,8 @@ class WgClientConfig implements WgApiDefinition
     protected $realm = '';
     protected $platform = '';
     protected $applicationId = null;
-    
+    protected $redirectUri = '';
+
     public function setRealm($realmName)
     {
         if (isset(self::WG_REALMS[$realmName])) {
@@ -34,6 +35,10 @@ class WgClientConfig implements WgApiDefinition
             throw new WgException("[WgClientConfig] Application ID must be provided");
         }
     }
+    public function setRedirectUri($uri)
+    {
+        $this->redirectUri = $uri;
+    }
     public function getApplicationId()
     {
         return $this->applicationId;
@@ -41,5 +46,9 @@ class WgClientConfig implements WgApiDefinition
     public function getBaseUri()
     {
         return $this->realm .'/'. $this->platform . '/';
+    }
+    public function getRedirectUri()
+    {
+        return $this->redirectUri;
     }
 }

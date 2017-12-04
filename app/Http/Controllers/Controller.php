@@ -10,4 +10,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function refreshWgCsrf($do = false)
+    {
+        if ($do || ! session('wgAuth')) {
+            session(['wgAuth' => md5(uniqid(time()))]);
+        }
+    }
 }
