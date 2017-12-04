@@ -7,8 +7,6 @@ use WgApi\Interfaces\WgApiDefinition;
 
 class WotApi extends Base
 {
-    private $endpoint;
-    
     protected $platform = WgApiDefinition::PLATFORM_WOTANKS;
     protected $accountIds = [];
     protected $definedEndpoints = [
@@ -16,6 +14,11 @@ class WotApi extends Base
             'verb'     => 'get',
             'required' => ['search'],
             'params'   => ['search', 'limit', 'type', 'language'],
+        ],
+        'account/info' => [
+            'verb'     => 'get',
+            'required' => ['account_id'],
+            'params'   => ['account_id', 'access_token', 'extra', 'fields', 'language'],
         ]
     ];
     /**
@@ -48,6 +51,21 @@ class WotApi extends Base
             $result = $this->execute();
         }
         
+        return $result;
+    }
+    public function getUserData($id, $accessToken)
+    {
+        $result = false;
+
+        if ($this->createEndpoint('account/info')) {
+            $this->setParams([
+                'account_id' => $id,
+                'access_token' => $accessToken,
+            ]);
+            $result = $this->execute();
+            $result = $result[$id];
+        }
+
         return $result;
     }
 }

@@ -39,6 +39,10 @@ class WgClient
         
         return $this->getLastResponseData();
     }
+    public function getConfig()
+    {
+        return $this->config;
+    }
     public function getLastResponseData()
     {
         return $this->responseData;
@@ -56,15 +60,15 @@ class WgClient
             throw new WgException($response->getBody(), $code);
         }
         
-        $jsonResponse = json_decode($response->getBody());
+        $jsonResponse = json_decode($response->getBody(), true);
 
         if ($jsonResponse) {
-            if (self::WG_ERROR == $jsonResponse->status) {
-                throw new WgException($jsonResponse->error->message, $jsonResponse->error->code);
+            if (self::WG_ERROR == $jsonResponse['status']) {
+                throw new WgException($jsonResponse['error']['message'], $jsonResponse['error']['code']);
             }
-            if (self::WG_OK == $jsonResponse->status) {
-                $this->responseData = $jsonResponse->data;
-                $this->responseMeta = $jsonResponse->meta;
+            if (self::WG_OK == $jsonResponse['status']) {
+                $this->responseData = $jsonResponse['data'];
+                $this->responseMeta = $jsonResponse['meta'];
             }
         }
     }
@@ -81,34 +85,3 @@ class WgClient
         return $result;
     }
 }
-/*
-interface WotApiAction 
-{
-    const ACT_ACCOUNT         = 'account';
-    const ACT_AUTHENTICATION  = 'auth';
-    const ACT_STRONGHOLD      = 'stronghold';
-    const ACT_GLOBALMAP       = 'globalmap';
-    const ACT_TANKOPEDIA      = 'encylopedia';
-    const ACT_PLAYER_RATINGS  = 'ratings';
-    const ACT_CLAN_RATINGS    = 'clanratings';
-    const ACT_PLAYER_VEHICLES = 'tanks';
-    const ACT_PERMANENT_TEAMS = 'regularteams';
-}
-class WotApiAccount extends WotApiAction
-{
-    protected $verb = 'get';
-    protected $name = self::ACT_ACCOUNT;
-    
-    const OP_LIST        = 'list';
-    const OP_INFO        = 'info';
-    const OP_TANKS       = 'tanks';
-    const OP_ACHIEVEMENT = 'achievements';
-    
-    protected $mandatoryParams = [
-        self::OP_LIST => ['search'],
-        self::OP_INFO => ['account_id'],
-        self::OP_TANKS => ['account_id'],
-        self::OP_ACHIEVEMENT => ['account_id'],
-    ];
-}
-*/

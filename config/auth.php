@@ -40,7 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'wargaming' => [
+            'driver' => 'session',
+            'provider' => ''
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',

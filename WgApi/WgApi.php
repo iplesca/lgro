@@ -1,6 +1,7 @@
 <?php
 namespace WgApi;
 
+use Illuminate\Http\Request;
 use WgApi\WgClient;
 use WgApi\WgEndpoint;
 use WgApi\Exceptions\WgException;
@@ -81,5 +82,22 @@ abstract class WgApi
             $this->setError($e->getCode(), $this->endpoint->getName(), $e->getMessage());
         }
         return $result;
+    }
+    protected function getConfig()
+    {
+        return $this->client->getConfig();
+    }
+    public function getLoginUrl()
+    {
+
+        $url = $this->getConfig()->getBaseUri();
+        $authEndpoint = 'auth/login/';
+
+        $params = [
+            'application_id' => $this->getConfig()->getApplicationId(),
+            'redirect_uri' =>$this->getConfig()->getRedirectUri()
+        ];
+
+        return  $url. $authEndpoint .'?'. http_build_query($params);
     }
 }
