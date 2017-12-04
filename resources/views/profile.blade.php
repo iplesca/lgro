@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1>{{ $data->nickname }}</h1>
+    <h1>{{ $data->nickname }} [{{ $data->wot_rating  }}]</h1>
     <small>ID: {{ $data->wargaming_id }}</small><br>
     <br>
     <table style="width:70%">

@@ -12,19 +12,25 @@ class Login extends Controller
     {
         if (session('wgAuth') == $wgCsrf) {
             $auth = $request->all();
-            // check if the user is a clan member
-            $wgData = App('WotApi')->getUserData($auth['account_id'], $auth['access_token']);
 
-            if (env('CLAN_ID') == $wgData['clan_id']) {
-                $user = User::createFromWargaming($auth, $wgData);
+            if ('ok' == $auth['status']) {
+                // check if the user is a clan member
+                $wgData = App('WotApi')->getUserData($auth['account_id'], $auth['access_token']);
 
-                Auth::login($user, true);
+                if (env('CLAN_ID') == $wgData['clan_id']) {
+                    $user = User::createFromWargaming($auth, $wgData);
+
+                    Auth::login($user, true);
+                } else {
+
+                }
+                $this->refreshWgCsrf(true);
+                return redirect('profile');
             } else {
-
+                return redirect('');
             }
 
-            $this->refreshWgCsrf(true);
-            return redirect()->intended('');
+
         } else {
             // @todo log error
         }
