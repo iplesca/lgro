@@ -7,10 +7,10 @@ namespace Isteam\Wargaming\Platforms;
  * Date: 06/12/17 22:56
  * @author ionut
  */
-use Isteam\Wargaming\Blueprints\Tanks as TanksApiDefinition;
+use Isteam\Wargaming\Endpoint;
 use Isteam\Wargaming\Exceptions\Exception as Exception;
 
-class Tanks extends TanksApiDefinition
+class Tanks extends Api
 {
     /**
      * $params = [
@@ -29,10 +29,27 @@ class Tanks extends TanksApiDefinition
      */
     public function searchPlayerByNamePattern($search, $type = 'startswith', $limit = 100)
     {
-        return $this->useEndpoint('account/list', [
+        /**
+         * Validate data
+         */
+        // ...
+        
+        return new Endpoint('get', 'account/list', [
             'search' => $search,
             'type'   => $type,
             'limit'  => $limit,
+        ]);
+    }
+    public function getUserData($id, $accessToken)
+    {
+        /**
+         * Validate data
+         */
+        // ...
+
+        return new Endpoint('get', 'account/info', [
+            'account_id' => $id,
+            'access_token' => $accessToken,
         ]);
     }
 }

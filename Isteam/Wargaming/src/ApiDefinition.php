@@ -47,6 +47,6 @@ interface ApiDefinition
         self::PLATFORM_WOTANKS_CONSOLE => Tanks::class,
         self::PLATFORM_WOWARSHIPS      => Tanks::class,
         self::PLATFORM_WOWARPLANES     => Tanks::class,
-        self::PLATFORM_WARGAMINGNET    => Tanks::class,
+        self::PLATFORM_WARGAMINGNET    => Server::class,
     ];
 }
