@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        WgApi\WgApiProvider::class,
+        Isteam\Wargaming\WargamingProvider::class
 
     ],
 
