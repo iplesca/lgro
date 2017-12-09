@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Clan;
+use App\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Isteam\Wargaming\Api;
 
 class Page extends Controller
 {
@@ -28,5 +31,16 @@ class Page extends Controller
             'data' => Auth::user(),
             'stats' => $loop
         ]);
+    }
+    public function test(Request $request, Api $api)
+    {
+//        $found = $existingMembers->firstWhere('wargaming_id', 519931899)->first()->toArray();
+        $test = [];
+//        $test = $api->server()->getClanMembers(env('CLAN_ID'));
+//        $test = $api->tanks()->getUserData(Auth::user()->wargaming_id;
+        $params['test'] = print_r($test, true);
+        $params['existingMembers'] = print_r($existingMembers, true);
+        $params['members'] = print_r($members, true);
+        return view('test', $params);
     }
 }

@@ -19,7 +19,7 @@ Route::get('/login', function () {
 })->name('login');
 
 // WoT API test
-Route::get('/test', "Test@test");
+Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', 'Page@profile')->name('profile');
