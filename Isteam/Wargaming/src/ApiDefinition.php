@@ -8,6 +8,7 @@ namespace Isteam\Wargaming;
  * @author ionut
  */
 
+use Isteam\Wargaming\Platforms\Server;
 use Isteam\Wargaming\Platforms\Tanks;
 
 interface ApiDefinition

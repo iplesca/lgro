@@ -7,10 +7,9 @@ namespace Isteam\Wargaming\Platforms;
  * Date: 06/12/17 22:56
  * @author ionut
  */
-use Isteam\Wargaming\Endpoint;
 use Isteam\Wargaming\Exceptions\Exception as Exception;
 
-class Tanks
+class Tanks extends Base
 {
     /**
      * $params = [
@@ -29,27 +28,34 @@ class Tanks
      */
     public function searchPlayerByNamePattern($search, $type = 'startswith', $limit = 100)
     {
-        /**
-         * Validate data
-         */
-        // ...
-        
-        return new Endpoint('get', 'account/list', [
+        $result = $this->execute('get', 'account/list', [
             'search' => $search,
             'type'   => $type,
             'limit'  => $limit,
         ]);
+        
+        return $result;
     }
-    public function getUserData($id, $accessToken)
-    {
-        /**
-         * Validate data
-         */
-        // ...
 
-        return new Endpoint('get', 'account/info', [
-            'account_id' => $id,
+    /**
+     * Get Wargaming account data for WoT.
+     * Returns a single entry or array depending if $id is a integer or an array of ids.
+     *
+     * @param integer $id Wargaming account id
+     * @param string $accessToken Wargaming access token
+     * @return array
+     */
+    public function getUserData($id, $accessToken = '')
+    {
+        $result = $this->execute('get', 'account/info', [
+            'account_id' => $this->flatten($id),
             'access_token' => $accessToken,
         ]);
+        
+        if (! is_array($id) && is_numeric($id)) { 
+            $result = $result[$id];
+        }
+
+        return $result;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 namespace Isteam\Wargaming;
 
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class WargamingProvider extends ServiceProvider
 {
@@ -15,7 +15,9 @@ class WargamingProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        //
+        if (Auth::check()) {
+            $this->app['Isteam\Wargaming\Api']->setAccessToken(User::getAccessToken(Auth::user()));
+        }
     }
     /**
      * Register the application services.
@@ -24,7 +26,7 @@ class WargamingProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('wgApi', function($app) {
+        $this->app->bind('Isteam\Wargaming\Api', function($app) {
             $wgApi = new Api();
             $wgApi->setup($app['config']['wotapi']);
             
@@ -38,6 +40,6 @@ class WargamingProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['wgApi', 'Isteam\\Wargaming\\Api'];
+        return ['Isteam\Wargaming\Api', 'Isteam\\Wargaming\\Api'];
     }
 }

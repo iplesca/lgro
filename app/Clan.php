@@ -9,8 +9,9 @@ class Clan extends Model
 
     public function members()
     {
-        return $this->hasMany('App\User');
+        return $this->hasMany('App\Member');
     }
+
     public function getByWargamingId($id)
     {
         return self::where('wargaming_id', $id)->first();

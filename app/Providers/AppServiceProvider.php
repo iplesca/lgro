@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        View::share('wotLogin', $this->app['wgApi']->getLoginUrl());
+        View::share('wotLogin', $this->app['Isteam\Wargaming\Api']->getLoginUrl());
     }
 
     /**

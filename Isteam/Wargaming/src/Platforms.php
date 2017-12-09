@@ -8,7 +8,7 @@ namespace Isteam\Wargaming;
  */
 use Isteam\Wargaming\ApiDefinition as Definition;
 
-trait PlatformShortcuts
+trait Platforms
 {
     public function tanks()
     {

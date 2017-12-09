@@ -11,16 +11,19 @@ use Isteam\Wargaming\Exceptions\Exception;
 use Isteam\Wargaming\ApiDefinition as Definition;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\GuzzleException;
+use Isteam\Wargaming\Platforms\Base;
 
 /**
  * Class Api
  * @package Isteam\Wargaming
  *
  * @property $use
+ * @method Platforms\Tanks tanks()
+ * @method Platforms\Server server()
  */
 class Api implements Definition
 {
-    use PlatformShortcuts;
+    use Platforms;
 
     const WG_OK    = 'ok';
     const WG_ERROR = 'error';
@@ -30,18 +33,57 @@ class Api implements Definition
      * @var \GuzzleHttp\Client
      */
     protected $httpClient;
-
+    /**
+     * The URL for the WarGaming realm
+     * @var string
+     */
     protected $realm = '';
+    /**
+     * WarGaming application ID
+     * @var null
+     */
     protected $applicationId = null;
+    /**
+     * Redirect URL after a WarGaming login attempt
+     * @var string
+     */
     protected $redirectUri = '';
+    /**
+     * Holds loaded API classes
+     * @var array
+     */
     protected $platforms = [];
+    /**
+     * Holds last API response
+     * @var array
+     */
     protected $response = ['meta' => [], 'data' => []];
+    /**
+     * Name of the called API (Definition::PLATFORM*)
+     * @var
+     */
     protected $use;
+    protected $accessToken = null;
 
+    /**
+     * Set the HTTP client (e.g. GuzzleHttp)
+     * @param $client
+     */
     public function setClient($client)
     {
         $this->httpClient = $client;
     }
+    public function setAccessToken($token)
+    {
+        $this->accessToken = $token;
+    }
+
+    /**
+     * Convenience method to bootstrap the library.
+     * Sets the config values and the default GuzzleHttp client
+     *
+     * @param array $configArray
+     */
     public function setup(array $configArray)
     {
         $this->loadConfig($configArray);
@@ -50,6 +92,17 @@ class Api implements Definition
             'base_uri' => $this->getBaseUrl()
         ]);
     }
+
+    /**
+     * Sets the configuration parameters.
+     * $configArray = [
+     *  'default_realm'  => value from Definition::WG_REALMS
+     *  'application_id' => WarGaming API application id
+     *  'redirect_uri'   => Redirect URL
+     * ]
+     * @param array $configArray
+     * @throws Exception
+     */
     public function loadConfig(array $configArray)
     {
         if (isset($configArray['default_realm'])) {
@@ -69,22 +122,43 @@ class Api implements Definition
             $this->redirectUri = $configArray['redirect_uri'];
         }
     }
+
+    /**
+     * Catch-all method for the platform API calls
+     *
+     * @param $method string Platform
+     * @param $args
+     * @return mixed
+     */
     public function __call($method, $args)
     {
-        // get endpoint
         $api = $this->getPlatform($this->use);
         
-        $endpoint = call_user_func_array([$api, $method], $args);
-        return $this->execute($endpoint);
+        return call_user_func_array([$api, $method], $args);
     }
+
+    /**
+     * Get API response data
+     * @return array
+     */
     public function getResponseData()
     {
         return $this->response['data'];
     }
+
+    /**
+     * Get API response meta data
+     * @return array
+     */
     public function getResponseMeta()
     {
         return $this->response['meta'];
     }
+
+    /**
+     * Get the login url for WarGaming
+     * @return string
+     */
     public function getLoginUrl()
     {
         $url = $this->getBaseUrl() . Definition::PLATFORM_WOTANKS;
@@ -97,24 +171,50 @@ class Api implements Definition
         return $url. $authEndpoint .'?'. http_build_query($params);
         
     }
+
+    /**
+     * Get the realm URL (used to contain platform also)
+     * @return string
+     */
     protected function getBaseUrl()
     {
         return $this->realm .'/';
     }
+
+    /**
+     * Get a platform API singleton object (e.g. Tanks, Ships, Server etc.)
+     * @param $name
+     * @return Base
+     */
     protected function getPlatform($name)
     {
         if (! isset($this->platforms[$name])) {
             $class = self::WG_CLASSES[$name];
-            $this->platforms[$name] = new $class();
+            $this->platforms[$name] = new $class($this);
         }
         
         return $this->platforms[$name];
     }
-    protected function execute(Endpoint $ep)
+
+    /**
+     * Executes a HTTP request using the defined endpoint.
+     * Adds `application_id` and `access_token` (if not added already)
+     * Parses the response with parseResponse()
+     *
+     * @param Endpoint $ep
+     * @return array
+     * @throws Exception
+     */
+    public function execute(Endpoint $ep)
     {
         // add applicationId
         $params = $ep->getParams();
         $params['application_id'] = $this->applicationId;
+
+        // set access token if none provided
+        if (! isset($params['access_token']) && ! is_null($this->accessToken)) {
+            $params['access_token'] = $this->accessToken;
+        }
 
         $endpoint = $this->use .'/' . $ep->getName() .'/';
         
@@ -128,7 +228,7 @@ class Api implements Definition
                 break;
             }
         }
-        $params['debug'] = true;
+
         try {
             $this->response['meta'] = [];
             $this->response['data'] = [];
@@ -140,6 +240,14 @@ class Api implements Definition
         $this->parseResponse($response);
         return $this->getResponseData();
     }
+
+    /**
+     * Parses the Wargaming response.
+     * Throws Exceptions on communication/errors.
+     *
+     * @param $response
+     * @throws Exception
+     */
     protected function parseResponse($response)
     {
         $code = $response->getStatusCode();
