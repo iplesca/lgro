@@ -15,8 +15,7 @@ class WargamingProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-//        AliasLoader::getInstance()->alias('wg-api', 'Isteam\\Wargaming\\Api');
-        View::share('wotLogin', $this->app['wg-api']->getLoginUrl());
+        //
     }
     /**
      * Register the application services.
@@ -25,7 +24,7 @@ class WargamingProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('wg-api', function($app) {
+        $this->app->bind('wgApi', function($app) {
             $wgApi = new Api();
             $wgApi->setup($app['config']['wotapi']);
             
@@ -39,6 +38,6 @@ class WargamingProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['wg-api', 'Isteam\\Wargaming\\Api'];
+        return ['wgApi', 'Isteam\\Wargaming\\Api'];
     }
 }

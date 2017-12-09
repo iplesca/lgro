@@ -15,10 +15,11 @@ class Login extends Controller
 
             if ('ok' == $auth['status']) {
                 // check if the user is a clan member
-                $wgData = App('WotApi')->getUserData($auth['account_id'], $auth['access_token']);
+                $wgData = App('wgApi')->tanks()->getUserData($auth['account_id'], $auth['access_token']);
 
-                if (env('CLAN_ID') == $wgData['clan_id']) {
-                    $user = User::createFromWargaming($auth, $wgData);
+                $userData = $wgData[$auth['account_id']];
+                if (env('CLAN_ID') == $userData['clan_id']) {
+                    $user = User::createFromWargaming($auth, $userData);
 
                     Auth::login($user, true);
                 } else {

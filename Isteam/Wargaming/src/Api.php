@@ -9,10 +9,15 @@ namespace Isteam\Wargaming;
  */
 use Isteam\Wargaming\Exceptions\Exception;
 use Isteam\Wargaming\ApiDefinition as Definition;
-use Isteam\Wargaming\Endpoint;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\GuzzleException;
 
+/**
+ * Class Api
+ * @package Isteam\Wargaming
+ *
+ * @property $use
+ */
 class Api implements Definition
 {
     use PlatformShortcuts;
@@ -22,6 +27,7 @@ class Api implements Definition
 
     /**
      * Client to make HTTP requests
+     * @var \GuzzleHttp\Client
      */
     protected $httpClient;
 
@@ -30,6 +36,7 @@ class Api implements Definition
     protected $redirectUri = '';
     protected $platforms = [];
     protected $response = ['meta' => [], 'data' => []];
+    protected $use;
 
     public function setClient($client)
     {
@@ -40,13 +47,13 @@ class Api implements Definition
         $this->loadConfig($configArray);
 
         $this->httpClient = new HttpClient([
-            'base_uri' => $this->config->baseUri
+            'base_uri' => $this->getBaseUrl()
         ]);
     }
     public function loadConfig(array $configArray)
     {
-        if (isset($configArray['realm'])) {
-            $name = $configArray['realm'];
+        if (isset($configArray['default_realm'])) {
+            $name = $configArray['default_realm'];
             $realms = Definition::WG_REALMS;
 
             if (isset($realms[$name])) {
@@ -55,11 +62,11 @@ class Api implements Definition
                 throw new Exception("Realm `$name` is not defined");
             }
         }
-        if (isset($configArray['applicationId'])) {
-            $this->applicationId = $configArray['applicationId'];
+        if (isset($configArray['application_id'])) {
+            $this->applicationId = $configArray['application_id'];
         }
-        if (isset($configArray['redirectUri'])) {
-            $this->redirectUri = $configArray['redirectUri'];
+        if (isset($configArray['redirect_uri'])) {
+            $this->redirectUri = $configArray['redirect_uri'];
         }
     }
     public function __call($method, $args)
@@ -80,20 +87,25 @@ class Api implements Definition
     }
     public function getLoginUrl()
     {
-        $url = $this->getConfig()->getBaseUri();
-        $authEndpoint = 'auth/login/';
+        $url = $this->getBaseUrl() . Definition::PLATFORM_WOTANKS;
+        $authEndpoint = '/auth/login/';
+
         $params = [
-            'application_id' => $this->getConfig()->getApplicationId(),
-            'redirect_uri' =>$this->getConfig()->getRedirectUri()
+            'application_id' => $this->applicationId,
+            'redirect_uri' =>$this->redirectUri
         ];
-        return  $url. $authEndpoint .'?'. http_build_query($params);
+        return $url. $authEndpoint .'?'. http_build_query($params);
         
-        $this->ba
+    }
+    protected function getBaseUrl()
+    {
+        return $this->realm .'/';
     }
     protected function getPlatform($name)
     {
         if (! isset($this->platforms[$name])) {
-            $this->platforms[$name] = new (Definition::WG_CLASSES[$name]);
+            $class = self::WG_CLASSES[$name];
+            $this->platforms[$name] = new $class();
         }
         
         return $this->platforms[$name];
@@ -103,6 +115,8 @@ class Api implements Definition
         // add applicationId
         $params = $ep->getParams();
         $params['application_id'] = $this->applicationId;
+
+        $endpoint = $this->use .'/' . $ep->getName() .'/';
         
         switch ($ep->getVerb()) {
             case 'get': {
@@ -114,11 +128,11 @@ class Api implements Definition
                 break;
             }
         }
-            
+        $params['debug'] = true;
         try {
             $this->response['meta'] = [];
             $this->response['data'] = [];
-            $response = $this->httpClient->request($ep->getVerb(), $ep->getName(), $params);
+            $response = $this->httpClient->request($ep->getVerb(), $endpoint, $params);
         } catch (GuzzleException $e) {
             throw new Exception('guzzle', $e->getMessage(), $e->getCode());
         }

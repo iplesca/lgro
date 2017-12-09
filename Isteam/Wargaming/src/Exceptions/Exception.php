@@ -14,6 +14,6 @@ class Exception extends \Exception
     public function __construct($type = 'api', $message = "", $code = 0, \Exception $previous = null)
     {
         $this->type = $type;
-        \Exception::__construct($message, $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }

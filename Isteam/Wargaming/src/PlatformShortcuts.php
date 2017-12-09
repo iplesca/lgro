@@ -10,8 +10,6 @@ use Isteam\Wargaming\ApiDefinition as Definition;
 
 trait PlatformShortcuts
 {
-    protected $use;
-
     public function tanks()
     {
         $this->use = Definition::PLATFORM_WOTANKS;

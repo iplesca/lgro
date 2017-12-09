@@ -10,7 +10,7 @@ namespace Isteam\Wargaming\Platforms;
 use Isteam\Wargaming\Endpoint;
 use Isteam\Wargaming\Exceptions\Exception as Exception;
 
-class Tanks extends Api
+class Tanks
 {
     /**
      * $params = [
