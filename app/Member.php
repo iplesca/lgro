@@ -26,6 +26,7 @@ class Member extends Model
         $new = new Member();
         $new->wargaming_id = $memberData['account_id'];
         $new->role = $memberData['role'];
+        $new->nickname = $memberData['account_name'];
         $new->granted = $memberData['role'];
         $new->joined = date('Y-m-d H:i:s', $memberData['joined_at']);
         $new->clan()->associate($clan);
@@ -58,11 +59,14 @@ class Member extends Model
         $history->joined = $this->joined;
         $history->left = date('Y-m-d H:i:s');
         $history->role = $this->role;
-        $history->days = Carbon::create($this->left)->diffInDays($history->joined);
+        $history->nickname = $this->nickname;
+        $joined = Carbon::createFromFormat('Y-m-d H:i:s', $history->joined);
+        $left = Carbon::createFromFormat('Y-m-d H:i:s', $history->left);
+        $history->days = $left->diffInDays($joined);
 
         $history->save();
-        $this->user()->dissociate();
+//        $this->user()->save(null);
 
-        $this->delete();
+        parent::delete();
     }
 }
