@@ -15,6 +15,9 @@
                 </li>
                 @endguest
                 @auth
+                    <li class="nav-item {{ "concurs" == Route::currentRouteName() ? 'active' : ''}}">
+                        <a class="nav-link" href="{{ route('concurs') }}">Concurs</a>
+                    </li>
                     <li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('profile') }}">Profil</a>
                     </li>

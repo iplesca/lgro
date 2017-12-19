@@ -23,6 +23,7 @@ Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', 'Page@profile')->name('profile');
+    Route::get('/concurs', 'Page@concurs')->name('concurs');
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');
