@@ -27,15 +27,22 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function membership()
+    {
+        return $this->hasOne('App\Member');
+    }
     public function stats()
     {
         return $this->hasOne('App\RawStats');
     }
     public function clan()
     {
-        return $this->belongsTo('App\Clan');
+        return $this->belongsTo('App\Member');
     }
-
+    public static function getAccessToken(User $user)
+    {
+        return $user->wot_token;
+    }
     public static function createFromWargaming($auth, $data)
     {
         $user = User::where('wargaming_id', $data['account_id'])->first();
@@ -82,5 +89,9 @@ class User extends Authenticatable
         $stats->save();
 
         return $user;
+    }
+    public static function getByWargamingId($id)
+    {
+        return self::where('wargaming_id', $id)->first();
     }
 }
