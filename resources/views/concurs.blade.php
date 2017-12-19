@@ -15,7 +15,7 @@
     <p>Restul participanților vor primi câte 50 gold de jucător.</p>
     <h2>Regulament</h2>
     <p>Se vor folosi numai tancuri de tier 8 cu muniție standard.</p>
-    <p>Toți jucătorii sunt obligații să salveze replay-urile după care îl vor transmite comisiei responsabile cu organizarea competiție pentru eventuale reclamații. În cazul în care unui jucător i se va solicita replay-ul și nu va putea să-l pună la dispoziție, echipa sa va fi descalificată.</p>
+    <p>Toți jucătorii sunt obligații să salveze replay-urile după care le vor transmite comisiei responsabile cu organizarea competiție pentru eventuale reclamații. În cazul în care unui jucător i se va solicita replay-ul și nu va putea să-l pună la dispoziție, echipa sa va fi descalificată.</p>
     <p>Echipele ai caror jucători vor folosi muniție premium vor fi descalificate din competiție. Celelate echipe vor primi 0 (ZERO) puncte pentru meciurile care au fost jucate sau care urmau să fie jucate cu echipa descalificată.</p>
     <p>Echipele care nu se vor prezenta la meciuri vor fi descalificate.</p>
     <p>Harta va fi aleasă aleatoriu (random) dintre hărțile WoT cu ajutorul unui program.</p>
