@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Clan;
+use App\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,10 +28,11 @@ class CheckClanMembers implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     * 
+     * @param Api $api
      * @return void
      */
-    public function handle()
+    public function handle(Api $api)
     {
         $clans = Clan::all();
         foreach ($clans as $clan) {
