@@ -2,7 +2,7 @@
 
 @section('content')
     Un Clan bazat pe Respect, Prietenie si Altruism.<br>
-    Comunicare prin TeamSpeak3 pe adresa: <strong>piroman.isteam.ro</strong>
+    Comunicare prin TeamSpeak3 pe adresa: <strong>lg-ro.isteam.ro</strong>
     <h3>Condiții de recrutare</h3>
     <ul>
         <li>experiență de luptă în echipă</li>

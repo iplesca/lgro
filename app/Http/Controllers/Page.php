@@ -32,6 +32,10 @@ class Page extends Controller
             'stats' => $loop
         ]);
     }
+    public function concurs(Request $request)
+    {
+        return view('concurs');
+    }
     public function test(Request $request, Api $api)
     {
         $clans = Clan::all();
