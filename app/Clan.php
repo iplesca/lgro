@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Clan extends Model
 {
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function members()
     {
         return $this->hasMany('App\Member');
