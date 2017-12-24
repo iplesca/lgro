@@ -39,6 +39,11 @@ class Api implements Definition
      */
     protected $realm = '';
     /**
+     * WarGaming mobile application ID
+     * @var null
+     */
+    protected $applicationIdMobile = null;
+    /**
      * WarGaming application ID
      * @var null
      */
@@ -118,6 +123,9 @@ class Api implements Definition
         if (isset($configArray['application_id'])) {
             $this->applicationId = $configArray['application_id'];
         }
+        if (isset($configArray['application_id_mobile'])) {
+            $this->applicationIdMobile = $configArray['application_id_mobile'];
+        }
         if (isset($configArray['redirect_uri'])) {
             $this->redirectUri = $configArray['redirect_uri'];
         }
@@ -165,7 +173,7 @@ class Api implements Definition
         $authEndpoint = '/auth/login/';
 
         $params = [
-            'application_id' => $this->applicationId,
+            'application_id' => $this->applicationIdMobile,
             'redirect_uri' =>$this->redirectUri
         ];
         return $url. $authEndpoint .'?'. http_build_query($params);
