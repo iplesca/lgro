@@ -29,14 +29,15 @@ class CheckClanMembers implements ShouldQueue
         
         $clans = Clan::all();
         foreach ($clans as $clan) {
-
+            $leftClan = 0;
+            $newMember = 0;
             $existingMembers = $clan->members()->get();
             $members = $api->server()->getClanMembers($clan->wargaming_id);
-            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: ' . count($existingMembers) . '. Query: ' . count($members));
             // check for member that left the clan
             foreach ($existingMembers as $em) {
                 // no longer present in the members list
                 if (! isset($members[$em->wargaming_id])) {
+                    $leftClan++;
                     $em->delete('[auto] no reason');
                 }
             }
@@ -45,10 +46,12 @@ class CheckClanMembers implements ShouldQueue
                 $member = $existingMembers->firstWhere('wargaming_id', $wargamingId);
 
                 if (! $member) {
+                    $newMember++;
                     // re-add, in case it's a returning member
                     Member::readd($m, $clan);
                 }
             }
+            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: ' . count($existingMembers) . '. Query: ' . count($members) . ' Left: ' .$leftClan . '. New: ' . $newMember);
         }
     }
 }
