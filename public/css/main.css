@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Monda|Orbitron');
+@import url('https://fonts.googleapis.com/css?family=Nunito|Orbitron');
 
 body {
     background-image: url("/images/background.jpg");
@@ -65,11 +65,11 @@ a {
 }
 /* Content */
 .content {
-    font-family:'Monda', sans-serif;
+    font-family:'Nunito', sans-serif;
     padding: 10px 20px;
 }
 .content * {
-    font-family:'Monda', sans-serif;
+    font-family:'Nunito', sans-serif;
 }
 h1, h2, h3 {
     margin-top:20px;
