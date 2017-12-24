@@ -3,11 +3,13 @@
 namespace App\Jobs;
 
 use App\Clan;
+use App\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 use Isteam\Wargaming\Api;
 
 class CheckClanMembers implements ShouldQueue
@@ -27,11 +29,14 @@ class CheckClanMembers implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     * 
+     * @param Api $api
      * @return void
      */
-    public function handle()
+    public function handle(Api $api)
     {
+        Log::info('[cron][check clan members] running');
+        
         $clans = Clan::all();
         foreach ($clans as $clan) {
             $existingMembers = $clan->members()->get();
