@@ -18,16 +18,6 @@ class CheckClanMembers implements ShouldQueue
     private $api;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(Api $api)
-    {
-        $this->api = $api;
-    }
-
-    /**
      * Execute the job.
      * 
      * @param Api $api
@@ -39,9 +29,10 @@ class CheckClanMembers implements ShouldQueue
         
         $clans = Clan::all();
         foreach ($clans as $clan) {
+
             $existingMembers = $clan->members()->get();
             $members = $api->server()->getClanMembers($clan->wargaming_id);
-
+            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: ' . count($existingMembers) . '. Query: ' . count($members));
             // check for member that left the clan
             foreach ($existingMembers as $em) {
                 // no longer present in the members list
