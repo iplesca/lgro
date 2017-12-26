@@ -24,6 +24,7 @@ Route::get('/test', "Page@test");
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', 'Page@profile')->name('profile');
     Route::get('/concurs', 'Page@concurs')->name('concurs');
+    Route::get('/ofiter', 'Page@ofiter')->name('ofiter')->middleware('can:isOfficer');
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');

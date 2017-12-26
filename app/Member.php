@@ -15,8 +15,13 @@ class Member extends Model
     }
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->hasOne('App\User', 'user_id');
     }
+
+    /**
+     * @param $id
+     * @return Member
+     */
     public static function getByWargamingId($id)
     {
         return static::where('wargaming_id', $id)->first();

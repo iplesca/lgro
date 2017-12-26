@@ -21,6 +21,9 @@
                     <li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('profile') }}">Profil</a>
                     </li>
+                    <li class="nav-item {{ "ofiter" == Route::currentRouteName() ? 'active' : ''}}">
+                        <a class="nav-link" href="{{ route('ofiter') }}">Ofiter</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Deconectare</a>
                     </li>

@@ -39,5 +39,6 @@
             @yield('content')
         </div>
     </div>
+    @include('alerts')
 </body>
 </html>

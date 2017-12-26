@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +38,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof AuthorizationException) {
+            // do some reporting ...
+//            app('request')->session()->flash('pop_message', 'Nope. ' . Auth::user()->nickname . ' nope!');
+        }
         parent::report($exception);
     }
 
@@ -48,6 +54,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof AuthorizationException) {
+            $request->session()->flash('pop_message', 'Acces interzis');
+            return redirect('');
+        }
         return parent::render($request, $exception);
     }
 }

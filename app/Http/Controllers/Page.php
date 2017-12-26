@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Clan;
 use App\Member;
+use App\User;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Isteam\Wargaming\Api;
 
 class Page extends Controller
@@ -35,6 +38,16 @@ class Page extends Controller
     public function concurs(Request $request)
     {
         return view('concurs');
+    }
+    public function ofiter(Request $request, User $user)
+    {
+        return view('ofiter');
+//        if (Auth::user()->can('isOfficer')) {
+//            return view('ofiter');
+//        } else {
+//            $request->session()->flash('pop_message', 'Neautorizat');
+//            return redirect('');
+//        }
     }
     public function test(Request $request, Api $api)
     {

@@ -28,13 +28,15 @@ class Login extends Controller
 
                         // check member association
                         if (! $member->user()) {
-                            $member->associate($user);
+                            $user->membership()->associate($member);
+                            $member->user()->save($user);
                             $member->save();
                         }
 
                         Auth::login($user, true);
                     } else {
-
+                        $request->session()->flash('pop_message', 'Acces permis doar membrilor de clan');
+                        return redirect('');
                     }
                 }
                 $this->refreshWgCsrf(true);
