@@ -15,7 +15,6 @@ use Isteam\Wargaming\Api;
 class CheckClanMembers implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    private $api;
 
     /**
      * Execute the job.
