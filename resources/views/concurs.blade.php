@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+    <h2>Regulament & Premii</h2>
     <p>Perioada în care se va desfășura competiția este 27-28 decembrie 2017 iar intervalul orar 20:00 - 23:00 în fiecare zi.</p>
     <p>În data de 27 se vor desfășura meciurile de calificare iar în data de 28 se vor desfășura semifinalele și finala.</p>
     <p>Participanții se pot înscrie până pe data de 26 decembrie ora 18</p>

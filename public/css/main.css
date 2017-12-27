@@ -112,3 +112,40 @@ h1, h2, h3 {
     width:100%;
     border-bottom:1px solid #666;
 }
+/* Concurs*/
+.concurs {
+    width:100%;
+}
+.concurs .team {
+    width: 20%;
+    display:inline-block;
+    border: solid #F0F0F0 1px;
+    margin: 5px;
+    padding: 10px;
+}
+.concurs .team-id {
+    width: 70px;
+    display: inline-block;
+}
+.concurs .group {
+    width: 100%;
+    margin-left:100px;
+    display: inline-block;
+}
+.concurs .group span {
+
+}
+.concurs .group .group-teams {
+    display: inline-block;
+}
+.concurs .group .group-teams li {
+    font-size:34px;
+}
+.concurs .group .games {
+    display: inline-block;
+}
+.concurs .group .games li span {
+    display: inline-block;
+    width:70px;
+    margin-left: 20px;
+}
