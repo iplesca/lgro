@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clan;
+use App\Competition;
 use App\Member;
 use App\User;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -39,73 +40,186 @@ class Page extends Controller
     {
         return view('concurs');
     }
-    public function concursEchipe(Request $request)
+    public function concursSave(Request $request, Competition $concurs)
     {
-        $teamNames = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliet', 'Kilo', 'Lima', 'Mike', 'November', 'Oscar', 'Papa', 'Quebec', 'Romeo', 'Sierra', 'Tango', 'Uniform', 'Victor', 'Whiskey', 'X-ray', 'Yankee', 'Zulu'];
+        $mId = $request->post('mId');
+        $slotOne = $request->post('slotOne');
+        $slotTwo = $request->post('slotTwo');
+        $matchScores = $concurs->_getScores();
 
-        $data = [
-            'teams' => [
-                't1' => [
-                    'name' => 'Echipa 1',
-                    'players' => ['AlecsandruCorhan', 'marioseer', 'broscoi1']
-                ],
-                't2' => [
-                    'name' => 'Echipa 2',
-                    'players' => ['SirLucasIV', '_Syu_', 'zaman95']
-                ],
-                't3' => [
-                    'name' => 'Echipa 3',
-                    'players' => ['1Alexandrw', 'ligrivis', 'gabycarutasoiu']
-                ],
-                't4' => [
-                    'name' => 'Echipa 4',
-                    'players' => ['xxWOLVERINExxx', 'deniyz', 'stefy2014']
-                ],
-                't5' => [
-                    'name' => 'Echipa 5',
-                    'players' => ['uslaro', 'Panzerwaffe', 'ciukash']
-                ],
-                't6' => [
-                    'name' => 'Echipa 6',
-                    'players' => ['Deputy_Thunder', 'tenebras', 'robert_adrian2013']
-                ],
-                't7' => [
-                    'name' => 'Echipa 7',
-                    'players' => ['DemonSMV', 'dmmoisi', 'Sulla_Felix']
-                ],
-                't8' => [
-                    'name' => 'Echipa 8',
-                    'players' => ['acid8urn', 'GX5570', 'KinezGL']
-                ],
-                't9' => [
-                    'name' => 'Echipa 9',
-                    'players' => ['Blue_Banana', 'aurel19747777', 'zugamihai']
-                ],
-                't10' => [
-                    'name' => 'Echipa 10',
-                    'players' => ['Marius6354 ', 'UrSu77', 'iuga_mari78']
-                ],
-            ],
-            'groups' => [
-                'g1' => ['t3', 't4', 't7', 't9', 't10'],
-                'g2' => ['t1', 't2', 't5', 't6', 't8'],
-            ],
-            'matches' => [
-                'pos' => ['p1' => 0, 'p2' => 1, 'p3' => 2, 'p4' => 3, 'p5' => 4],
-                'qualify' => [
-                    ['p1', 'p2'], ['p3', 'p4'], ['p1', 'p3'], ['p2', 'p5'], ['p2', 'p4'], ['p1', 'p5'], ['p1', 'p4'],
-                    ['p3', 'p5'], ['p2', 'p3'], ['p4', 'p5']
-                ]
-            ]
-        ];
+        // quick validate
+        if (!empty($slotOne['home']) && is_numeric($slotOne['home']) &&
+            !empty($slotTwo['home']) && is_numeric($slotTwo['home'])) {
+
+            $matchScores[$mId]['home']['slotOne'] = intval($slotOne['home']);
+            $matchScores[$mId]['home']['slotTwo'] = intval($slotTwo['home']);
+            $matchScores[$mId]['hasPoints']['home'] = true;
+        }
+        if (!empty($slotOne['away']) && is_numeric($slotOne['away']) &&
+            !empty($slotTwo['away']) && is_numeric($slotTwo['away'])) {
+
+            $matchScores[$mId]['away']['slotOne'] = intval($slotOne['away']);
+            $matchScores[$mId]['away']['slotTwo'] = intval($slotTwo['away']);
+            $matchScores[$mId]['hasPoints']['away'] = true;
+        }
+        $concurs->_saveScores($matchScores);
+
+        return redirect('concurs/echipe');
+    }
+    private function reset(Competition $concurs)
+    {
+        $gm = $concurs->generateMatches();
+        $concurs->_saveScores($gm);
+        return redirect('concurs');
+    }
+    public function concursEchipe(Request $request, Competition $concurs)
+    {
+//        $this->reset($concurs);
+        $concurs->generateMatches();
+        $data = $concurs->getData();
+        $victoryPoints = 3;
+        $drawPoints = 1;
+        $losePoints = 0;
 
         foreach ($data['teams'] as $k => $team) {
-            $teamPos = intval(str_replace('t', '', $k)) - 1;
-            $data['teams'][$k]['id'] = $teamNames[$teamPos];
+            $data['teams'][$k]['id'] = $concurs->assignTeamName($k);
         }
+        $scores = $concurs->_getScores();
+        $showScores = false;
+        $scoresGroups = [];
+        foreach ($scores as $matchId => $mData) {
+
+            if ($mData['hasPoints']['home']) {
+                $showScores = true;
+            }
+            // is it a group game?
+            if (false !== strpos($matchId, ':')) {
+                list($gId, $mId) = explode(':', $matchId);
+
+                $t1Id = $mData['slotOne']['id'];
+                $t2Id = $mData['slotTwo']['id'];
+
+                if (!isset($scoresGroups[$gId])) {
+                    $scoresGroups[$gId] = [];
+                }
+
+                $slotOne = $slotTwo = [
+                    'victory' => 0,
+                    'defeat' => 0,
+                    'draw' => 0,
+                    'points' => 0
+                ];
+                if (isset($mData['home'])) {
+                    $homeGame = $mData['home'];
+                    
+                    if (!empty($homeGame['slotOne']) && !empty($homeGame['slotTwo'])) {
+                        if ($homeGame['slotOne'] > $homeGame['slotTwo']) {
+                            $slotOne['points'] += $victoryPoints;
+                            $slotOne['victory'] += 1;
+                            $slotTwo['points'] += $losePoints;
+                            $slotTwo['defeat'] += 1;
+                        }
+                        if ($homeGame['slotOne'] < $homeGame['slotTwo']) {
+                            $slotOne['points'] += $losePoints;
+                            $slotOne['defeat'] += 1;
+                            $slotTwo['points'] += $victoryPoints;
+                            $slotTwo['victory'] += 1;
+                        }
+                        if ($homeGame['slotOne'] == $homeGame['slotTwo']) {
+                            $slotOne['points'] += $drawPoints;
+                            $slotOne['draw'] += 1;
+                            $slotTwo['points'] += $drawPoints;
+                            $slotTwo['draw'] += 1;
+                        }
+                    }
+                }
+                if (isset($mData['away'])) {
+                    $awayGame = $mData['away'];
+                    
+                    if (!empty($awayGame['slotOne']) && !empty($awayGame['slotTwo'])) {
+                        if ($awayGame['slotOne'] > $awayGame['slotTwo']) {
+                            $slotOne['points'] += $victoryPoints;
+                            $slotOne['victory'] += 1;
+                            $slotTwo['points'] += $losePoints;
+                            $slotTwo['defeat'] += 1;
+                        }
+                        if ($awayGame['slotOne'] < $awayGame['slotTwo']) {
+                            $slotOne['points'] += $losePoints;
+                            $slotOne['defeat'] += 1;
+                            $slotTwo['points'] += $victoryPoints;
+                            $slotTwo['victory'] += 1;
+                        }
+                        if ($awayGame['slotOne'] == $awayGame['slotTwo']) {
+                            $slotOne['points'] += $drawPoints;
+                            $slotOne['draw'] += 1;
+                            $slotTwo['points'] += $drawPoints;
+                            $slotTwo['draw'] += 1;
+                        }
+                    }
+                }
+
+                if (!isset($scoresGroups[$gId][$t1Id])) {
+                    $scoresGroups[$gId][$t1Id] = [
+                        'victory' => 0,
+                        'defeat' => 0,
+                        'draw' => 0,
+                        'points' => 0
+                    ];
+                }
+                if (!isset($scoresGroups[$gId][$t2Id])) {
+                    $scoresGroups[$gId][$t2Id] = [
+                        'victory' => 0,
+                        'defeat' => 0,
+                        'draw' => 0,
+                        'points' => 0
+                    ];
+                }
+                $scoresGroups[$gId][$t1Id]['victory'] += $slotOne['victory'];
+                $scoresGroups[$gId][$t1Id]['defeat']  += $slotOne['defeat'];
+                $scoresGroups[$gId][$t1Id]['draw']    += $slotOne['draw'];
+                $scoresGroups[$gId][$t1Id]['points']  += $slotOne['points'];
+
+                $scoresGroups[$gId][$t2Id]['victory'] += $slotTwo['victory'];
+                $scoresGroups[$gId][$t2Id]['defeat']  += $slotTwo['defeat'];
+                $scoresGroups[$gId][$t2Id]['draw']    += $slotTwo['draw'];
+                $scoresGroups[$gId][$t2Id]['points']  += $slotTwo['points'];
+            }
+        }
+        // sort
+        foreach ($scoresGroups as $gId => $teams) {
+            $sss = $scoresGroups[$gId];
+            uasort($sss, function ($a, $b) {
+                if ($a['points'] < $b['points']) {
+                    return 1;
+                } elseif ($a['points'] > $b['points']) {
+                    return -1;
+                } else {
+                    if ($a['victory'] < $b['victory']) {
+                        return 1;
+                    } elseif ($a['victory'] > $b['victory']) {
+                        return -1;
+                    } else {
+                        if ($a['defeat'] < $b['defeat']) {
+                            return -1;
+                        } elseif ($a['defeat'] > $b['defeat']) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            });
+            $scoresGroups[$gId] = $sss;
+        }
+//        $concurs->_saveScores($concurs->generateMatches());
+//        $gg = $concurs->_getScores();
+
 
         return view('concurs-echipe', [
-            'data' => $data
+            'data' => $data,
+            'showScores' => $showScores,
+            'scoresGroup' => $scoresGroups,
+            'scores' => $scores,
         ]);
     }
     public function concursRezultate(Request $request)

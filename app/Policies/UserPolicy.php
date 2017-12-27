@@ -9,8 +9,12 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function ofiter(User $user)
+    public function isOfficer(User $user)
     {
-        return ($user->membership->granted != 'private') ? true : false;
+        return (! in_array($user->membership->granted, ['private', 'recruit', 'reservist'])) ? true : false;
+    }
+    public function isExecutiveOfficer(User $user)
+    {
+        return ('executive_officer' == $user->membership->granted) ? true : false;
     }
 }

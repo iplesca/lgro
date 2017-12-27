@@ -76,6 +76,7 @@ class User extends Authenticatable
         $user->wot_battle_time = $data['private']['battle_life_time'];
         $user->wot_premium = $data['private']['is_premium'];
         $user->wot_premium_expire = date('Y-m-d H:i:s', $data['private']['premium_expires_at']);
+        $user->clan_id = -1;
 
         $user->save();
 

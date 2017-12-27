@@ -28,7 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('isOfficer', 'App\Policies\UserPolicy@ofiter');
+        Gate::define('isOfficer', 'App\Policies\UserPolicy@isOfficer');
+        Gate::define('isCE', 'App\Policies\UserPolicy@isExecutiveOfficer');
 //        Gate::define('isOfficer', function (User $user) {
 //            return ($user->membership->granted == 'private') ? true : false;
 //        });
