@@ -48,15 +48,15 @@ class Page extends Controller
         $matchScores = $concurs->_getScores();
 
         // quick validate
-        if (!empty($slotOne['home']) && is_numeric($slotOne['home']) &&
-            !empty($slotTwo['home']) && is_numeric($slotTwo['home'])) {
+        if (is_numeric($slotOne['home']) &&
+            is_numeric($slotTwo['home'])) {
 
             $matchScores[$mId]['home']['slotOne'] = intval($slotOne['home']);
             $matchScores[$mId]['home']['slotTwo'] = intval($slotTwo['home']);
             $matchScores[$mId]['hasPoints']['home'] = true;
         }
-        if (!empty($slotOne['away']) && is_numeric($slotOne['away']) &&
-            !empty($slotTwo['away']) && is_numeric($slotTwo['away'])) {
+        if (is_numeric($slotOne['away']) &&
+            is_numeric($slotTwo['away'])) {
 
             $matchScores[$mId]['away']['slotOne'] = intval($slotOne['away']);
             $matchScores[$mId]['away']['slotTwo'] = intval($slotTwo['away']);
