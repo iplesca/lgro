@@ -24,8 +24,7 @@
                             <a class="dropdown-item" href="{{ route('concurs') }}">Regulament & premii</a>
                             <a class="dropdown-item" href="{{ route('concurs-echipe') }}">Echipe</a>
                             {{--<div class="dropdown-divider"></div>--}}
-                            {{--<a class="dropdown-item disabled" href="#">Rezultate</a>--}}
-                            {{--{{ route('concurs-rezultate') }}--}}
+                            <a class="dropdown-item" href="{{ route('concurs-rezultate') }}">Rezultate</a>
                         </div>
                     </li>
 

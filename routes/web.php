@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/concurs', 'Page@concurs')->name('concurs');
     Route::get('/concurs/echipe', 'Page@concursEchipe')->name('concurs-echipe');
     Route::post('/concurs/save', 'Page@concursSave')->name('concurs-save');
+    Route::post('/concurs/rezultate', 'Page@concursRezultate')->name('concurs-rezultate');
     Route::get('/concurs/rezultate', 'Page@concursRezultate')->name('concurs-rezultate');
 //    Route::get('/ofiter', 'Page@ofiter')->name('ofiter')->middleware('can:isOfficer');
 });

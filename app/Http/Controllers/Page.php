@@ -74,6 +74,10 @@ class Page extends Controller
         $concurs->_saveScores($gm);
         return redirect('concurs');
     }
+    public function concursRezultate()
+    {
+        return view('concurs-rezultate');
+    }
     public function concursEchipe(Request $request, Competition $concurs)
     {
 //        $this->reset($concurs);
@@ -223,10 +227,6 @@ class Page extends Controller
             'scoresGroup' => $scoresGroups,
             'scores' => $scores,
         ]);
-    }
-    public function concursRezultate(Request $request)
-    {
-        return view('concurs-rezultate');
     }
     public function ofiter(Request $request, User $user)
     {
