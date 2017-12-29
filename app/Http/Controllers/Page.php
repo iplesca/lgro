@@ -42,6 +42,8 @@ class Page extends Controller
     }
     public function concursSave(Request $request, Competition $concurs)
     {
+//        print_r($request->all());
+//        die;
         $mId = $request->post('mId');
         $slotOne = $request->post('slotOne');
         $slotTwo = $request->post('slotTwo');

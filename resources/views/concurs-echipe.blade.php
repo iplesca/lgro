@@ -118,21 +118,25 @@
                                     @if (isset($scores[$gId.':'.$mId]))
                                     <tr>
                                         <td>
+                                            <input type="radio" name="winner{{ $gId.':'.$mId }}-home" value="slotOne">
                                             <input type="text" size="2" name="slotOne[home]" value="{{ $scores[$gId.':'.$mId]['home']['slotOne'] }}">
                                         </td>
                                         <td>tur</td>
                                         <td>
                                             <input type="text" size="2" name="slotTwo[home]" value="{{ $scores[$gId.':'.$mId]['home']['slotTwo'] }}">
+                                            <input type="radio" name="winner{{ $gId.':'.$mId }}-home" value="slotTwo">
                                         </td>
                                         <td>&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td>
+                                            <input type="radio" name="winner{{ $gId.':'.$mId }}-away" value="slotOne">
                                             <input type="text" size="2" name="slotOne[away]" value="{{ $scores[$gId.':'.$mId]['away']['slotOne'] }}">
                                         </td>
                                         <td>retur</td>
                                         <td>
                                             <input type="text" size="2" name="slotTwo[away]" value="{{ $scores[$gId.':'.$mId]['away']['slotTwo'] }}">
+                                            <input type="radio" name="winner{{ $gId.':'.$mId }}-away" value="slotTwo">
                                         </td>
                                         <td>&nbsp;</td>
                                     </tr>
