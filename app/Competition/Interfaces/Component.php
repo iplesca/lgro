@@ -8,7 +8,7 @@ namespace App\Competition\Interfaces;
  * @author ionut
  */
 
-interface Part
+interface Component
 {
-
+    public function export();
 }
