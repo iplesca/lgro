@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends(ISTEAM_TEMPLATE . '.layouts.main')
 
 @section('content')
     <h1>{{ $data->nickname }} [{{ $data->wot_rating  }}]</h1>

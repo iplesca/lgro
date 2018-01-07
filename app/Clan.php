@@ -13,7 +13,6 @@ class Clan extends Model
     {
         return $this->hasMany('App\Member');
     }
-
     public function getByWargamingId($id)
     {
         return self::where('wargaming_id', $id)->first();

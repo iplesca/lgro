@@ -120,6 +120,11 @@ class Api implements Definition
         }
         if (isset($configArray['redirect_uri'])) {
             $this->redirectUri = $configArray['redirect_uri'];
+
+            if (false !== strpos($this->redirectUri, '$1')) {
+                $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+                $this->redirectUri = str_replace('$1', $host . '/', $this->redirectUri);
+            }
         }
     }
 

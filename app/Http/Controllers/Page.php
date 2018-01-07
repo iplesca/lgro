@@ -17,7 +17,7 @@ class Page extends Controller
     public function index(Request $request)
     {
         $this->refreshWgCsrf();
-        return view('landing');
+        return $this->useView('landing');
     }
     public function profile(Request $request)
     {
@@ -31,14 +31,14 @@ class Page extends Controller
         $loop = [
             $stats['all'], $stats['clan'], $stats['team'], $stats['stronghold_skirmish']
         ];
-        return view('profile', [
+        return $this->useView('profile', [
             'data' => Auth::user(),
             'stats' => $loop
         ]);
     }
     public function concurs(Request $request)
     {
-        return view('concurs');
+        return $this->useView('concurs');
     }
     public function concursSave(Request $request, Competition $concurs)
     {
@@ -76,7 +76,7 @@ class Page extends Controller
     }
     public function concursRezultate()
     {
-        return view('concurs-rezultate');
+        return $this->useView('concurs-rezultate');
     }
     public function concursEchipe(Request $request, Competition $concurs)
     {
@@ -221,7 +221,7 @@ class Page extends Controller
 //        $gg = $concurs->_getScores();
 
 
-        return view('concurs-echipe', [
+        return $this->useView('concurs-echipe', [
             'data' => $data,
             'showScores' => $showScores,
             'scoresGroup' => $scoresGroups,
@@ -230,7 +230,7 @@ class Page extends Controller
     }
     public function ofiter(Request $request, User $user)
     {
-        return view('ofiter');
+        return $this->useView('ofiter');
 //        if (Auth::user()->can('isOfficer')) {
 //            return view('ofiter');
 //        } else {
@@ -272,6 +272,11 @@ class Page extends Controller
 //        $params['test'] = print_r($test, true);
 //        $params['existingMembers'] = print_r($existingMembers, true);
 //        $params['members'] = print_r($members, true);
-        return view('test', $params);
+        return $this->useView('test', $params);
+    }
+
+    private function useView($name, $data = array())
+    {
+        return view(ISTEAM_TEMPLATE . '.' . $name, $data);
     }
 }

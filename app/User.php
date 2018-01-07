@@ -88,6 +88,6 @@ class User extends Authenticatable
     }
     public static function getByWargamingId($id)
     {
-        return self::where('wargaming_id', $id)->first();
+        return self::with('membership')->where('wargaming_id', $id)->first();
     }
 }

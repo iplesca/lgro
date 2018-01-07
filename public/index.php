@@ -1,4 +1,7 @@
 <?php
+/** IsTeam load */
+define('CLAN_ID', false !== getenv('CLAN_ID') ? getenv('CLAN_ID') : -1);
+define('ISTEAM_TEMPLATE', false !== getenv('CLAN_NAME') ? getenv('CLAN_NAME') : 'standard');
 
 /**
  * Laravel - A PHP Framework For Web Artisans

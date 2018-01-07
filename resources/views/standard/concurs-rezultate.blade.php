@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends(ISTEAM_TEMPLATE . '.layouts.main')
 
 @section('content')
     <h2>Rezultate concurs</h2>

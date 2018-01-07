@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends(ISTEAM_TEMPLATE . '.layouts.main')
 
 @section('content')
     Un Clan bazat pe Respect, Prietenie si Altruism.<br>

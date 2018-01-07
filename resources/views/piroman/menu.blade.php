@@ -15,21 +15,6 @@
                 </li>
                 @endguest
                 @auth
-                    <li class="nav-item dropdown {{ in_array(Route::currentRouteName(), ['concurs', 'concurs-echipe', 'concurs-rezultate']) ? 'active' : ''}}">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Concurs
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('concurs') }}">Regulament & premii</a>
-                            <a class="dropdown-item" href="{{ route('concurs-echipe') }}">Echipe</a>
-                            {{--<div class="dropdown-divider"></div>--}}
-                            <a class="dropdown-item" href="{{ route('concurs-rezultate') }}">Rezultate</a>
-                        </div>
-                    </li>
-
-
-
                     <li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('profile') }}">Profil</a>
                     </li>

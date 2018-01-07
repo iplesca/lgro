@@ -23,10 +23,25 @@
     <div id="main" class="container">
         <div class="header">
             <div class="logo">
-                <a href="#" title="[LG-RO] Lupii Galbeni">
-                    <img src="https://eu.wargaming.net/clans/media/clans/emblems/cl_466/500033466/emblem_195x195.png">
-                    <span class="clanColor clanShadow">[LG-RO]</span> Lupii Galbeni
+                @auth
+                    @if (null != Auth::user()->membership)
+                        <a href="#" title="[{{ Auth::user()->membership->clan->tag }}] {{ Auth::user()->membership->clan->name }}">
+                            <img src="{{ Auth::user()->membership->clan->emblem195  }}">
+                            <span style="color:{{ Auth::user()->membership->clan->color }}" class="clanShadow">[{{ Auth::user()->membership->clan->tag }}]</span> {{ $data->membership->clan->name }}
+                        </a>
+                    @else
+                        <a href="#" title="IsTeam">
+                            <img src="http://i.imgur.com/FiybPWn.png">
+                            IsTeam
+                        </a>
+                    @endif
+                @endauth
+                @guest
+                <a href="#" title="IsTeam">
+                    <img src="http://i.imgur.com/FiybPWn.png">
+                    IsTeam
                 </a>
+                @endguest
             </div>
             <div class="header_bg">
                 <a href="https://eu.wargaming.net/clans/wot/500033466" title="Pagina WoT">
@@ -34,11 +49,11 @@
                 </a>
             </div>
         </div>
-        @include('menu')
+        @include(ISTEAM_TEMPLATE . '.menu')
         <div class="content">
             @yield('content')
         </div>
     </div>
-    @include('alerts')
+    @include('standard.alerts')
 </body>
 </html>

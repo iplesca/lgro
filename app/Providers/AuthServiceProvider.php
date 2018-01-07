@@ -30,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('isOfficer', 'App\Policies\UserPolicy@isOfficer');
         Gate::define('isCE', 'App\Policies\UserPolicy@isExecutiveOfficer');
+        Gate::define('access', 'App\Policies\UserPolicy@access');
 //        Gate::define('isOfficer', function (User $user) {
 //            return ($user->membership->granted == 'private') ? true : false;
 //        });
