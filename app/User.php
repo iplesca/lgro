@@ -27,10 +27,17 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function membership()
     {
-        return $this->belongsTo('App\Member', 'member_id');
+        return $this->belongsTo('App\Member', 'member_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function stats()
     {
         return $this->hasOne('App\RawStats');
@@ -86,8 +93,24 @@ class User extends Authenticatable
 
         return $user;
     }
+    public function findAndAttachMembership(User $user)
+    {
+        $member = Member::where('wargaming_id', $user->wargaming_id)->first();
+
+        if (! is_null($member)) {
+            $user->membership()->associate($member);
+            $user->save();
+
+//            $member->user()->save($user);
+//            $member->save();
+        }
+    }
     public static function getByWargamingId($id)
     {
-        return self::with('membership')->where('wargaming_id', $id)->first();
+        $result = self::with('membership')->where('wargaming_id', $id)->first();
+//        if ($result->membership->wargaming_id != $result->wargaming_id) {
+//            $result->membership = null;
+//        }
+        return $result;
     }
 }

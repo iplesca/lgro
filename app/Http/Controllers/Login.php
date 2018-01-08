@@ -27,6 +27,10 @@ class Login extends Controller
                 }
 
                 if ($user) {
+                    // check if member
+                    if (is_null($user->membership)) {
+                        $user->findAndAttachMembership($user);
+                    }
                     if ($user->can('access')) {
                         $this->doLogin($user);
                     } else {
