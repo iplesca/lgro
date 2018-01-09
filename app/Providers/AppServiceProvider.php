@@ -16,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!defined('CLAN_ID')) {
+            define('CLAN_ID', -1);
+        }
         Schema::defaultStringLength(191);
         View::share('wotLogin', $this->app['Isteam\Wargaming\Api']->getLoginUrl());
         View::share('clanData', $this->getClanData());
