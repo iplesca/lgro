@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Clan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -17,8 +18,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         View::share('wotLogin', $this->app['Isteam\Wargaming\Api']->getLoginUrl());
-    }
+        View::share('clanData', $this->getClanData());
 
+    }
+    private function getClanData()
+    {
+        if (-1 != CLAN_ID) {
+            return Clan::getByWargamingId(CLAN_ID);
+        }
+        return false;
+    }
     /**
      * Register any application services.
      *

@@ -11,8 +11,8 @@
     <title>{{ config('app.name', 'IsTeam') }}</title>
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link href="{{ asset('css/piroman.css') }}" rel="stylesheet">
+    {{--<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">--}}
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -21,34 +21,37 @@
 </head>
 <body>
     <div id="main" class="container">
-        <div class="header">
-            <div class="logo">
-                @auth
-                    @if (null != Auth::user()->membership)
-                        <a href="#" title="[{{ Auth::user()->membership->clan->tag }}] {{ Auth::user()->membership->clan->name }}">
-                            <img src="{{ Auth::user()->membership->clan->emblem195  }}">
-                            <span class="clanColor clanShadow">[{{ Auth::user()->membership->clan->tag }}]</span> {{ Auth::user()->membership->clan->name }}
-                        </a>
-                    @else
-                        <a href="#" title="IsTeam">
-                            <img src="http://i.imgur.com/FiybPWn.png">
-                            IsTeam
-                        </a>
-                    @endif
-                @endauth
-                @guest
-                    <a href="#" title="IsTeam">
-                        <img src="http://i.imgur.com/FiybPWn.png">
-                        IsTeam
+        @if (false != $clanData)
+            <div class="header">
+                <img src="{{ asset('/images/focd-header.jpg') }}">
+                <div class="logo fly">
+                    <a href="#" title="[{{ $clanData->tag }}] {{ $clanData->name }}">
+                        <span style="color:{{ $clanData->color }}" class="clanShadow">[{{ $clanData->tag }}]</span> {{ $clanData->name }}
                     </a>
-                @endguest
+                </div>
+                {{--<div class="logo">--}}
+
+                    {{--<a href="#" title="[{{ $clanData->tag }}] {{ $clanData->name }}">--}}
+                        {{--<img src="{{ $clanData->emblem195  }}">--}}
+                        {{--<span style="color:{{ $clanData->color }}" class="clanShadow">[{{ $clanData->tag }}]</span> {{ $clanData->name }}--}}
+                    {{--</a>--}}
+                {{--</div>--}}
             </div>
-            <div class="header_bg">
-                <a href="https://eu.wargaming.net/clans/wot/500033466" title="Pagina WoT">
-                    <img src="/images/WorldOfTanks-logo.png">
-                </a>
+        @else
+            <div class="header">
+                <div class="logo">
+                    <a href="#" title="IsTeam">
+                        <img src="{{ asset('/images/WorldOfTanks-logo.png') }}">
+                        IsTeam HQ
+                    </a>
+                </div>
+                {{--<div class="header_bg">--}}
+                {{--<a href="https://eu.wargaming.net/clans/wot/500033466" title="Pagina WoT">--}}
+                {{--<img src="/images/WorldOfTanks-logo.png">--}}
+                {{--</a>--}}
+                {{--</div>--}}
             </div>
-        </div>
+        @endif
         @include(ISTEAM_TEMPLATE . '.menu')
         <div class="content">
             @yield('content')
