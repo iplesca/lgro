@@ -58,4 +58,9 @@ class Tanks extends Base
 
         return $result;
     }
+    public function getAllTanks()
+    {
+        $result = $this->execute('get', 'encyclopedia/tanks');
+        return $result;
+    }
 }

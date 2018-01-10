@@ -20,11 +20,15 @@ class Login extends Controller
             if ('ok' == $auth['status']) {
 
                 $user = User::getByWargamingId($auth['account_id']);
+                /*
                 if (!$user) {
                     // get latest user data
                     $userData = $wgApi->tanks()->getUserData($auth['account_id'], $auth['access_token']);
                     $user = User::createFromWargaming($auth, $userData);
                 }
+                */
+                $userData = $wgApi->tanks()->getUserData($auth['account_id'], $auth['access_token']);
+                $user = User::createFromWargaming($auth, $userData);
 
                 if ($user) {
                     // check if member

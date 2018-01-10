@@ -100,17 +100,11 @@ class User extends Authenticatable
         if (! is_null($member)) {
             $user->membership()->associate($member);
             $user->save();
-
-//            $member->user()->save($user);
-//            $member->save();
         }
     }
     public static function getByWargamingId($id)
     {
         $result = self::with('membership')->where('wargaming_id', $id)->first();
-//        if ($result->membership->wargaming_id != $result->wargaming_id) {
-//            $result->membership = null;
-//        }
         return $result;
     }
 }

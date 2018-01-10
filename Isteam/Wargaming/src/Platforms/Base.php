@@ -36,7 +36,7 @@ class Base
      * @param $params
      * @return array
      */
-    final public function execute($verb, $name, $params)
+    final public function execute($verb, $name, $params = array())
     {
         return $this->api->execute(new Endpoint($verb, $name, $params));
     }
