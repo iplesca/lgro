@@ -6,6 +6,7 @@ use App\Clan;
 use App\Competition;
 use App\Member;
 use App\User;
+use App\Wn8;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -240,9 +241,36 @@ class Page extends Controller
     }
     public function test(Request $request, Api $api)
     {
-        $params = $api->tanks()->getAllTanks();
+        $wn8File = realpath( __DIR__ . '/../../../wn8exp.json');
+        $lucasFile = realpath( __DIR__ . '/../../../lucas.php');
+        $lucasData = include $lucasFile;
+        $base = json_decode(file_get_contents($wn8File), true);
+        $baseTanks = [];
+        foreach ($base['data'] as $t) {
+            $baseTanks[$t['IDNum']] = $t;
+        }
+
+        $wn8 = new Wn8($baseTanks, $lucasData);
+        $values = $wn8->calculate();
+        echo "<pre>";
+//        print_r($baseTanks);
+        print_r($values);
+
+        exit;
+        $playerId = 514353122; // fury
+        $playerId = 519931899; // lucas
+        $token = 'f8502f3642b90e33ae7cbdcf427a9b9f310a641b'; // lucas
+        $tankId = 5377; // is3
+        $tankId = 0; // is3
+        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId);
         echo "<pre>";
         print_r($params);
+//        $params = $api->tanks()->getPlayerTankAchievements($playerId, $token, $tankId);
+//        echo "<pre>";
+//        print_r($params);
+//        $params = $api->tanks()->getPlayerTanks($playerId, $token);
+//        echo "<pre>";
+//        print_r($params);
         exit;
         return view('stadard.test', $params);
     }

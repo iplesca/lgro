@@ -1,0 +1,1519 @@
+Array
+(
+    [519931899] => Array
+        (
+            [0] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 469
+                            [battles] => 926
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 16161
+                )
+
+            [1] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 395
+                            [battles] => 794
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 54289
+                )
+
+            [2] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 388
+                            [battles] => 747
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 7457
+                )
+
+            [3] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 393
+                            [battles] => 741
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 14145
+                )
+
+            [4] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 333
+                            [battles] => 734
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 16401
+                )
+
+            [5] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 328
+                            [battles] => 662
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 8977
+                )
+
+            [6] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 275
+                            [battles] => 529
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 5137
+                )
+
+            [7] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 241
+                            [battles] => 514
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 11537
+                )
+
+            [8] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 252
+                            [battles] => 504
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 13313
+                )
+
+            [9] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 213
+                            [battles] => 443
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 8721
+                )
+
+            [10] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 226
+                            [battles] => 411
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 5649
+                )
+
+            [11] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 213
+                            [battles] => 401
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 5377
+                )
+
+            [12] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 199
+                            [battles] => 390
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 7953
+                )
+
+            [13] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 179
+                            [battles] => 390
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 16657
+                )
+
+            [14] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 189
+                            [battles] => 373
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 8481
+                )
+
+            [15] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 184
+                            [battles] => 365
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 64817
+                )
+
+            [16] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 176
+                            [battles] => 361
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 3857
+                )
+
+            [17] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 164
+                            [battles] => 332
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2593
+                )
+
+            [18] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 142
+                            [battles] => 321
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2849
+                )
+
+            [19] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 176
+                            [battles] => 309
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 529
+                )
+
+            [20] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 145
+                            [battles] => 308
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 4929
+                )
+
+            [21] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 135
+                            [battles] => 297
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 273
+                )
+
+            [22] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 124
+                            [battles] => 281
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 15377
+                )
+
+            [23] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 135
+                            [battles] => 279
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 5969
+                )
+
+            [24] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 129
+                            [battles] => 261
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 12049
+                )
+
+            [25] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 121
+                            [battles] => 252
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 1105
+                )
+
+            [26] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 133
+                            [battles] => 248
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 5713
+                )
+
+            [27] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 96
+                            [battles] => 239
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 7937
+                )
+
+            [28] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 116
+                            [battles] => 225
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 50193
+                )
+
+            [29] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 101
+                            [battles] => 221
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11553
+                )
+
+            [30] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 95
+                            [battles] => 214
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 5457
+                )
+
+            [31] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 107
+                            [battles] => 214
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11041
+                )
+
+            [32] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 90
+                            [battles] => 192
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 7969
+                )
+
+            [33] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 90
+                            [battles] => 187
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 1553
+                )
+
+            [34] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 81
+                            [battles] => 179
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 5697
+                )
+
+            [35] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 86
+                            [battles] => 179
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 9745
+                )
+
+            [36] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 94
+                            [battles] => 173
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 18449
+                )
+
+            [37] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 74
+                            [battles] => 165
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 11297
+                )
+
+            [38] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 69
+                            [battles] => 161
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 9233
+                )
+
+            [39] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 73
+                            [battles] => 153
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 18961
+                )
+
+            [40] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 66
+                            [battles] => 142
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 5185
+                )
+
+            [41] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 56
+                            [battles] => 138
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11025
+                )
+
+            [42] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 61
+                            [battles] => 131
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 2817
+                )
+
+            [43] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 70
+                            [battles] => 129
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 12545
+                )
+
+            [44] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 58
+                            [battles] => 120
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 4625
+                )
+
+            [45] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 65
+                            [battles] => 118
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 1041
+                )
+
+            [46] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 68
+                            [battles] => 117
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 513
+                )
+
+            [47] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 51
+                            [battles] => 114
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 63553
+                )
+
+            [48] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 50
+                            [battles] => 112
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 13089
+                )
+
+            [49] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 47
+                            [battles] => 108
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 6465
+                )
+
+            [50] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 44
+                            [battles] => 104
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 10529
+                )
+
+            [51] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 35
+                            [battles] => 102
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 7249
+                )
+
+            [52] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 49
+                            [battles] => 102
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2833
+                )
+
+            [53] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 50
+                            [battles] => 98
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 16417
+                )
+
+            [54] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 43
+                            [battles] => 97
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 11793
+                )
+
+            [55] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 36
+                            [battles] => 86
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 19217
+                )
+
+            [56] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 34
+                            [battles] => 85
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 7505
+                )
+
+            [57] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 38
+                            [battles] => 82
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 1121
+                )
+
+            [58] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 45
+                            [battles] => 80
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 12289
+                )
+
+            [59] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 40
+                            [battles] => 78
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 62017
+                )
+
+            [60] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 38
+                            [battles] => 77
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 6481
+                )
+
+            [61] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 37
+                            [battles] => 77
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 1809
+                )
+
+            [62] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 38
+                            [battles] => 72
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 4129
+                )
+
+            [63] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 34
+                            [battles] => 72
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 9489
+                )
+
+            [64] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 27
+                            [battles] => 72
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11521
+                )
+
+            [65] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 32
+                            [battles] => 71
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 6433
+                )
+
+            [66] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 38
+                            [battles] => 70
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2657
+                )
+
+            [67] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 40
+                            [battles] => 70
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 2321
+                )
+
+            [68] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 35
+                            [battles] => 69
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2129
+                )
+
+            [69] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 32
+                            [battles] => 68
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 16145
+                )
+
+            [70] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 40
+                            [battles] => 67
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 18689
+                )
+
+            [71] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 28
+                            [battles] => 59
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 1
+                )
+
+            [72] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 16
+                            [battles] => 50
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 6177
+                )
+
+            [73] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 22
+                            [battles] => 46
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 1377
+                )
+
+            [74] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 21
+                            [battles] => 46
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11857
+                )
+
+            [75] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 18
+                            [battles] => 46
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 16913
+                )
+
+            [76] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 21
+                            [battles] => 45
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 11281
+                )
+
+            [77] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 21
+                            [battles] => 42
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 1889
+                )
+
+            [78] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 17
+                            [battles] => 42
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 3073
+                )
+
+            [79] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 19
+                            [battles] => 38
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 5393
+                )
+
+            [80] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 13
+                            [battles] => 37
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 3713
+                )
+
+            [81] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 18
+                            [battles] => 37
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 20241
+                )
+
+            [82] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 17
+                            [battles] => 36
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 1537
+                )
+
+            [83] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 16
+                            [battles] => 31
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 4641
+                )
+
+            [84] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 17
+                            [battles] => 31
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2145
+                )
+
+            [85] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 19
+                            [battles] => 31
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 11777
+                )
+
+            [86] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 15
+                            [battles] => 31
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 2577
+                )
+
+            [87] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 17
+                            [battles] => 30
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 50961
+                )
+
+            [88] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 15
+                            [battles] => 30
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 7761
+                )
+
+            [89] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 13
+                            [battles] => 30
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 10833
+                )
+
+            [90] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 27
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 15121
+                )
+
+            [91] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 27
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 53793
+                )
+
+            [92] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 13
+                            [battles] => 26
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 13329
+                )
+
+            [93] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 24
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 6673
+                )
+
+            [94] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 22
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 1025
+                )
+
+            [95] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 10
+                            [battles] => 21
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 3649
+                )
+
+            [96] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 8
+                            [battles] => 20
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 14865
+                )
+
+            [97] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 14
+                            [battles] => 20
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 56609
+                )
+
+            [98] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 19
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 10273
+                )
+
+            [99] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 14
+                            [battles] => 18
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 3409
+                )
+
+            [100] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 9
+                            [battles] => 18
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 81
+                )
+
+            [101] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 8
+                            [battles] => 17
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 1633
+                )
+
+            [102] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 7
+                            [battles] => 16
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 54609
+                )
+
+            [103] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 11
+                            [battles] => 15
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 9473
+                )
+
+            [104] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 7
+                            [battles] => 15
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 353
+                )
+
+            [105] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 7
+                            [battles] => 14
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 11089
+                )
+
+            [106] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 7
+                            [battles] => 14
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 577
+                )
+
+            [107] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 6
+                            [battles] => 12
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 545
+                )
+
+            [108] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 6
+                            [battles] => 11
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 865
+                )
+
+            [109] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 7
+                            [battles] => 11
+                        )
+
+                    [mark_of_mastery] => 3
+                    [tank_id] => 609
+                )
+
+            [110] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 3
+                            [battles] => 11
+                        )
+
+                    [mark_of_mastery] => 0
+                    [tank_id] => 17665
+                )
+
+            [111] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 3
+                            [battles] => 8
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 3617
+                )
+
+            [112] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 3
+                            [battles] => 7
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 17473
+                )
+
+            [113] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 4
+                            [battles] => 6
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 16897
+                )
+
+            [114] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 6
+                        )
+
+                    [mark_of_mastery] => 0
+                    [tank_id] => 12561
+                )
+
+            [115] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 5
+                        )
+
+                    [mark_of_mastery] => 4
+                    [tank_id] => 10577
+                )
+
+            [116] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 2
+                            [battles] => 4
+                        )
+
+                    [mark_of_mastery] => 2
+                    [tank_id] => 3457
+                )
+
+            [117] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 4
+                            [battles] => 4
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 3089
+                )
+
+            [118] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 3
+                            [battles] => 4
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 3601
+                )
+
+            [119] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 3
+                            [battles] => 4
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 4609
+                )
+
+            [120] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 0
+                            [battles] => 4
+                        )
+
+                    [mark_of_mastery] => 0
+                    [tank_id] => 50945
+                )
+
+            [121] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 2
+                            [battles] => 2
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 60689
+                )
+
+            [122] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 2
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 2081
+                )
+
+            [123] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 1
+                        )
+
+                    [mark_of_mastery] => 1
+                    [tank_id] => 63505
+                )
+
+            [124] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 1
+                        )
+
+                    [mark_of_mastery] => 0
+                    [tank_id] => 3169
+                )
+
+            [125] => Array
+                (
+                    [statistics] => Array
+                        (
+                            [wins] => 1
+                            [battles] => 1
+                        )
+
+                    [mark_of_mastery] => 0
+                    [tank_id] => 60433
+                )
+
+        )
+
+)

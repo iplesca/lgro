@@ -58,9 +58,71 @@ class Tanks extends Base
 
         return $result;
     }
+
+    /**
+     * Get all WG game tanks
+     * @return array
+     */
     public function getAllTanks()
     {
         $result = $this->execute('get', 'encyclopedia/tanks');
+        return $result;
+    }
+
+    /**
+     * Get player tanks
+     * @param integer $id
+     * @param string $accessToken
+     * @return array
+     */
+    public function getPlayerTanks($id, $accessToken = '')
+    {
+        $result = $this->execute('get', 'account/tanks', [
+            'account_id' => $this->flatten($id),
+            'access_token' => $accessToken,
+        ]);
+        if (! is_array($id) && is_numeric($id)) {
+            $result = $result[$id];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the stats of a player's tank
+     * @param integer $id
+     * @param string $accessToken
+     * @param integer $tankId
+     * @return array
+     */
+    public function getPlayerTankStats($id, $accessToken = '', $tankId = 0)
+    {
+        $params = [
+            'account_id' => $this->flatten($id),
+            'access_token' => $accessToken,
+        ];
+        if (!empty($tankId)) {
+            $params['tank_id'] = $tankId;
+        }
+        $result = $this->execute('get', 'tanks/stats', $params);
+
+        if (! is_array($id) && is_numeric($id)) {
+            $result = $result[$id];
+        }
+
+        return $result;
+    }
+    public function getPlayerTankAchievements($id, $accessToken = '', $tankId = false)
+    {
+        $params = [
+            'account_id' => $this->flatten($id),
+            'access_token' => $accessToken,
+        ];
+        if (!empty($tankId)) {
+            $params['tank_id'] = $tankId;
+        }
+        $result = $this->execute('get', 'tanks/achievements', $params);
+
         return $result;
     }
 }

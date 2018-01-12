@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\CheckClanData;
 use App\Jobs\CheckClanMembers;
+use App\Jobs\CheckTankEncyclopedia;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\App;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new CheckClanMembers)->hourly();
         $schedule->job(new CheckClanData())->daily();
+        $schedule->job(new CheckTankEncyclopedia())->weekly();
     }
 
     /**

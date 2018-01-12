@@ -14,10 +14,11 @@ class CreateTanksDb extends Migration
     public function up()
     {
         Schema::create('wg_tanks', function (Blueprint $table) {
-            $table->integer('wargaming_id'); // tank_id
+            $table->integer('wargaming_id')
+                ->primary('wargaming_id'); // tank_id
             $table->string('nation'); // nation
             $table->smallInteger('tier'); // level
-            $table->string('type', 25); // type
+            $table->enum('type', ['LT', 'MT', 'HT', 'TD', 'SPG', 'error']); // type
             $table->string('name'); // name_i18n
             $table->string('name_short'); // short_name_i18n
             $table->string('name_uri'); // name
@@ -25,6 +26,7 @@ class CreateTanksDb extends Migration
             $table->string('image'); // image
             $table->string('image_small'); // image_small
             $table->string('image_contour'); // contour_image
+            $table->timestamps();
             /*
             [nation_i18n] => Germany
             [name] => #germany_vehicles:Pro_Ag_A
