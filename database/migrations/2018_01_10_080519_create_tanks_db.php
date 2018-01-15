@@ -13,6 +13,7 @@ class CreateTanksDb extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('wg_tanks', function (Blueprint $table) {
             $table->integer('wargaming_id')
                 ->primary('wargaming_id'); // tank_id

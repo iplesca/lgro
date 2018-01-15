@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Clan;
-use App\Member;
-use App\User;
+use App\Models\Clan;
+use App\Models\Member;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,51 +18,30 @@ class Login extends Controller
             $auth = $request->all();
 
             if ('ok' == $auth['status']) {
-
                 $user = User::getByWargamingId($auth['account_id']);
-                /*
+
+                $userData = [];
                 if (!$user) {
                     // get latest user data
                     $userData = $wgApi->tanks()->getUserData($auth['account_id'], $auth['access_token']);
                     $user = User::createFromWargaming($auth, $userData);
                 }
-                */
-                $userData = $wgApi->tanks()->getUserData($auth['account_id'], $auth['access_token']);
-                $user = User::createFromWargaming($auth, $userData);
 
                 if ($user) {
                     // check if member
-                    if (is_null($user->membership)) {
-                        $user->findAndAttachMembership($user);
+                    if (is_null($user->membership) && $user->findAndAttachMembership($user)) {
+                        // @todo refactor/think of a clear model pattern
+                        $user->membership->updatePrivateData($userData);
                     }
+
                     if ($user->can('access')) {
                         $this->doLogin($user);
                     } else {
                         $this->refreshWgCsrf(true);
+                        // @todo Refactor: move elsewhere
                         $request->session()->flash('pop_message', 'Acces permis doar membrilor de clan');
                     }
                 }
-                /*
-                // check if the user is a clan member
-                $member = Member::getByWargamingId($auth['account_id']);
-
-                if (! is_null($member)) {
-
-                    // check member association
-                    if (! $member->user()) {
-                        $user->membership()->associate($member);
-                        $member->user()->save($user);
-                        $member->save();
-                    }
-
-                    Auth::login($user, true);
-                } else {
-                    $request->session()->flash('pop_message', 'Acces permis doar membrilor de clan');
-                    return redirect('');
-                }
-                $this->refreshWgCsrf(true);
-                return redirect('profile');
-                */
             } else {
                 // @todo log error
                 // WG communication error
@@ -76,7 +55,10 @@ class Login extends Controller
     private function doLogin(User $user)
     {
         Auth::login($user, true);
-        return redirect('profile');
+        if (! is_null($user->membership)) {
+            return redirect('profile');
+        }
+        return redirect('profile/standard');
     }
     public function logout()
     {

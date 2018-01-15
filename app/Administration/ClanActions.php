@@ -74,11 +74,14 @@ class ClanActions
 
                 if (! $member) {
                     $newMember++;
+                    // @todo get private data
                     // re-add, in case it's a returning member
                     Member::readd($m, $clan);
                 }
             }
-            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: ' . count($existingMembers) . '. Query: ' . count($members) . ' Left: ' .$leftClan . '. New: ' . $newMember);
+            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: '.
+                count($existingMembers) . '. Query: ' . count($members) . ' Left: '.
+                $leftClan . '. New: ' . $newMember);
         }
     }
 }

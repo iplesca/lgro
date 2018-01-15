@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -8,23 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     public $timestamps = false;
-
+    protected $casts = [
+        'stats' => 'array',
+    ];
     public function clan()
     {
-        return $this->belongsTo('App\Clan');
+        return $this->belongsTo('App\Models\Clan');
     }
     public function user()
     {
-        return $this->hasOne('App\User', 'user_id', 'id');
+        return $this->hasOne('App\Models\User', 'user_id', 'id');
     }
 
     /**
      * @param $id
      * @return Member
      */
-    public static function getByWargamingId($id)
+    public static function getByWargamingId($wargamingId)
     {
-        return static::where('wargaming_id', $id)->first();
+        return static::where('wargaming_id', $wargamingId)->first();
     }
     public static function add(array $memberData, Clan $clan)
     {
@@ -43,11 +45,9 @@ class Member extends Model
     {
         $new = self::add($memberData, $clan);
         $user = User::getByWargamingId($new->wargaming_id);
-        if ($new->wargaming_id == 519931899) {
-            $a = 1;
-        }
+
         if ($user) {
-//            $user->membership()->associate($new);
+            $new->first = true;
             $new->user()->save($user);
             $user->membership()->save($new);
             $new->save();
@@ -73,5 +73,24 @@ class Member extends Model
 //        $this->user()->save(null);
 
         parent::delete();
+    }
+    public function updatePrivateData($data)
+    {
+        if (!empty($data)) {
+            $this->score = $data['global_rating'];
+            $this->logout = date('Y-m-d H:i:s', $data['logout_at']);
+            $this->gold = $data['private']['gold'];
+            $this->free_xp = $data['private']['free_xp'];
+            $this->ban_time = $data['private']['ban_time'];
+            $this->ban_info = $data['private']['ban_info'];
+            $this->phone_link = $data['private']['is_bound_to_phone'];
+            $this->credits = $data['private']['credits'];
+            $this->bonds = $data['private']['bonds'];
+            $this->battle_time = $data['private']['battle_life_time'];
+            $this->premium = $data['private']['is_premium'];
+            $this->premium_expire = date('Y-m-d H:i:s', $data['private']['premium_expires_at']);
+            $this->stats = $data['statistics']['all'];
+            $this->save();
+        }
     }
 }

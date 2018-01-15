@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Clan;
+use App\Models\Clan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;

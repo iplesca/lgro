@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -27,8 +27,6 @@ class UserPolicy
     {
         return $this->isMember($user) || $this->specialCase($user);
     }
-
-
     private function isMember($user)
     {
         if ($user->membership && CLAN_ID == $user->membership->clan->wargaming_id) {

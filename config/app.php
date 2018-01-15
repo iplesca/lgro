@@ -177,7 +177,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Isteam\Wargaming\WargamingProvider::class
+        Isteam\Wargaming\WargamingProvider::class,
+        App\Providers\Wn8ServiceProvider::class,
 
     ],
 

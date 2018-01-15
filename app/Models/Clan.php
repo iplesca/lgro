@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,10 +11,10 @@ class Clan extends Model
      */
     public function members()
     {
-        return $this->hasMany('App\Member');
+        return $this->hasMany('App\Models\Member');
     }
-    public static function getByWargamingId($id)
+    public static function getByWargamingId($wargamingId)
     {
-        return self::where('wargaming_id', $id)->first();
+        return self::where('wargaming_id', $wargamingId)->first();
     }
 }

@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Page@index')->name('homepage');
 Route::get('/auth_wargaming/{wgCsrf}', 'Login@wargaming');
@@ -23,6 +24,8 @@ Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', 'Page@profile')->name('profile');
+    Route::get('/profile/standard', 'Page@profileStandard')->name('profile_standard');
+
     Route::get('/concurs', 'Page@concurs')->name('concurs');
     Route::get('/concurs/echipe', 'Page@concursEchipe')->name('concurs-echipe');
     Route::post('/concurs/save', 'Page@concursSave')->name('concurs-save');

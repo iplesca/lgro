@@ -88,9 +88,6 @@ h1, h2, h3 {
     margin-right:30px;
     cursor:pointer;
 }
-.tabel_stats {
-    display: none;
-}
 .tabel_stats td {
     vertical-align: top;
     width: 32%;

@@ -8,7 +8,9 @@ namespace App\Administration;
  * @author ionut
  */
 use App\Tank;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Isteam\Wargaming\Api;
 
 class EncyclopediaActions
@@ -41,5 +43,32 @@ class EncyclopediaActions
             $dbTank->save();
         }
         Log::info('[cron][update tank data] Looped: ' . count($tanks));
+    }
+    public function updateWn8Base($config)
+    {
+        Log::info('[cron][update WN8 base] running');
+
+        $content = json_decode(file_get_contents($config['wn8BaseSource']), true);
+
+        if (is_null($content)) {
+            Log::error('[cron][update WN8 base] Cannot read/decode remote file');
+
+        } else {
+            $baseTanks = [];
+            foreach ($content['data'] as $t) {
+                $baseTanks[$t['IDNum']] = [
+                    'damage' => $t['expDamage'],
+                    'spot'   => $t['expSpot'],
+                    'frag'   => $t['expFrag'],
+                    'def'    => $t['expDef'],
+                    'win'    => $t['expWinRate'],
+                ];
+            }
+            Storage::put($config['wn8Base'], '<?php return ' . var_export([
+                'data' => $baseTanks,
+                'version' => $content['header']['version']
+            ], true) . '; ');
+            Log::info('[cron][update WN8 base] finished');
+        }
     }
 }

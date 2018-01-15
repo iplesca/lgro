@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Membership extends Migration
+class CreateMembership extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class Membership extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('membership_history', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('member_id')
-                ->foreign('member_id')
-                ->references('id')
-                ->on('members');
+            $table->integer('wargaming_id');
+            $table->integer('clan_wargaming_id');
+            $table->string('reason')->default('no reason');
+            $table->string('nickname');
+            $table->string('role');
             $table->timestamp('joined')->nullable();
             $table->timestamp('left')->nullable();
             $table->integer('days');
-            $table->string('role');
         });
     }
 

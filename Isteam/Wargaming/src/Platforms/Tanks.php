@@ -95,14 +95,17 @@ class Tanks extends Base
      * @param integer $tankId
      * @return array
      */
-    public function getPlayerTankStats($id, $accessToken = '', $tankId = 0)
+    public function getPlayerTankStats($id, $accessToken = '', $tankId = 0, $extra = '')
     {
         $params = [
             'account_id' => $this->flatten($id),
             'access_token' => $accessToken,
         ];
         if (!empty($tankId)) {
-            $params['tank_id'] = $tankId;
+            $params['tank_id'] = $this->flatten($tankId);
+        }
+        if (!empty($extra)) {
+            $params['extra'] = $this->flatten($extra);
         }
         $result = $this->execute('get', 'tanks/stats', $params);
 

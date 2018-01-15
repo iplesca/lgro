@@ -2,42 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Clan;
+use App\Models\Clan;
 use App\Competition;
-use App\Member;
-use App\User;
+use App\Models\Member;
+use App\Models\User;
 use App\Wn8;
-use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Isteam\Wargaming\Api;
 
 class Page extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $this->refreshWgCsrf();
         return $this->useView('landing');
     }
-    public function profile(Request $request)
+    public function profileStandard()
+    {
+
+    }
+    public function profile()
     {
         $user = Auth::user();
-        $stats = json_decode($user->stats()->first()->json, true);
+        $memberStats = $user->membership;
+//        $memberStats = json_decode($user->membership()->first()->stats, true);
 
-        $stats['all']['_type']  = 'all';
-        $stats['clan']['_type'] = 'clan';
-        $stats['stronghold_skirmish']['_type'] = 'deta';
-        $stats['team']['_type'] = 'team';
-        $loop = [
-            $stats['all'], $stats['clan'], $stats['team'], $stats['stronghold_skirmish']
-        ];
         return $this->useView('profile', [
-            'data' => Auth::user(),
-            'stats' => $loop
+            'user' => $user,
+            'member' => $memberStats
         ]);
     }
-    public function concurs(Request $request)
+    public function concurs()
     {
         return $this->useView('concurs');
     }
@@ -53,14 +49,12 @@ class Page extends Controller
         // quick validate
         if (is_numeric($slotOne['home']) &&
             is_numeric($slotTwo['home'])) {
-
             $matchScores[$mId]['home']['slotOne'] = intval($slotOne['home']);
             $matchScores[$mId]['home']['slotTwo'] = intval($slotTwo['home']);
             $matchScores[$mId]['hasPoints']['home'] = true;
         }
         if (is_numeric($slotOne['away']) &&
             is_numeric($slotTwo['away'])) {
-
             $matchScores[$mId]['away']['slotOne'] = intval($slotOne['away']);
             $matchScores[$mId]['away']['slotTwo'] = intval($slotTwo['away']);
             $matchScores[$mId]['hasPoints']['away'] = true;
@@ -239,35 +233,55 @@ class Page extends Controller
 //            return redirect('');
 //        }
     }
-    public function test(Request $request, Api $api)
+    public function test(Request $request, Api $api, Wn8 $wn8)
     {
-        $wn8File = realpath( __DIR__ . '/../../../wn8exp.json');
-        $lucasFile = realpath( __DIR__ . '/../../../lucas.php');
-        $lucasData = include $lucasFile;
-        $base = json_decode(file_get_contents($wn8File), true);
-        $baseTanks = [];
-        foreach ($base['data'] as $t) {
-            $baseTanks[$t['IDNum']] = $t;
-        }
-
-        $wn8 = new Wn8($baseTanks, $lucasData);
-        $values = $wn8->calculate();
-        echo "<pre>";
-//        print_r($baseTanks);
-        print_r($values);
-
-        exit;
         $playerId = 514353122; // fury
         $playerId = 519931899; // lucas
         $token = 'f8502f3642b90e33ae7cbdcf427a9b9f310a641b'; // lucas
         $tankId = 5377; // is3
-        $tankId = 0; // is3
+        $tankId = 5137; // tiger2
+        $tankId = 0;
+        /*
         $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId);
-        echo "<pre>";
-        print_r($params);
+
+//        $params = File::getRequire(Storage::path('lucas.php'));
+        $wn8Player = 0;
+        foreach ($params as $tankData) {
+            $tankId = $tankData['tank_id'];
+            $data = $tankData['all'];
+
+            $wn8->addTankData(
+                $tankId,
+                $data['damage_dealt'],
+                $data['spotted'],
+                $data['frags'],
+                $data['dropped_capture_points'],
+                $data['wins'],
+                $data['battles']
+            );
+        }
+        $wn8Player = $wn8->player();
+        echo "WN8 IS-3 = " . $wn8Player . "<br>";
+        */
+//        echo "<pre>";
+//        print_r($params);
 //        $params = $api->tanks()->getPlayerTankAchievements($playerId, $token, $tankId);
 //        echo "<pre>";
 //        print_r($params);
+        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId, 'random');
+        echo "<pre>";
+        $allKeys = array_merge($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']);
+        echo "common <br>";
+        print_r(array_intersect_key($allKeys, $params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+        echo "only clan<br>";
+        print_r(array_diff_key($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+        echo "only all<br>";
+        print_r(array_diff_key($params[0]['all'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+        echo "only all<br>";
+        print_r(array_diff_key($params[0]['random'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+
+        print_r($params);
+
 //        $params = $api->tanks()->getPlayerTanks($playerId, $token);
 //        echo "<pre>";
 //        print_r($params);
