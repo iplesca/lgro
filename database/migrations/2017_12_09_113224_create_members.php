@@ -28,13 +28,15 @@ class CreateMembers extends Migration
                 ->references('id')
                 ->on('users');
             $table->integer('wargaming_id');
+            $table->string('nickname');
+            $table->string('role')->default('recruit');
+            $table->string('granted')->default('recruit');
+            $table->boolean('online')->default(false);
+            $table->boolean('hibernate')->default(true);
             $table->integer('wn8')->nullable()
                     ->default(0);
             $table->integer('wn8_30')->nullable()
                     ->default(0);
-            $table->string('nickname');
-            $table->string('role')->default('recruit');
-            $table->string('granted')->default('recruit');
             $table->timestamp('joined')->nullable()->default(null);
 
             $table->integer('score', false)->nullable()

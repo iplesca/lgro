@@ -7,8 +7,7 @@ namespace App\Administration;
  * Date: 07/01/18 23:06
  * @author ionut
  */
-use App\Tank;
-use Illuminate\Support\Facades\File;
+use App\Models\Tank;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Isteam\Wargaming\Api;
@@ -52,7 +51,6 @@ class EncyclopediaActions
 
         if (is_null($content)) {
             Log::error('[cron][update WN8 base] Cannot read/decode remote file');
-
         } else {
             $baseTanks = [];
             foreach ($content['data'] as $t) {

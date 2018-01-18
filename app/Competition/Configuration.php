@@ -2,9 +2,12 @@
 namespace App\Competition;
 /**
  * This file is part of the isteam project.
- *
+ * 
  * Date: 29/12/17 10:14
+ *
  * @author ionut
+ * @property-read \App\Competition\MatchData $match
+ * @mixin \Eloquent
  */
 
 use App\Competition\Interfaces\Configuration as CompetitionPhase;
@@ -46,9 +49,14 @@ class Game extends Model
     public function isReplayed() {}
     public function getReplayed() {}
 }
+/**
+ * App\Competition\MatchData
+ *
+ * @mixin \Eloquent
+ */
 class MatchData extends Model
 {
-    private $table = 'competition_matches';
+    protected $table = 'competition_matches';
     public $timestamps = false;
 
     public function games()

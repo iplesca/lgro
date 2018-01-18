@@ -5,6 +5,45 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property int|null $member_id
+ * @property int $first
+ * @property int $wargaming_id
+ * @property string $nickname
+ * @property string|null $name
+ * @property string|null $email
+ * @property string|null $password
+ * @property string $wot_language
+ * @property string $wot_token
+ * @property string|null $wot_token_expire
+ * @property string|null $wot_created_at
+ * @property string|null $wot_updated_at
+ * @property string|null $remember_token
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Models\Member|null $membership
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFirst($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereMemberId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWargamingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotTokenExpire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -32,7 +71,7 @@ class User extends Authenticatable
      */
     public function membership()
     {
-        return $this->belongsTo('App\Models\Member', 'member_id', 'id');
+        return $this->belongsTo(Member::class, 'member_id', 'id');
     }
 
     public static function getAccessToken(User $user)
@@ -64,9 +103,14 @@ class User extends Authenticatable
         $member = Member::where('wargaming_id', $user->wargaming_id)->first();
 
         if (! is_null($member)) {
+            $member->user()->save($user);
+//            $member->save();
+            $member->refresh();
+
             $user->membership()->associate($member);
             $user->save();
-            $user->refresh();
+
+//            $user->refresh();
             return true;
         }
         return false;

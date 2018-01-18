@@ -235,6 +235,40 @@ class Page extends Controller
     }
     public function test(Request $request, Api $api, Wn8 $wn8)
     {
+        $clans = Clan::all();
+        foreach ($clans as $clan) {
+            $users = Member::has('user')->with('user')->where('clan_id', $clan->id)->get();
+            echo "<pre>";
+            print_r(($users->toArray()));
+            break;
+//            $members = $api->server()->getClanMembers($clan->wargaming_id);
+//            // check for member that left the clan
+//            foreach ($existingMembers as $em) {
+//                // no longer present in the members list
+//                if (! isset($members[$em->wargaming_id])) {
+//                    $leftClan++;
+//                    $em->delete('[auto] no reason');
+//                }
+//            }
+//            // check for new members
+//            foreach ($members as $wargamingId => $m) {
+//                $member = $existingMembers->firstWhere('wargaming_id', $wargamingId);
+//
+//                if (! $member) {
+//                    $newMember++;
+//                    // @todo get private data
+//                    // re-add, in case it's a returning member
+//                    Member::readd($m, $clan);
+//                }
+//            }
+//            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: '.
+//                count($existingMembers) . '. Query: ' . count($members) . ' Left: '.
+//                $leftClan . '. New: ' . $newMember);
+        }
+        exit;
+    }
+    public function test2(Request $request, Api $api, Wn8 $wn8)
+    {
         $playerId = 514353122; // fury
         $playerId = 519931899; // lucas
         $token = 'f8502f3642b90e33ae7cbdcf427a9b9f310a641b'; // lucas

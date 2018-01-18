@@ -12,53 +12,19 @@ use App\Models\Clan;
 use App\Models\Member;
 use Isteam\Wargaming\Api;
 
-class ClanActions
+class UserActions
 {
     /**
-     * Updates clan meta data changes
+     * Refresh access token
      * @param Api $api
      */
-    public function updateData(Api $api)
+    public function checkTokens(Api $api)
     {
-        Log::info('[cron][update clan data] running');
+        Log::info('[cron][check tokens] running');
 
         $clans = Clan::all();
         foreach ($clans as $clan) {
-            $clanData = $api->server()->getClanInfo($clan->wargaming_id);
-            if (!is_null($clanData)) {
-                $clan->tag = $clanData['tag'];
-                $clan->description = $clanData['description_html'];
-                $clan->motto = $clanData['motto'];
-                $clan->color = $clanData['color'];
-                $clan->emblem32 = $clanData['emblems']['x32']['portal'];
-                $clan->emblem64 = $clanData['emblems']['x64']['portal'];
-                $clan->emblem195 = $clanData['emblems']['x195']['portal'];
-
-                if (0 < count($clan->getDirty())) {
-                    $msg = 'Updated fields: ' . implode(',', $clan->getDirty());
-                } else {
-                    $msg = 'n/a';
-                }
-
-                Log::info('[cron][update clan data] Clan <' . $clan->name . '> -- ' . $msg);
-                $clan->save();
-            }
-        }
-    }
-
-    /**
-     * Checks for member changes in a clan
-     * @param Api $api
-     */
-    public function checkMembers(Api $api)
-    {
-        Log::info('[cron][check clan members] running');
-
-        $clans = Clan::all();
-        foreach ($clans as $clan) {
-            $leftClan = 0;
-            $newMember = 0;
-            $existingMembers = $clan->members()->get();
+            $users = Member::has('user')->with('user')->where('clan_id', $clan->id);
             $members = $api->server()->getClanMembers($clan->wargaming_id);
             // check for member that left the clan
             foreach ($existingMembers as $em) {

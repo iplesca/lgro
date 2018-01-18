@@ -5,19 +5,82 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Member
+ *
+ * @property int $id
+ * @property int $first
+ * @property int $clan_id
+ * @property int|null $user_id
+ * @property int $wargaming_id
+ * @property int|null $wn8
+ * @property int|null $wn8_30
+ * @property string $nickname
+ * @property string $role
+ * @property string $granted
+ * @property string|null $joined
+ * @property int|null $score
+ * @property int|null $premium
+ * @property string|null $premium_expire
+ * @property int|null $credits
+ * @property int|null $gold
+ * @property int|null $bonds
+ * @property int|null $free_xp
+ * @property int|null $ban_time
+ * @property string|null $ban_info
+ * @property int|null $phone_link
+ * @property int|null $battle_time
+ * @property string|null $logout
+ * @property array $stats
+ * @property-read \App\Models\Clan $clan
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereBanInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereBanTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereBattleTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereBonds($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereClanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereCredits($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereFirst($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereFreeXp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereGold($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereGranted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereJoined($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereLogout($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member wherePhoneLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member wherePremium($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member wherePremiumExpire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereStats($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereWargamingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereWn8($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Member whereWn830($value)
+ * @mixin \Eloquent
+ */
 class Member extends Model
 {
     public $timestamps = false;
     protected $casts = [
         'stats' => 'array',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function clan()
     {
         return $this->belongsTo('App\Models\Clan');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'user_id', 'id');
+        return $this->hasOne(User::class, 'member_id', 'id');
     }
 
     /**
