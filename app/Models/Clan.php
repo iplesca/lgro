@@ -49,4 +49,8 @@ class Clan extends Model
     {
         return self::where('wargaming_id', $wargamingId)->first();
     }
+    public static function getMembersByWargamingId($wargamingId)
+    {
+        return self::getByWargamingId($wargamingId)->members()->get();
+    }
 }

@@ -30,13 +30,19 @@
         },
         "psr-0": {
             "Isteam\\": "Isteam/"
-        }
+        },
+        "files": [
+            "app/Http/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
             "WgApi\\": "WgApi/"
-        }
+        },
+        "files": [
+            "app/Http/helpers.php"
+        ]
     },
     "extra": {
         "laravel": {
