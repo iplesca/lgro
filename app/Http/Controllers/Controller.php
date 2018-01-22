@@ -17,4 +17,8 @@ class Controller extends BaseController
             session(['wgAuth' => md5(uniqid(time()))]);
         }
     }
+    protected function useView($name, $data = array())
+    {
+        return view(ISTEAM_TEMPLATE . '.' . $name, $data);
+    }
 }

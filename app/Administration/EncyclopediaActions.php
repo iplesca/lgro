@@ -7,28 +7,26 @@ namespace App\Administration;
  * Date: 07/01/18 23:06
  * @author ionut
  */
-use App\Models\Tank;
+use App\Models\TankDefinition;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Isteam\Wargaming\Api;
 
-class EncyclopediaActions
+class EncyclopediaActions extends Base
 {
     /**
-     * Updates tank data changes
-     * @param Api $api
+     * Updates all tanks meta data
      */
-    public function updateTanks(Api $api)
+    public function updateAllTanks()
     {
         Log::info('[cron][update tank data] running');
 
-        $tanks = $api->tanks()->getAllTanks();
+        $tanks = $this->api->tanks()->getAllTanks();
         foreach ($tanks as $tank) {
             $data = [
                 'wargaming_id' => $tank['tank_id'],
                 'nation' => $tank['nation'],
                 'tier' => $tank['level'],
-                'type' => Tank::getType($tank['type']),
+                'type' => TankDefinition::getType($tank['type']),
                 'name' => $tank['name_i18n'],
                 'name_short' => $tank['short_name_i18n'],
                 'name_uri' => $tank['name'],
@@ -37,7 +35,7 @@ class EncyclopediaActions
                 'image_small' => $tank['image_small'],
                 'image_contour' => $tank['contour_image'],
             ];
-            $dbTank = Tank::updateOrCreate($data);
+            $dbTank = TankDefinition::updateOrCreate($data);
             $dbTank->wargaming_id = $tank['tank_id'];
             $dbTank->save();
         }

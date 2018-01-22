@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Jobs;
+
 /**
  * This file is part of the isteam project.
  *
@@ -9,13 +9,11 @@ namespace App\Jobs;
  */
 use App\Administration\EncyclopediaActions;
 use Illuminate\Bus\Queueable;
-use Illuminate\Console\Application;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\App;
-use Isteam\Wargaming\Api;
 
 class UpdateWn8Base implements ShouldQueue
 {
@@ -23,13 +21,11 @@ class UpdateWn8Base implements ShouldQueue
 
     /**
      * Execute the job.
-     * 
-     * @param EncyclopediaActions $do
-     * @param Api $api
+     * @param EncyclopediaActions $action
      * @return void
      */
-    public function handle(EncyclopediaActions $do)
+    public function handle(EncyclopediaActions $action)
     {
-        $do->updateWn8Base(App('config')['isteam']);
+        $action->updateWn8Base(App('config')['isteam']);
     }
 }

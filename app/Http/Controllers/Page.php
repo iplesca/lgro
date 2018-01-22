@@ -1,14 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Administration\ClanActions;
+use App\Administration\PlayerActions;
 use App\Models\Clan;
 use App\Competition;
 use App\Models\Member;
 use App\Models\User;
 use App\Wn8;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Isteam\Wargaming\Api;
 
 class Page extends Controller
@@ -21,6 +24,42 @@ class Page extends Controller
     public function profileStandard()
     {
 
+    }
+    public function clanStats()
+    {
+        $roleSort = [
+            'commander' => 1,
+            'executive_officer' => 2,
+            'personnel_officer' => 3,
+            'quartermaster' => 4,
+            'intelligence_officer' => 5,
+            'combat_officer' => 6,
+            'recruitment_officer' => 7,
+            'junior_officer' => 8,
+            'private' => 9,
+            'recruit' => 10,
+            'reservist' => 11,
+        ];
+        $members = Clan::getByWargamingId(CLAN_ID)->members()
+            ->get();
+        $members = collect($members)->sort(function ($a, $b) use ($roleSort) {
+            if ($roleSort[$a->role] == $roleSort[$b->role]) {
+                return strcasecmp($a->nickname, $b->nickname);
+            }
+            return $roleSort[$a->role] < $roleSort[$b->role] ? -1 : 1;
+        })->map(function ($item, $key) {
+            $item->joined = Carbon::createFromFormat('Y-m-d H:i:s', $item->joined)->diffInDays(Carbon::now());
+            return $item;
+        })->map(function ($item, $key) {
+            $item->last_played = Carbon::createFromFormat('Y-m-d H:i:s', $item->logout)->diffInDays(Carbon::now());
+            return $item;
+        })->map(function ($item, $key) {
+            $item->role = Str::studly($item->role);
+            return $item;
+        });
+        return $this->useView('clan-stats', [
+            'members' => $members
+        ]);
     }
     public function profile()
     {
@@ -235,43 +274,25 @@ class Page extends Controller
     }
     public function test(Request $request, Api $api, Wn8 $wn8)
     {
-        $clans = Clan::all();
-        foreach ($clans as $clan) {
-            $users = Member::has('user')->with('user')->where('clan_id', $clan->id)->get();
-            echo "<pre>";
-            print_r(($users->toArray()));
-            break;
-//            $members = $api->server()->getClanMembers($clan->wargaming_id);
-//            // check for member that left the clan
-//            foreach ($existingMembers as $em) {
-//                // no longer present in the members list
-//                if (! isset($members[$em->wargaming_id])) {
-//                    $leftClan++;
-//                    $em->delete('[auto] no reason');
-//                }
-//            }
-//            // check for new members
-//            foreach ($members as $wargamingId => $m) {
-//                $member = $existingMembers->firstWhere('wargaming_id', $wargamingId);
-//
-//                if (! $member) {
-//                    $newMember++;
-//                    // @todo get private data
-//                    // re-add, in case it's a returning member
-//                    Member::readd($m, $clan);
-//                }
-//            }
-//            Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: '.
-//                count($existingMembers) . '. Query: ' . count($members) . ' Left: '.
-//                $leftClan . '. New: ' . $newMember);
-        }
-        exit;
+//        $member = Member::find(1);
+//        $tankId = 5137; // tiger2
+//        $tank = $member->tanks()->where('wargaming_id', $tankId)->first();
+//        $a = 1;
+//        exit;
+//        $act = new PlayerActions();
+//        $act->updateWn8(Member::find(34));
+        $act = new ClanActions();
+        $act->updateMemberWn8(Clan::find(1));
+//        $act->checkMembers(Clan::find(1));
+
+        return;
     }
     public function test2(Request $request, Api $api, Wn8 $wn8)
     {
         $playerId = 514353122; // fury
         $playerId = 519931899; // lucas
         $token = 'f8502f3642b90e33ae7cbdcf427a9b9f310a641b'; // lucas
+        $token = ''; // empty
         $tankId = 5377; // is3
         $tankId = 5137; // tiger2
         $tankId = 0;
@@ -302,17 +323,17 @@ class Page extends Controller
 //        $params = $api->tanks()->getPlayerTankAchievements($playerId, $token, $tankId);
 //        echo "<pre>";
 //        print_r($params);
-        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId, 'random');
+        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId);
         echo "<pre>";
-        $allKeys = array_merge($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']);
-        echo "common <br>";
-        print_r(array_intersect_key($allKeys, $params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-        echo "only clan<br>";
-        print_r(array_diff_key($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-        echo "only all<br>";
-        print_r(array_diff_key($params[0]['all'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-        echo "only all<br>";
-        print_r(array_diff_key($params[0]['random'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+//        $allKeys = array_merge($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']);
+//        echo "common <br>";
+//        print_r(array_intersect_key($allKeys, $params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+//        echo "only clan<br>";
+//        print_r(array_diff_key($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+//        echo "only all<br>";
+//        print_r(array_diff_key($params[0]['all'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
+//        echo "only all<br>";
+//        print_r(array_diff_key($params[0]['random'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
 
         print_r($params);
 

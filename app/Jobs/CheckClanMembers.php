@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Jobs;
+
 /**
  * This file is part of the isteam project.
  *
@@ -13,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Isteam\Wargaming\Api;
 
 class CheckClanMembers implements ShouldQueue
 {
@@ -21,13 +20,11 @@ class CheckClanMembers implements ShouldQueue
 
     /**
      * Execute the job.
-     * 
-     * @param ClanActions $do
-     * @param Api $api
+     * @param ClanActions $action
      * @return void
      */
-    public function handle(ClanActions $do, Api $api)
+    public function handle(ClanActions $action)
     {
-        $do->checkMembers($api);
+        $action->checkMembersAllClans();
     }
 }

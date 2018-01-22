@@ -23,6 +23,7 @@ Route::get('/login', function () {
 Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/members', 'Clan@members')->name('clanMembers');
     Route::get('/profile', 'Page@profile')->name('profile');
     Route::get('/profile/standard', 'Page@profileStandard')->name('profile_standard');
 

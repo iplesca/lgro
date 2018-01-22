@@ -1,12 +1,7 @@
-@extends(ISTEAM_TEMPLATE . '.layouts.main')
+@extends('standard.layouts.main')
 
 @section('content')
-    @if (isset($existingMembers))
-        existing members<br>
-        <pre>{{ $existingMembers }}</pre>
-    @endif
-    @if (isset($members))
-        members<br>
-        <pre>{{ $members }}</pre>
+    @if (isset($data))
+        <pre>{!! $data !!}</pre>
     @endif
 @endsection

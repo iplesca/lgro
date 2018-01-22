@@ -16,19 +16,18 @@ class CreateMemberStats extends Migration
         Schema::create('member_tank_stats', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('member_id')
-                ->foreign('member_id')
+            $table->integer('account_id')
+                ->foreign('account_id')
                 ->references('id')
-                ->on('members');
+                ->on('accounts');
 
             $table->integer('wargaming_id'); // tank_id;
             $table->enum('type', ['all', 'random'])
                 ->default('all'); // type of stats: all, random etc.
             $table->integer('wn8')->nullable()
                 ->default(0);
-            $table->integer('wn8_30')->nullable()
-                ->default(0);
-            $table->enum('mastery', ['0', '3', '2', '1', 'M']); // mark_of_mastery
+            $table->enum('mastery', ['false', '3', '2', '1', 'M'])
+                ->default('false'); // mark_of_mastery
             // stats
             $table->integer('battles')
                 ->default(0);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -43,6 +44,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotTokenExpire($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Account $account
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TankDefinition[] $tanks
  */
 class User extends Authenticatable
 {
@@ -67,17 +70,44 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function membership()
     {
-        return $this->belongsTo(Member::class, 'member_id', 'id');
+        return $this->hasOne(Member::class, 'user_id');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function account()
+    {
+        return $this->hasOne(Account::class, 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function tanks()
+    {
+        return $this->hasManyThrough('App\Models\TankDefinition', 'App\Models\Account');
+    }
+
+    /**
+     * Returns the WarGaming access token
+     * @param User $user
+     * @return string
+     */
     public static function getAccessToken(User $user)
     {
         return $user->wot_token;
     }
+
+    /**
+     * Create a new User from WarGaming data
+     * @param $auth
+     * @param $data
+     * @return User|\Illuminate\Database\Eloquent\Model|null|static
+     */
     public static function createFromWargaming($auth, $data)
     {
         $user = User::with('membership')->where('wargaming_id', $data['account_id'])->first();
@@ -98,26 +128,61 @@ class User extends Authenticatable
 
         return $user;
     }
+
+    /**
+     * Searches for an existing Member with the same WarGaming ID and attaches it
+     * @param User $user
+     * @return bool
+     */
     public function findAndAttachMembership(User $user)
     {
         $member = Member::where('wargaming_id', $user->wargaming_id)->first();
 
         if (! is_null($member)) {
             $member->user()->save($user);
-//            $member->save();
-            $member->refresh();
+            $member->save();
+//            $member->refresh();
 
-            $user->membership()->associate($member);
+            $user->membership()->save($member);
             $user->save();
 
-//            $user->refresh();
+            $user->refresh();
             return true;
         }
         return false;
     }
+
+    /**
+     * Update user access (token and expire)
+     * @param $data
+     */
+    public function updateAccess($data)
+    {
+        $this->wot_token = $data['access_token'];
+        $this->wot_token_expire = date('Y-m-d H:i:s', $data['expires_at']);
+        $this->save();
+    }
+
+    /**
+     * Return user by WarGaming ID
+     * @param $userId
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public static function getByWargamingId($userId)
     {
         $result = self::with('membership')->where('wargaming_id', $userId)->first();
         return $result;
+    }
+
+    /**
+     * Checks if the access token is valid.
+     * [optional] Can set $afterMin to check validity from now
+     * @param int $afterMin Shift the time limit upward
+     * @return bool
+     */
+    public function isValidWotToken($afterMin = 0)
+    {
+        $now = Carbon::now()->addMinutes($afterMin);
+        return $this->wot_token_expire > $now ? true : false;
     }
 }

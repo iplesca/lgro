@@ -23,7 +23,7 @@ class Login extends Controller
                 $userData = [];
                 if (!$user) {
                     // get latest user data
-                    $userData = $wgApi->tanks()->getUserData($auth['account_id'], $auth['access_token']);
+                    $userData = $wgApi->tanks()->getPlayerData($auth['account_id'], $auth['access_token']);
                     $user = User::createFromWargaming($auth, $userData);
                 }
 
@@ -31,7 +31,7 @@ class Login extends Controller
                     // check if member
                     if (is_null($user->membership) && $user->findAndAttachMembership($user)) {
                         // @todo refactor/think of a clear model pattern
-                        $user->membership->updatePrivateData($userData);
+                        $user->membership->updateStats($userData);
                     }
 
                     if ($user->can('access')) {

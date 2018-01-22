@@ -95,7 +95,7 @@ h1, h2, h3 {
 .recruit-tank-list li {
     margin-bottom:30px;
 }
-/* Tank images */
+/* TankDefinition images */
 .med-tank {
     display: inline-block;
     border: solid #666;
@@ -195,3 +195,46 @@ h1, h2, h3 {
 .concurs .group .games table td:nth-child(4){
     width: 30px;
 }
+.clan_members {
+    width: 100%;
+}
+.clan_members th {
+    width:10%;
+}
+.clan_members th:nth-child(1){
+    width: 20%;
+}
+.clan_members th:nth-child(2){
+    width: 20%;
+}
+.clan_members td {
+    font-size:18px;
+}
+.clan_members td span {
+    width: 57px;
+    display: inline-block;
+    text-align: center;
+    color: #FFF;
+    border-radius: 15px;
+    margin: 2px;
+}
+.wn8-superunicum {color:#401070 !important;}
+.wn8-unicum {color:#793DB6 !important;}
+.wn8-great {color:#3972C6 !important;}
+.wn8-verygood {color:#4099BF !important;}
+.wn8-good {color:#4D7326 !important;}
+.wn8-aboveaverage {color:#849B24 !important;}
+.wn8-average {color:#CCB800 !important;}
+.wn8-belowaverage {color:#CC7A00 !important;}
+.wn8-bad {color:#CD3333 !important;}
+.wn8-verybad {color:#930D0D !important;}
+.wn8-bg-superunicum {background-color:#401070 !important;}
+.wn8-bg-unicum {background-color:#793DB6 !important;}
+.wn8-bg-great {background-color:#3972C6 !important;}
+.wn8-bg-verygood {background-color:#4099BF !important;}
+.wn8-bg-good {background-color:#4D7326 !important;}
+.wn8-bg-aboveaverage {background-color:#849B24 !important;}
+.wn8-bg-average {background-color:#CCB800 !important;}
+.wn8-bg-belowaverage {background-color:#CC7A00 !important;}
+.wn8-bg-bad {background-color:#CD3333 !important;}
+.wn8-bg-verybad {background-color:#930D0D !important;}

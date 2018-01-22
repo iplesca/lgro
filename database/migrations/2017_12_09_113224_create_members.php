@@ -22,6 +22,11 @@ class CreateMembers extends Migration
                 ->references('id')
                 ->on('clans');
 
+            $table->integer('account_id')
+                ->nullable()
+                ->foreign('account_id')
+                ->references('id')
+                ->on('accounts');
             $table->integer('user_id')
                 ->nullable()
                 ->foreign('user_id')
@@ -60,6 +65,7 @@ class CreateMembers extends Migration
             $table->timestamp('logout')->nullable()
                     ->default(null);
             $table->longText('stats')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -53,6 +53,7 @@ class Game extends Model
  * App\Competition\MatchData
  *
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Competition\Game[] $games
  */
 class MatchData extends Model
 {

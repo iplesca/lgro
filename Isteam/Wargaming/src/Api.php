@@ -206,38 +206,43 @@ class Api implements Definition
      * Adds `application_id` and `access_token` (if not added already)
      * Parses the response with parseResponse()
      *
-     * @param Endpoint $ep
+     * @param Endpoint $endpoint
      * @return array
      * @throws Exception
      */
-    public function execute(Endpoint $ep)
+    public function execute(Endpoint $endpoint)
     {
         // add applicationId
-        $params = $ep->getParams();
+        $params = $endpoint->getParams();
         $params['application_id'] = $this->applicationId;
 
         // set access token if none provided
-        if (! isset($params['access_token']) && ! is_null($this->accessToken)) {
-            $params['access_token'] = $this->accessToken;
+        if (! isset($params['access_token'])) {
+            if (! is_null($this->accessToken)) {
+                $params['access_token'] = $this->accessToken;
+            }
+        } else {
+            // was set explicitly to be discarded/not used
+            if (false === $params['access_token']) {
+                unset($params['access_token']);
+            }
         }
 
-        $endpoint = $this->use .'/' . $ep->getName() .'/';
+        $endpointName = $this->use .'/' . $endpoint->getName() .'/';
         
-        switch ($ep->getVerb()) {
-            case 'get': {
+        switch ($endpoint->getVerb()) {
+            case 'get':
                 $params = ['query' => $params];
                 break;
-            }
-            case 'post': {
+            case 'post':
                 $params = ['form_params' => $params];
                 break;
-            }
         }
 
         try {
             $this->response['meta'] = [];
             $this->response['data'] = [];
-            $response = $this->httpClient->request($ep->getVerb(), $endpoint, $params);
+            $response = $this->httpClient->request($endpoint->getVerb(), $endpointName, $params);
         } catch (GuzzleException $e) {
             throw new Exception('guzzle', $e->getMessage(), $e->getCode());
         }

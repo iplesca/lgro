@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Jobs;
+
 /**
  * This file is part of the isteam project.
  *
@@ -13,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Isteam\Wargaming\Api;
 
 class CheckTankEncyclopedia implements ShouldQueue
 {
@@ -21,13 +20,11 @@ class CheckTankEncyclopedia implements ShouldQueue
 
     /**
      * Execute the job.
-     * 
-     * @param EncyclopediaActions $do
-     * @param Api $api
+     * @param EncyclopediaActions $action
      * @return void
      */
-    public function handle(EncyclopediaActions $do, Api $api)
+    public function handle(EncyclopediaActions $action)
     {
-        $do->updateTanks($api);
+        $action->updateAllTanks();
     }
 }

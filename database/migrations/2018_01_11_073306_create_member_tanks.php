@@ -16,10 +16,10 @@ class CreateMemberTanks extends Migration
         Schema::create('member_tanks', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('member_id')
-                ->foreign('member_id')
+            $table->integer('account_id')
+                ->foreign('account_id')
                 ->references('id')
-                ->on('members');
+                ->on('accounts');
 
             $table->integer('wargaming_id'); // tank_id;
             $table->timestampTz('updated');
@@ -29,7 +29,8 @@ class CreateMemberTanks extends Migration
                 ->default(0);
             $table->integer('wn8_30')->nullable()
                 ->default(0);
-            $table->enum('mastery', ['0', '3', '2', '1', 'M']); // mark_of_mastery
+            $table->enum('mastery', ['false', '3', '2', '1', 'M'])
+                ->default('false'); // mark_of_mastery
             $table->integer('max_xp')
                 ->default(0);
             $table->integer('max_frags')

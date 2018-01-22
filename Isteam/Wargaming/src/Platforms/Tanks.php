@@ -41,19 +41,28 @@ class Tanks extends Base
      * Get Wargaming account data for WoT.
      * Returns a single entry or array depending if $id is a integer or an array of ids.
      *
-     * @param integer $id Wargaming account id
-     * @param string $accessToken Wargaming access token
+     * NOTE on $accessToken:
+     *  - if set to false then it won't be included in the WG call
+     *  - if not set (default to empty string), the current authorized user token will be used
+     *
+     * @param mixed $wargamingAccountId Wargaming account id
+     * @param string $accessToken [default=''] Wargaming access token
      * @return array
      */
-    public function getUserData($id, $accessToken = '')
+    public function getPlayerData($wargamingAccountId, $accessToken = '')
     {
-        $result = $this->execute('get', 'account/info', [
-            'account_id' => $this->flatten($id),
-            'access_token' => $accessToken,
-        ]);
+        $params = [
+            'account_id' => $this->flatten($wargamingAccountId),
+        ];
+
+        if (false === $accessToken || !empty($accessToken)) {
+            $params['access_token'] = $accessToken;
+        }
+
+        $result = $this->execute('get', 'account/info', $params);
         
-        if (! is_array($id) && is_numeric($id)) { 
-            $result = $result[$id];
+        if (! is_array($wargamingAccountId) && is_numeric($wargamingAccountId)) {
+            $result = $result[$wargamingAccountId];
         }
 
         return $result;
@@ -75,14 +84,14 @@ class Tanks extends Base
      * @param string $accessToken
      * @return array
      */
-    public function getPlayerTanks($id, $accessToken = '')
+    public function getPlayerTanks($wargamingAccountId, $accessToken = '')
     {
         $result = $this->execute('get', 'account/tanks', [
-            'account_id' => $this->flatten($id),
+            'account_id' => $this->flatten($wargamingAccountId),
             'access_token' => $accessToken,
         ]);
-        if (! is_array($id) && is_numeric($id)) {
-            $result = $result[$id];
+        if (! is_array($wargamingAccountId) && is_numeric($wargamingAccountId)) {
+            $result = $result[$wargamingAccountId];
         }
 
         return $result;
@@ -90,41 +99,60 @@ class Tanks extends Base
 
     /**
      * Get the stats of a player's tank
-     * @param integer $id
+     * @param integer $wargamingAccountId
      * @param string $accessToken
-     * @param integer $tankId
+     * @param mixed $tankIds
+     * @param mixed $extra
      * @return array
      */
-    public function getPlayerTankStats($id, $accessToken = '', $tankId = 0, $extra = '')
-    {
+    public function getPlayerTankStats(
+        $wargamingAccountId,
+        $accessToken = '',
+        $tankIds = [],
+        $extra = [],
+        $extraParams = []
+    ) {
         $params = [
-            'account_id' => $this->flatten($id),
+            'account_id' => $wargamingAccountId,
             'access_token' => $accessToken,
         ];
-        if (!empty($tankId)) {
-            $params['tank_id'] = $this->flatten($tankId);
+        if (!empty($tankIds)) {
+            $params['tank_id'] = $this->flatten($tankIds);
+        }
+        if (!empty($extraParams)) {
+            $params = array_merge($extraParams, $params);
         }
         if (!empty($extra)) {
             $params['extra'] = $this->flatten($extra);
         }
         $result = $this->execute('get', 'tanks/stats', $params);
 
-        if (! is_array($id) && is_numeric($id)) {
-            $result = $result[$id];
-        }
-
-        return $result;
+        return $result[$wargamingAccountId];
     }
-    public function getPlayerTankAchievements($id, $accessToken = '', $tankId = false)
+    public function getPlayerTankAchievements($wargamingAccountId, $accessToken = '', $tankId = false)
     {
         $params = [
-            'account_id' => $this->flatten($id),
+            'account_id' => $this->flatten($wargamingAccountId),
             'access_token' => $accessToken,
         ];
         if (!empty($tankId)) {
             $params['tank_id'] = $tankId;
         }
         $result = $this->execute('get', 'tanks/achievements', $params);
+
+        return $result;
+    }
+    public function getPlayerNewToken($accessToken = '')
+    {
+        $params = [
+            'access_token' => $accessToken,
+        ];
+        // special handling, token might not work (too new)
+        try {
+            $result = $this->execute('get', 'auth/prolongate', $params);
+        } catch (\Exception $e) {
+            $result = false;
+        }
 
         return $result;
     }

@@ -36,7 +36,7 @@ class CreateTanksDb extends Migration
             [image_small] => http://eu-wotp.wgcdn.co/static/2.57.0/encyclopedia/tankopedia/vehicle/small/germany-g91_pro_ag_a.png
             [nation] => germany
             [is_premium] =>
-            [type_i18n] => Medium Tank
+            [type_i18n] => Medium TankDefinition
             [contour_image] => http://eu-wotp.wgcdn.co/static/2.57.0/encyclopedia/tankopedia/vehicle/contour/germany-g91_pro_ag_a.png
             [short_name_i18n] => Leopard PT A
             [name_i18n] => Leopard Prototyp A

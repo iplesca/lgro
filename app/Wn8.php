@@ -10,6 +10,7 @@ use Isteam\Wargaming\Api;
  */
 class Wn8
 {
+    const DEFAULT_SET = '_default_';
     /**
      * Holds expected tank data (/storage/wn8exp.php)
      * @var array
@@ -36,34 +37,37 @@ class Wn8
         'def' => 0,
         'win' => 0,
     ];
-    /**
-     * Total number of battles (used in calculating a player's WN8)
-     * @var int
-     */
-    private $nrBattles = 0;
-    /**
-     * Total number of tanks used in calculating a player's WN8
-     * @var int
-     */
-    private $nrTanks = 0;
-    /**
-     * Holds all the WN8 component sums
-     * @var array
-     */
-    private $sum = [];
-    /**
-     * Holds all the WN8 expected tank component sums
-     * @var array
-     */
-    private $expected = [];
+    private $set = [
+        self::DEFAULT_SET => [
+            /**
+             * Holds all the WN8 component sums
+             * @var array
+             */
+            'sum' => [],
+            /**
+             * Holds all the WN8 expected tank component sums
+             * @var array
+             */
+            'expected' => [],
+            /**
+             * Total number of battles (used in calculating a player's WN8)
+             * @var int
+             */
+            'nrBattles' => 0,
+            /**
+             * Total number of tanks used in calculating a player's WN8
+             * @var int
+             */
+            'nrTanks' => 0
+        ]
+    ];
 
     /**
      * Wn8 constructor.
      */
     public function __construct()
     {
-        $this->sum = $this->reset;
-        $this->expected = $this->reset;
+        $this->resetAll();
     }
 
     /**
@@ -73,6 +77,10 @@ class Wn8
     public function setBaseData(array $baseData)
     {
         $this->baseData = $baseData['data'];
+    }
+    public function createSet($name)
+    {
+        $this->reset($name);
     }
 
     /**
@@ -134,7 +142,36 @@ class Wn8
             +  145 * min(1.8, $win);
         return round($result, $precision, $this->rounding);
     }
-    public function addTankData($tankId, $damageDealt, $spotted, $frag, $resetPoints, $wins, $battles)
+    public function addTankData(
+        $tankId,
+        $damageDealt,
+        $spotted,
+        $frag,
+        $resetPoints,
+        $wins,
+        $battles,
+        $set = self::DEFAULT_SET
+    ) {
+        if (isset($this->baseData[$tankId])) {
+            $this->set[$set]['nrBattles'] += $battles;
+            $this->set[$set]['nrTanks']++;
+
+            $expected = $this->baseData[$tankId];
+
+            $this->set[$set]['sum']['damage'] += $damageDealt;
+            $this->set[$set]['sum']['spot'] += $spotted;
+            $this->set[$set]['sum']['frag'] += $frag;
+            $this->set[$set]['sum']['def'] += $resetPoints;
+            $this->set[$set]['sum']['win'] += 100 * round($wins / $battles, $this->precision, $this->rounding);
+
+            $this->set[$set]['expected']['damage'] += $expected['damage'] * $battles;
+            $this->set[$set]['expected']['spot'] += $expected['spot'] * $battles;
+            $this->set[$set]['expected']['frag'] += $expected['frag'] * $battles;
+            $this->set[$set]['expected']['def'] += $expected['def'] * $battles;
+            $this->set[$set]['expected']['win'] += $expected['win'];
+        }
+    }
+    public function addTankData2($tankId, $damageDealt, $spotted, $frag, $resetPoints, $wins, $battles)
     {
         if (isset($this->baseData[$tankId])) {
             $this->nrBattles += $battles;
@@ -155,29 +192,45 @@ class Wn8
             $this->expected['win'] += $expected['win'];
         }
     }
-    public function player()
+    public function player($set = self::DEFAULT_SET)
     {
+        if (0 == $this->set[$set]['nrTanks']) {
+            return 0;
+        }
         // calculate average win-rate for all tanks
-        $this->sum['win'] /= $this->nrTanks;
-        $this->expected['win'] /= $this->nrTanks;
+        $this->set[$set]['sum']['win'] /= $this->set[$set]['nrTanks'];
+        $this->set[$set]['expected']['win'] /= $this->set[$set]['nrTanks'];
 
         $result = $this->formula([
-            'damage' => $this->sum['damage'],
-            'spot'   => $this->sum['spot'],
-            'frag'   => $this->sum['frag'],
-            'def'    => $this->sum['def'],
-            'win'    => $this->sum['win'],
+            'damage' => $this->set[$set]['sum']['damage'],
+            'spot'   => $this->set[$set]['sum']['spot'],
+            'frag'   => $this->set[$set]['sum']['frag'],
+            'def'    => $this->set[$set]['sum']['def'],
+            'win'    => $this->set[$set]['sum']['win'],
         ], [
-            'damage' => $this->expected['damage'],
-            'spot'   => $this->expected['spot'],
-            'frag'   => $this->expected['frag'],
-            'def'    => $this->expected['def'],
-            'win'    => $this->expected['win'],
+            'damage' => $this->set[$set]['expected']['damage'],
+            'spot'   => $this->set[$set]['expected']['spot'],
+            'frag'   => $this->set[$set]['expected']['frag'],
+            'def'    => $this->set[$set]['expected']['def'],
+            'win'    => $this->set[$set]['expected']['win'],
         ]);
 
-        $this->reset();
+        $this->reset($set);
 
         return round($result, $this->precision, $this->rounding);
+    }
+    public function tankAndPlayer(
+        $tankId,
+        $damageDealt,
+        $spotted,
+        $frag,
+        $resetPoints,
+        $wins,
+        $battles,
+        $set = self::DEFAULT_SET
+    ) {
+        $this->addTankData($tankId, $damageDealt, $spotted, $frag, $resetPoints, $wins, $battles, $set);
+        return $this->tank($tankId, $damageDealt, $spotted, $frag, $resetPoints, $wins, $battles);
     }
     public function tank($tankId, $damageDealt, $spotted, $frag, $resetPoints, $wins, $battles)
     {
@@ -196,11 +249,17 @@ class Wn8
 
         return round($result, $this->precision, $this->rounding);
     }
-    private function reset()
+    public function resetAll()
     {
-        $this->sum = $this->reset;
-        $this->expected = $this->reset;
-        $this->nrBattles = 0;
-        $this->nrTanks = 0;
+        foreach ($this->set as $key => $value) {
+            $this->reset($key);
+        }
+    }
+    private function reset($set)
+    {
+        $this->set[$set]['sum'] = $this->reset;
+        $this->set[$set]['expected'] = $this->reset;
+        $this->set[$set]['nrBattles'] = 0;
+        $this->set[$set]['nrTanks'] = 0;
     }
 }

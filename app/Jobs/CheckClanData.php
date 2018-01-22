@@ -7,8 +7,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-
-use Isteam\Wargaming\Api;
 use App\Administration\ClanActions;
 
 class CheckClanData implements ShouldQueue
@@ -17,13 +15,11 @@ class CheckClanData implements ShouldQueue
 
     /**
      * Execute the job.
-     * 
-     * @param ClanActions $do
-     * @param Api $api
+     * @param ClanActions $action
      * @return void
      */
-    public function handle(ClanActions $do, Api $api)
+    public function handle(ClanActions $action)
     {
-        $do->updateData($api);
+        $action->updateAllMetaData();
     }
 }
