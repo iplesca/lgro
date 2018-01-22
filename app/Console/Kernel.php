@@ -42,13 +42,13 @@ class Kernel extends ConsoleKernel
 //        $schedule->job(new UpdateMemberWn8Values())->everyMinute()->withoutOverlapping();
 
 
-//        $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
-//        $schedule->job(new CheckClanData())->dailyAt('03:00')->withoutOverlapping();
-//        $schedule->job(new UpdateMemberStats())->dailyAt('03:05')->withoutOverlapping();
-//        $schedule->job(new UpdateTankStats())->dailyAt('03:10')->withoutOverlapping();
-//        $schedule->job(new UpdateMemberWn8Values())->dailyAt('03:15')->withoutOverlapping();
-//        $schedule->job(new CheckTankEncyclopedia())->mothlyOn(1, '02:00')->withoutOverlapping();
-//        $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
+        $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
+        $schedule->job(new CheckClanData())->dailyAt('03:00')->withoutOverlapping();
+        $schedule->job(new UpdateMemberStats())->dailyAt('03:05')->withoutOverlapping();
+        $schedule->job(new UpdateTankStats())->dailyAt('03:10')->withoutOverlapping();
+        $schedule->job(new UpdateMemberWn8Values())->dailyAt('03:15')->withoutOverlapping();
+        $schedule->job(new CheckTankEncyclopedia())->monthlyOn(1, '02:00')->withoutOverlapping();
+        $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
     }
 
     /**

@@ -225,8 +225,11 @@ class Tank extends Model
             // @todo report missing tanks (rentals usually)
             return false;
         }
-
-        $tank->addStatistics($data, $extra);
+        if ($tank->battles < $data['battles']) {
+            $tank->addStatistics($data, $extra);
+            return true;
+        }
+        return false;
     }
 
     /**
