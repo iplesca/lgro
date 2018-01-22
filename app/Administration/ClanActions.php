@@ -184,4 +184,27 @@ class ClanActions extends Base
         }
         Log::info('[cron][update wn8] Clan: '.$clan->name . '. Updated: ' . $updated);
     }
+    ////
+
+    public function searchAllNewTanks()
+    {
+        Log::info('[cron][search ALL new tank] running');
+
+        $clans = Clan::all();
+        foreach ($clans as $clan) {
+            $this->searchNewTanks($clan);
+        }
+        Log::info('[cron][search ALL new tank] finished');
+    }
+    public function searchNewTanks(Clan $clan)
+    {
+        $members = $clan->members()->get();
+        $playerActions = new PlayerActions();
+
+        $updated = 0;
+        foreach ($members as $member) {
+            $updated += $playerActions->updateNewTanks($member) ? 1 : 0;
+        }
+        Log::info('[cron][new tanks] Clan '. $clan->name . '. Updated: ' . $updated);
+    }
 }

@@ -247,6 +247,29 @@ class PlayerActions extends Base
     }
 
     /**
+     * Search (and updates) any new tanks
+     * @param Member $member
+     * @return bool
+     */
+    public function updateNewTanks(Member $member)
+    {
+        $allTanks = $this->getTanks($member);
+        $tankIds = [];
+
+        foreach ($allTanks as $tank) {
+            if (is_null($member->getTankByWargamingId($tank['tank_id']))) {
+                $tankIds[] = $tank['tank_id'];
+            }
+        }
+
+        if (!empty($tankIds)) {
+            $this->updateTankListStats($member, $tankIds);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @param $new
      * @param $old
      * @return array

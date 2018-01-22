@@ -204,10 +204,15 @@ class Tank extends Model
     public function addStatistics(array $data, array $usedExtra)
     {
         $tankData = $this->prepareData($data);
-        $data['mastery'] = $tankData['mastery'];
-        TankStat::updateStats($this, $data, $usedExtra);
+        if ($this->battles < $tankData['battles']) {
+            $data['mastery'] = $tankData['mastery'];
+            TankStat::updateStats($this, $data, $usedExtra);
 
-        $this->update($tankData);
+            $this->update($tankData);
+
+            return true;
+        }
+        return false;
     }
     public static function updateStats(Member $member, array $data, $extra)
     {
@@ -225,11 +230,8 @@ class Tank extends Model
             // @todo report missing tanks (rentals usually)
             return false;
         }
-        if ($tank->battles < $data['battles']) {
-            $tank->addStatistics($data, $extra);
-            return true;
-        }
-        return false;
+
+        return $tank->addStatistics($data, $extra);
     }
 
     /**

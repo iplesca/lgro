@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Jobs\CheckClanData;
 use App\Jobs\CheckClanMembers;
 use App\Jobs\CheckTankEncyclopedia;
+use App\Jobs\SearchNewTanks;
 use App\Jobs\UpdateMemberStats;
 use App\Jobs\UpdateMemberWn8Values;
 use App\Jobs\UpdateTankStats;
@@ -33,22 +34,42 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->job(new CheckTankEncyclopedia())->everyMinute()->withoutOverlapping();
-//        $schedule->job(new UpdateWn8Base())->everyMinute()->withoutOverlapping();
-//        $schedule->job(new CheckClanMembers)->everyMinute()->withoutOverlapping();
-//        $schedule->job(new CheckClanData())->everyMinute()->withoutOverlapping();
-//        $schedule->job(new UpdateMemberStats())->everyMinute()->withoutOverlapping();
-//        $schedule->job(new UpdateTankStats())->everyMinute()->withoutOverlapping();
-//        $schedule->job(new UpdateMemberWn8Values())->everyMinute()->withoutOverlapping();
+        if ('local' == env('APP_ENV') && 1 == env('APP_SCHEDULE', 0)) {
+//            $schedule->job(new UpdateWn8Base())
+//                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new CheckTankEncyclopedia())
+//                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new CheckClanData())
+//                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new UpdateMemberStats())
+//                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new UpdateTankStats())
+//                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new UpdateMemberWn8Values())
+//                ->everyMinute()->withoutOverlapping();
+            $schedule->job(new SearchNewTanks())
+                ->everyMinute()->withoutOverlapping();
+//            $schedule->job(new CheckClanMembers)
+//                ->everyMinute()->withoutOverlapping();
+        }
 
+        if ('production' == env('APP_ENV')) {
+            $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
+            $schedule->job(new CheckTankEncyclopedia())
+                ->dailyAt('02:00')->withoutOverlapping();
+            $schedule->job(new CheckClanData())
+                ->dailyAt('03:00')->withoutOverlapping();
+            $schedule->job(new UpdateMemberStats())
+                ->dailyAt('03:20')->withoutOverlapping();
+            $schedule->job(new UpdateTankStats())
+                ->dailyAt('03:40')->withoutOverlapping();
+            $schedule->job(new UpdateMemberWn8Values())
+                ->dailyAt('03:45')->withoutOverlapping();
+            $schedule->job(new SearchNewTanks())
+                ->dailyAt('03:50')->withoutOverlapping();
 
-        $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
-        $schedule->job(new CheckClanData())->dailyAt('03:00')->withoutOverlapping();
-        $schedule->job(new UpdateMemberStats())->dailyAt('03:05')->withoutOverlapping();
-        $schedule->job(new UpdateTankStats())->dailyAt('03:10')->withoutOverlapping();
-        $schedule->job(new UpdateMemberWn8Values())->dailyAt('03:15')->withoutOverlapping();
-        $schedule->job(new CheckTankEncyclopedia())->monthlyOn(1, '02:00')->withoutOverlapping();
-        $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
+        }
     }
 
     /**

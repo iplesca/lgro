@@ -283,4 +283,18 @@ class Member extends Model
             // @todo report missing tanks (rentals usually)
         }
     }
+
+    /**
+     * @param integer $tankId
+     * @return Tank|mixed
+     */
+    public function getTankByWargamingId($tankId)
+    {
+        $tank = $this->tanks()->where([
+            'account_id' => $this->account_id,
+            'member_tanks.wargaming_id' => $tankId
+        ])->first();
+
+        return $tank;
+    }
 }
