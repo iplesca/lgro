@@ -24,8 +24,8 @@
                     <td>{{ $member->nickname }}</td>
                     <td class="text-right">{{ $member->stats['battles'] }}</td>
                     <td class="text-right">{{ $member->score }}</td>
-                    <td class="text-right"><span class="wn8-bg-{{ wn8value($member->wn8Level) }}">{{ $member->wn8 }}</span></td>
-                    <td class="text-right"><span class="wn8-bg-{{ wn8value($member->wn830Level) }}">{{ $member->wn8_30 }}</span></td>
+                    <td class="text-right"><span class="wn8-bg-{{ wn8color($member->wn8) }}">{{ $member->wn8 }}</span></td>
+                    <td class="text-right"><span class="wn8-bg-{{ wn8color($member->wn8_30) }}">{{ $member->wn8_30 }}</span></td>
                     <td class="text-right">{{ $member->joined }} zile</td>
                     <td class="text-right">{{ $member->last_played }} zile</td>
                 </tr>
@@ -34,33 +34,17 @@
         </table>
     @endif
     <script type="text/javascript" src="{{ asset('datatables.min.js') }}"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.16/sorting/enum.js"></script>
     <script>
-        var ranks = {
-            'commander': 1,
-            'executive_officer': 2,
-            'personnel_officer': 3,
-            'quartermaster': 4,
-            'intelligence_officer': 5,
-            'combat_officer': 6,
-            'recruitment_officer': 7,
-            'junior_officer': 8,
-            'private': 9,
-            'recruit': 10,
-            'reservist': 11
-        }
         $(document).ready(function() {
-            $.fn.dataTableExt.oSort["rank-desc"] = function (x, y) {
-                return ranks[x] < ranks[y];
-            };
-
-            $.fn.dataTableExt.oSort["rank-asc"] = function (x, y) {
-                return ranks[x] > ranks[y];
-            }
+            $.fn.dataTable.enum(['commander', 'executive_officer', 'personnel_officer', 'quartermaster',
+                'intelligence_officer', 'combat_officer', 'recruitment_officer', 'junior_officer',
+                'private', 'recruit', 'reservist']);
             $('#clanMembers').DataTable({
                 paging: false,
                 searching: false,
                 aoColumns: [{
-                    sType: 'rank',
+                    sType: 'enum-0',
                     bSortable: true
                 }, {
                     bSortable: true

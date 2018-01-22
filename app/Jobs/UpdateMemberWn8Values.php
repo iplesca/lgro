@@ -7,14 +7,12 @@ namespace App\Jobs;
  * Date: 04/01/18 17:06
  * @author ionut
  */
-use App\Administration\EncyclopediaActions;
-use App\Administration\PlayerActions;
+use App\Administration\ClanActions;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\App;
 
 class UpdateMemberWn8Values implements ShouldQueue
 {
@@ -22,11 +20,11 @@ class UpdateMemberWn8Values implements ShouldQueue
 
     /**
      * Execute the job.
-     * @param PlayerActions $action
+     * @param ClanActions $action
      * @return void
      */
-    public function handle(PlayerActions $action)
+    public function handle(ClanActions $action)
     {
-        $action->updateWn8();
+        $action->updateAllWn8();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 if (!function_exists('wn8value')) {
-    function wn8value($value)
+    function wn8color($value)
     {
         $result = 'superunicum';
         if ($value < 2900) {

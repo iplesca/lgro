@@ -343,9 +343,4 @@ class Page extends Controller
         exit;
         return view('stadard.test', $params);
     }
-
-    private function useView($name, $data = array())
-    {
-        return view(ISTEAM_TEMPLATE . '.' . $name, $data);
-    }
 }
