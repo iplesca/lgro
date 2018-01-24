@@ -195,20 +195,18 @@ h1, h2, h3 {
 .concurs .group .games table td:nth-child(4){
     width: 30px;
 }
-.clan_members {
+.clan_members table {
     width: 100%;
 }
 .clan_members th {
     width:10%;
 }
-.clan_members th:nth-child(1){
-    width: 20%;
-}
-.clan_members th:nth-child(2){
-    width: 20%;
-}
 .clan_members td {
-    font-size:18px;
+    text-align: right;
+    font-size:16px;
+}
+.sorting::after, .sorting_asc::after, .sorting_desc::after {
+    margin-left: 20px;
 }
 .clan_members td span {
     width: 57px;

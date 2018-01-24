@@ -1,67 +1,166 @@
 @extends('standard.layouts.main')
 
 @section('content')
-    <link rel="stylesheet" type="text/css" href="{{ asset('datatables.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}"/>
     <h1>Membri de clan</h1>
     @if ($members)
-        <table id="clanMembers" class="clan_members" cellspacing="0" cellpadding="0">
+        <div class="table-responsive-lg">
+        <table width="100%" id="clanMembers" class="clan_members table table-sm table-hover table-striped no-footer">
             <thead>
                 <tr>
-                    <th>Rank</th>
-                    <th>Nume</th>
-                    <th class="text-center">Lupte</th>
-                    <th class="text-right">Scor</th>
-                    <th class="text-right">WN8</th>
-                    <th class="text-right">WN8 30</th>
-                    <th class="text-right">Vechime:</th>
-                    <th class="text-right">Online</th>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Rank</th>
+                    <th class="text-center">Nume</th>
+                    <th class="text-center" scope="col">Lupte</th>
+                    <th class="text-center" scope="col">Scor</th>
+                    <th class="text-center" scope="col">WN8</th>
+                    <th class="text-center" scope="col">WN8&nbsp;30</th>
+                    <th class="text-center" scope="col">Vechime:</th>
+                    <th class="text-center" scope="col">Online</th>
                 </tr>
             </thead>
-            <tbody>
-            @foreach($members as $member)
-                <tr>
-                    <td>{{ $member->role }}</td>
-                    <td>{{ $member->nickname }}</td>
-                    <td class="text-right">{{ $member->stats['battles'] }}</td>
-                    <td class="text-right">{{ $member->score }}</td>
-                    <td class="text-right"><span class="wn8-bg-{{ wn8color($member->wn8) }}">{{ $member->wn8 }}</span></td>
-                    <td class="text-right"><span class="wn8-bg-{{ wn8color($member->wn8_30) }}">{{ $member->wn8_30 }}</span></td>
-                    <td class="text-right">{{ $member->joined }} zile</td>
-                    <td class="text-right">{{ $member->last_played }} zile</td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
+        </div>
     @endif
-    <script type="text/javascript" src="{{ asset('datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('DataTables-1.10.16/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('DataTables-1.10.16/js/dataTables.bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.16/sorting/enum.js"></script>
     <script>
+        var members = @json($members);
+        var ranks = {
+            'commander': 'Comandant',
+            'executive_officer': 'Comandant Executiv',
+            'personnel_officer': 'Ofițer de Cadre',
+            'quartermaster': 'Trezorerier',
+            'intelligence_officer': 'Ofițer de Informații',
+            'combat_officer': 'Ofițer Strateg',
+            'recruitment_officer': 'Ofițer Recrutor',
+            'junior_officer': 'Ofițer junior',
+            'private': 'Soldat',
+            'recruit': 'Recrut',
+            'reservist': 'Rezervist'
+        };
+        var dayPlural = ' zile', daySingular = ' zi';
+        var pastDays = {
+            0: 'astăzi',
+            1: 'ieri',
+            2: 'alaltăieri',
+        };
         $(document).ready(function() {
             $.fn.dataTable.enum(['commander', 'executive_officer', 'personnel_officer', 'quartermaster',
                 'intelligence_officer', 'combat_officer', 'recruitment_officer', 'junior_officer',
                 'private', 'recruit', 'reservist']);
-            $('#clanMembers').DataTable({
+            var t = $('#clanMembers').DataTable({
+                data: members,
+                order: [[1, 'asc']],
                 paging: false,
+                renderer: 'bootstrap',
+                info: false,
                 searching: false,
-                aoColumns: [{
-                    sType: 'enum-0',
-                    bSortable: true
+                columns: [{
+                    title: '#',
+                    width:'10px',
+                    data: null,
+                    sortable: false,
+                    class: 'text-center'
+                },{
+                    title: 'Rank',
+                    width:'20%',
+                    data: 'role',
+                    class: 'text-left',
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            return ranks[data];
+                        }
+                        return data;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'Nume',
+                    data: 'nickname',
+                    class: 'text-left',
+                    render: function (data, type, row, meta) {
+                        return data;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'Lupte',
+                    data: 'battles',
+                    width:'70px',
+                    render: function (data, type, row, meta) {
+                        return data;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'Scor',
+                    width:'70px',
+                    data: 'score',
+                    render: function (data, type, row, meta) {
+                        return data;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'WN8',
+                    width:'70px',
+                    data: 'wn8',
+                    class: 'text-center',
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            return '<span class="wn8-bg-' + row.wn8color + '">'+ data +'</span>';
+                        }
+                        return result;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'WN8&nbsp;30',
+                    width:'70px',
+                    data: 'wn8_30',
+                    class: 'text-center',
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            return '<span class="wn8-bg-' + row.wn830color + '">'+ data +'</span>';
+                        }
+                        return result;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'Vechime',
+                    width:'10%',
+                    data: 'joined',
+                    class: 'text-center',
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            data = parseInt(data);
+                            result = data + ' ' + dayPlural;
+                            if (data == 1) {
+                                result = data + ' ' + daySingular;
+                            }
+                            return result
+                        }
+                        return result;
+                    }
                 }, {
-                    bSortable: true
+                    title: 'Ultima&nbsp;luptă',
+                    width:'15%',
+                    data: 'logout',
+                    class: 'text-center',
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            if ("undefined" != typeof pastDays[data]) {
+                                result = pastDays[data];
+                            } else {
+                                result = data + ' ' + dayPlural;
+                            }
+                            return result;
+                        }
+                        return result;
+                    }
                 }]
             });
+            t.on( 'order.dt search.dt', function () {
+                t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1 + '.';
+                } );
+            } ).draw();
         } );
     </script>
 @endsection

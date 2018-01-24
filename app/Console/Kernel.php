@@ -47,14 +47,15 @@ class Kernel extends ConsoleKernel
 //                ->everyMinute()->withoutOverlapping();
 //            $schedule->job(new UpdateMemberWn8Values())
 //                ->everyMinute()->withoutOverlapping();
-            $schedule->job(new SearchNewTanks())
-                ->everyMinute()->withoutOverlapping();
-//            $schedule->job(new CheckClanMembers)
+//            $schedule->job(new SearchNewTanks())
 //                ->everyMinute()->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)
+                ->everyMinute()->withoutOverlapping();
         }
 
         if ('production' == env('APP_ENV')) {
             $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
+            
             $schedule->job(new CheckTankEncyclopedia())
                 ->dailyAt('02:00')->withoutOverlapping();
             $schedule->job(new CheckClanData())

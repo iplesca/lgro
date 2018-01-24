@@ -204,6 +204,7 @@ class Member extends Model
     {
         $account = $this->account;
         $account->member_id = null;
+//        $account->member()->dissociate();
         $account->save();
 
         $history = new AccountsHistory();
@@ -211,7 +212,7 @@ class Member extends Model
             $history->reason = $reason;
         }
 
-        $history->wargaming_id = $this->wargaming_id;
+        $history->clan_wargaming_id = $this->wargaming_id;
         $history->joined = $this->joined;
         $history->left = date('Y-m-d H:i:s');
         $history->role = $this->role;
