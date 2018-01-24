@@ -134,7 +134,7 @@ class Tank extends Model
             ->where('account_id', $this->account->id)
             ->whereDate('date', '>=', $last30)
             ->orderBy('date')->limit(30)->first();
-        if (!$result->count()) {
+        if (!count($result)) {
             /*
              * in this case there are no fresh tank stat records for the past month
              * this means the player has not played with this tank for over 30 days

@@ -211,8 +211,11 @@ class Member extends Model
         if (false !== $reason) {
             $history->reason = $reason;
         }
-
+        if (is_null($this->account)) {
+            print_r($this->toArray());exit;
+        }
         $history->clan_wargaming_id = $this->wargaming_id;
+        $history->account_id = $this->account()->first()->id;
         $history->joined = $this->joined;
         $history->left = date('Y-m-d H:i:s');
         $history->role = $this->role;

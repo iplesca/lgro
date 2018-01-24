@@ -77,7 +77,7 @@ class ClanActions extends Base
 
         $leftClan = 0;
         $newMember = 0;
-        $existingMembers = $clan->members()->get();
+        $existingMembers = $clan->members()->with('account')->get();
         $members = $this->api->server()->getClanMembers($clan->wargaming_id);
         // check for member that left the clan
         foreach ($existingMembers as $em) {

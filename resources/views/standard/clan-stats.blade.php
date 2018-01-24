@@ -68,7 +68,7 @@
                     class: 'text-center'
                 },{
                     title: 'Rank',
-                    width:'20%',
+                    width:'17%',
                     data: 'role',
                     class: 'text-left',
                     render: function (data, type, row, meta) {
@@ -95,7 +95,7 @@
                     render: standardDisplay
                 }, {
                     title: 'WN8',
-                    width:'70px',
+                    width:'90px',
                     data: 'wn8',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -107,7 +107,7 @@
                     }
                 }, {
                     title: 'WN8&nbsp;30',
-                    width:'70px',
+                    width:'90px',
                     data: 'wn8_30',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -136,7 +136,7 @@
                     }
                 }, {
                     title: 'Ultima&nbsp;luptă',
-                    width:'15%',
+                    width:'13%',
                     data: 'logout',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
