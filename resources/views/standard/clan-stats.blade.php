@@ -142,7 +142,7 @@
                     render: function (data, type, row, meta) {
                         var result = data;
                         if ('display' == type) {
-                            if ("undefined" != typeof pastDays[data]) {
+                            if ("undefined" != typeof pastDays['d'+data]) {
                                 result = pastDays['d'+data];
                             } else {
                                 result = data + ' ' + dayPlural;
