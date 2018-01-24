@@ -112,7 +112,15 @@ class ClanActions extends Base
     }
     public function updateTankStats(Clan $clan)
     {
-        $members = $clan->members()->get();
+        $yesterday = Carbon::yesterday();
+
+        // Must enlarge the member-pool to all
+        // filter our member not logged in today
+        // and order by desc by last updated (in case some members were skipped)
+        $members = $clan->members()->with('user')
+            ->whereDate('logout', '>=', $yesterday)
+            ->orderByDesc('updated_at')
+            ->get();
         $playerActions = new PlayerActions();
 
         $updated = 0;
@@ -142,13 +150,13 @@ class ClanActions extends Base
     {
         $updated = 0;
         $playerActions = new PlayerActions();
-        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
 
         // Must enlarge the member-pool to all
         // filter our member not logged in today
         // and order by desc by last updated (in case some members were skipped)
         $members = $clan->members()->with('user')
-            ->whereDate('logout', '>=', $today)
+            ->whereDate('logout', '>=', $yesterday)
             ->orderByDesc('updated_at')
             ->get();
 
@@ -177,7 +185,14 @@ class ClanActions extends Base
         $updated = 0;
         $playerActions = new PlayerActions();
 
-        $members = $clan->members()->get();
+        $yesterday = Carbon::yesterday();
+
+        // filter our member not logged in today
+        // and order by desc by last updated (in case some members were skipped)
+        $members = $clan->members()->with('user')
+            ->whereDate('logout', '>=', $yesterday)
+            ->orderByDesc('updated_at')
+            ->get();
 
         foreach ($members as $member) {
             $updated += $playerActions->updateWn8($member) ? 1 : 0;
