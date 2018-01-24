@@ -202,10 +202,10 @@ class Member extends Model
      */
     public function delete($reason = false)
     {
-        $account = $this->account;
-        $account->member_id = null;
+//        $account = $this->account;
+//        $account->member_id = null;
 //        $account->member()->dissociate();
-        $account->save();
+//        $account->save();
 
         $history = new AccountsHistory();
         if (false !== $reason) {

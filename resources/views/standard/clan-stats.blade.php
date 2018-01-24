@@ -42,17 +42,20 @@
         };
         var dayPlural = ' zile', daySingular = ' zi';
         var pastDays = {
-            0: 'astăzi',
-            1: 'ieri',
-            2: 'alaltăieri',
+            d1: 'astăzi',
+            d2: 'ieri',
+            d3: 'alaltăieri',
+        };
+        var standardDisplay = function (data, type, row, meta) {
+            return data;
         };
         $(document).ready(function() {
             $.fn.dataTable.enum(['commander', 'executive_officer', 'personnel_officer', 'quartermaster',
                 'intelligence_officer', 'combat_officer', 'recruitment_officer', 'junior_officer',
                 'private', 'recruit', 'reservist']);
-            var t = $('#clanMembers').DataTable({
+            var table = $('#clanMembers').DataTable({
                 data: members,
-                order: [[1, 'asc']],
+                order: [[1, 'asc'], [2, 'asc']],
                 paging: false,
                 renderer: 'bootstrap',
                 info: false,
@@ -79,23 +82,17 @@
                     title: 'Nume',
                     data: 'nickname',
                     class: 'text-left',
-                    render: function (data, type, row, meta) {
-                        return data;
-                    }
+                    render: standardDisplay
                 }, {
                     title: 'Lupte',
                     data: 'battles',
                     width:'70px',
-                    render: function (data, type, row, meta) {
-                        return data;
-                    }
+                    render: standardDisplay
                 }, {
                     title: 'Scor',
                     width:'70px',
                     data: 'score',
-                    render: function (data, type, row, meta) {
-                        return data;
-                    }
+                    render: standardDisplay
                 }, {
                     title: 'WN8',
                     width:'70px',
@@ -146,7 +143,7 @@
                         var result = data;
                         if ('display' == type) {
                             if ("undefined" != typeof pastDays[data]) {
-                                result = pastDays[data];
+                                result = pastDays['d'+data];
                             } else {
                                 result = data + ' ' + dayPlural;
                             }
@@ -156,7 +153,7 @@
                     }
                 }]
             });
-            t.on( 'order.dt search.dt', function () {
+            table.on( 'order.dt search.dt', function () {
                 t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                     cell.innerHTML = i+1 + '.';
                 } );
