@@ -42,9 +42,9 @@
         };
         var dayPlural = ' zile', daySingular = ' zi';
         var pastDays = {
-            d1: 'astăzi',
-            d2: 'ieri',
-            d3: 'alaltăieri',
+            d0: 'azi',
+            d1: 'ieri',
+            d2: 'alaltăieri',
         };
         var standardDisplay = function (data, type, row, meta) {
             return data;
