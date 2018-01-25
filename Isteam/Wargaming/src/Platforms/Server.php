@@ -18,11 +18,17 @@ class Server extends Base
      * @param integer $clanId Wargaming clan id
      * @return mixed
      */
-    public function getClanInfo($clanId)
+    public function getClanInfo($clanId, $extra = [])
     {
-        $result = $this->execute('get', 'clans/info', [
+        $params = [
             'clan_id' => $this->flatten($clanId)
-        ]);
+        ];
+
+        if (!empty($extra)) {
+            $params['extra'] = $this->flatten($extra);
+        }
+
+        $result = $this->execute('get', 'clans/info', $params);
         return $result[$clanId];
     }
 
@@ -32,12 +38,35 @@ class Server extends Base
      * @param integer $clanId Wargaming clan id
      * @return mixed
      */
-    public function getClanMembers($clanId, $idAsKey = true)
+    public function getClanMembers($clanId, $extra = [], $idAsKey = true)
     {
         $result = [];
-        $response = $this->getClanInfo($clanId);
+        $response = $this->getClanInfo($clanId, $extra);
 
         if ($idAsKey) {
+            foreach ($response['members'] as $m) {
+                $result[$m['account_id']] = $m;
+            }
+        } else {
+            $result = $response['members'];
+        }
+
+        return $result;
+    }
+    /**
+     * Get all the members of a clan
+     *
+     * @param integer $clanId Wargaming clan id
+     * @return mixed
+     */
+    public function getClanOnlineMembers($clanId, $idAsKey = true)
+    {
+        $result = [];
+        $extra = ['private.online_members'];
+        $response = $this->getClanInfo($clanId, $extra);
+        return $response;
+        if ($idAsKey) {
+
             foreach ($response['members'] as $m) {
                 $result[$m['account_id']] = $m;
             }

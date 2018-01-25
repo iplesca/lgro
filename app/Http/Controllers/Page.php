@@ -282,7 +282,9 @@ class Page extends Controller
 //        $act = new PlayerActions();
 //        $act->updateWn8(Member::find(34));
         $act = new ClanActions();
-        $act->updateMemberWn8(Clan::find(1));
+        $r = $act->getOnlineMembers(Clan::find(1)->wargaming_id);
+        echo "<pre>";
+        print_r($r);
 //        $act->checkMembers(Clan::find(1));
 
         return;

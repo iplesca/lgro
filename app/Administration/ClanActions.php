@@ -150,13 +150,13 @@ class ClanActions extends Base
     {
         $updated = 0;
         $playerActions = new PlayerActions();
-        $yesterday = Carbon::yesterday();
+//        $yesterday = Carbon::yesterday();
 
         // Must enlarge the member-pool to all
         // filter our member not logged in today
         // and order by desc by last updated (in case some members were skipped)
         $members = $clan->members()->with('user')
-            ->whereDate('logout', '>=', $yesterday)
+//            ->whereDate('logout', '>=', $yesterday)
             ->orderByDesc('updated_at')
             ->get();
 
@@ -221,5 +221,9 @@ class ClanActions extends Base
             $updated += $playerActions->updateNewTanks($member) ? 1 : 0;
         }
         Log::info('[cron][new tanks] Clan '. $clan->name . '. Updated: ' . $updated);
+    }
+    public function getOnlineMembers($clanWargamingId)
+    {
+        return $this->api->server()->getClanOnlineMembers($clanWargamingId);
     }
 }
