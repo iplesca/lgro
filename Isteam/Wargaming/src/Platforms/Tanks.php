@@ -126,9 +126,6 @@ class Tanks extends Base
         if (!empty($extra)) {
             $params['extra'] = $this->flatten($extra);
         }
-//        if ($wargamingAccountId == 519931899) {
-//            Log::info('[SirLucasIV getPlayerTankStats] ' . print_r($params, true));
-//        }
         $result = $this->execute('get', 'tanks/stats', $params);
 
         return $result[$wargamingAccountId];
