@@ -116,20 +116,30 @@ class PlayerActions extends Base
     public function getTankStats(Member $member, $tankIds = [], $extraParams = [])
     {
         $result = [];
-        foreach (collect($tankIds)->chunk($this->pageSize) as $tankIds) {
-            $result += $this->api->tanks()->getPlayerTankStats(
+        if (!empty($tankIds)) {
+            foreach (collect($tankIds)->chunk($this->pageSize) as $tankIds) {
+                $result += $this->api->tanks()->getPlayerTankStats(
+                    $member->wargaming_id,
+                    $this->getPlayerToken($member),
+                    $tankIds,
+                    $this->extra,
+                    $extraParams
+                );
+            }
+        } else {
+            $result = $this->api->tanks()->getPlayerTankStats(
                 $member->wargaming_id,
                 $this->getPlayerToken($member),
-                $tankIds,
+                [],
                 $this->extra,
                 $extraParams
             );
         }
-        if ($member->wargaming_id == 519931899) {
-            Log::info("[SirLucasIV token] " . $this->getPlayerToken($member));
-            Log::info("[SirLucasIV tank ids] " . print_r($tankIds, true));
-            Log::info("[SirLucasIV tank stats]\n" . print_r($result, true));
-        }
+//        if ($member->wargaming_id == 519931899) {
+//            Log::info("[SirLucasIV token] " . $this->getPlayerToken($member));
+//            Log::info("[SirLucasIV tank ids] " . print_r($tankIds, true));
+//            Log::info("[SirLucasIV tank stats]\n" . print_r($result, true));
+//        }
         return $result;
     }
     /**
