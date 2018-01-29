@@ -118,7 +118,7 @@ class ClanActions extends Base
         // filter our member not logged in today
         // and order by desc by last updated (in case some members were skipped)
         $members = $clan->members()->with('user')
-            ->whereDate('logout', '>=', $yesterday)
+//            ->whereDate('logout', '>=', $yesterday)
             ->orderByDesc('updated_at')
             ->get();
         $playerActions = new PlayerActions();

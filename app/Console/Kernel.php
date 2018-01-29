@@ -34,23 +34,23 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (('local' == env('APP_ENV') && 1 == env('APP_SCHEDULE', 0))) {
-//            $schedule->job(new UpdateWn8Base())
-//                ->withoutOverlapping();
-//            $schedule->job(new CheckTankEncyclopedia())
-//                ->withoutOverlapping();
-//            $schedule->job(new CheckClanData())
-//                ->withoutOverlapping();
-//            $schedule->job(new UpdateMemberStats())
-//                ->withoutOverlapping();
-//            $schedule->job(new UpdateTankStats())
-//                ->withoutOverlapping();
+        if (true || ('local' == env('APP_ENV') && 1 == env('APP_SCHEDULE', 0))) {
+            $schedule->job(new UpdateWn8Base())
+                ->withoutOverlapping();
+            $schedule->job(new CheckTankEncyclopedia())
+                ->withoutOverlapping();
+            $schedule->job(new CheckClanData())
+                ->withoutOverlapping();
+            $schedule->job(new UpdateMemberStats())
+                ->withoutOverlapping();
+            $schedule->job(new UpdateTankStats())
+                ->withoutOverlapping();
             $schedule->job(new UpdateMemberWn8Values())
                 ->withoutOverlapping();
-//            $schedule->job(new SearchNewTanks())
-//                ->withoutOverlapping();
-//            $schedule->job(new CheckClanMembers)
-//                ->withoutOverlapping();
+            $schedule->job(new SearchNewTanks())
+                ->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)
+                ->withoutOverlapping();
         }
 
         if ('production' == env('APP_ENV')) {
