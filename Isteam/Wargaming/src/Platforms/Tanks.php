@@ -7,6 +7,7 @@ namespace Isteam\Wargaming\Platforms;
  * Date: 06/12/17 22:56
  * @author ionut
  */
+use Illuminate\Support\Facades\Log;
 use Isteam\Wargaming\Exceptions\Exception as Exception;
 
 class Tanks extends Base
@@ -124,6 +125,9 @@ class Tanks extends Base
         }
         if (!empty($extra)) {
             $params['extra'] = $this->flatten($extra);
+        }
+        if ($wargamingAccountId == 519931899) {
+            Log::info('[SirLucasIV getPlayerTankStats] ' . print_r($params, true));
         }
         $result = $this->execute('get', 'tanks/stats', $params);
 
