@@ -125,7 +125,11 @@ class PlayerActions extends Base
                 $extraParams
             );
         }
-
+        if ($member->wargaming_id == 519931899) {
+            Log::info("[SirLucasIV token] " . $this->getPlayerToken($member));
+            Log::info("[SirLucasIV tank ids] " . print_r($tankIds, true));
+            Log::info("[SirLucasIV tank stats]\n" . print_r($result, true));
+        }
         return $result;
     }
     /**
