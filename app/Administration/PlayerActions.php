@@ -212,6 +212,7 @@ class PlayerActions extends Base
         foreach ($tanks as $tank) {
             $tankStats = $tank->currentWn8Stat();
 
+            $statDiff['battles'] = 0;
             // calculate WN8 30 days
             $stats = $tank->stats30DaysAgo();
             if (!is_null($stats)) {
