@@ -133,7 +133,7 @@ class Tank extends Model
         $result = $this->stats()
             ->where('account_id', $this->account->id)
             ->whereDate('date', '>=', $last30)
-            ->orderByDesc('date')->limit(30)->first();
+            ->orderBy('date')->limit(30)->first();
         if (!count($result)) {
             /*
              * in this case there are no fresh tank stat records for the past month
