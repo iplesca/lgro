@@ -27,6 +27,7 @@ class Api implements Definition
 
     const WG_OK    = 'ok';
     const WG_ERROR = 'error';
+    const THROTTLE = 100000;
 
     /**
      * Client to make HTTP requests
@@ -242,6 +243,7 @@ class Api implements Definition
         try {
             $this->response['meta'] = [];
             $this->response['data'] = [];
+            usleep(self::THROTTLE);
             $response = $this->httpClient->request($endpoint->getVerb(), $endpointName, $params);
         } catch (GuzzleException $e) {
             throw new Exception('guzzle', $e->getMessage(), $e->getCode());

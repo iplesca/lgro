@@ -301,4 +301,8 @@ class Member extends Model
 
         return $tank;
     }
+    public function update()
+    {
+        parent::update();
+    }
 }

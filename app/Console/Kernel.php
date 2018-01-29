@@ -34,12 +34,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (true || ('local' == env('APP_ENV') && 1 == env('APP_SCHEDULE', 0))) {
+        if (true || ('local' == env('APP_ENV'))) {
             $schedule->job(new UpdateWn8Base())
                 ->withoutOverlapping();
             $schedule->job(new CheckTankEncyclopedia())
                 ->withoutOverlapping();
             $schedule->job(new CheckClanData())
+                ->withoutOverlapping();
+
+            $schedule->job(new CheckClanMembers)
                 ->withoutOverlapping();
             $schedule->job(new UpdateMemberStats())
                 ->withoutOverlapping();
@@ -47,19 +50,20 @@ class Kernel extends ConsoleKernel
                 ->withoutOverlapping();
             $schedule->job(new UpdateMemberWn8Values())
                 ->withoutOverlapping();
+            
             $schedule->job(new SearchNewTanks())
-                ->withoutOverlapping();
-            $schedule->job(new CheckClanMembers)
                 ->withoutOverlapping();
         }
 
         if ('production' == env('APP_ENV')) {
             $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
             
             $schedule->job(new CheckTankEncyclopedia())
                 ->dailyAt('02:00')->withoutOverlapping();
             $schedule->job(new CheckClanData())
                 ->dailyAt('03:00')->withoutOverlapping();
+            
             $schedule->job(new UpdateMemberStats())
                 ->dailyAt('03:20')->withoutOverlapping();
             $schedule->job(new UpdateTankStats())
@@ -68,8 +72,6 @@ class Kernel extends ConsoleKernel
                 ->dailyAt('03:45')->withoutOverlapping();
             $schedule->job(new SearchNewTanks())
                 ->dailyAt('03:50')->withoutOverlapping();
-
-            $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
         }
     }
 

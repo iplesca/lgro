@@ -38,17 +38,13 @@ class Server extends Base
      * @param integer $clanId Wargaming clan id
      * @return mixed
      */
-    public function getClanMembers($clanId, $extra = [], $idAsKey = true)
+    public function getClanMembers($clanId, $extra = [])
     {
         $result = [];
         $response = $this->getClanInfo($clanId, $extra);
 
-        if ($idAsKey) {
-            foreach ($response['members'] as $m) {
-                $result[$m['account_id']] = $m;
-            }
-        } else {
-            $result = $response['members'];
+        foreach ($response['members'] as $m) {
+            $result[$m['account_id']] = $m;
         }
 
         return $result;
@@ -66,7 +62,6 @@ class Server extends Base
         $response = $this->getClanInfo($clanId, $extra);
         return $response;
         if ($idAsKey) {
-
             foreach ($response['members'] as $m) {
                 $result[$m['account_id']] = $m;
             }
