@@ -217,19 +217,20 @@ class PlayerActions extends Base
             if (!is_null($stats)) {
                 $statDiff = $this->getStatDiff($stats, $tankStats);
             }
-            if (0 == $statDiff['battles']) {
-                $statDiff = $tank->currentWn8Stat();
+            if (0 != $statDiff['battles']) {
+//                $statDiff = $tank->currentWn8Stat();
+
+                $tank->wn8_30 = $wn8->tankAndPlayer(
+                    $tank->wargaming_id,
+                    $statDiff['damage_dealt'],
+                    $statDiff['spotted'],
+                    $statDiff['frags'],
+                    $statDiff['dropped_capture_points'],
+                    $statDiff['wins'],
+                    $statDiff['battles'],
+                    'last30'
+                );
             }
-            $tank->wn8_30 = $wn8->tankAndPlayer(
-                $tank->wargaming_id,
-                $statDiff['damage_dealt'],
-                $statDiff['spotted'],
-                $statDiff['frags'],
-                $statDiff['dropped_capture_points'],
-                $statDiff['wins'],
-                $statDiff['battles'],
-                'last30'
-            );
             $wn8->addTankData(
                 $tank->wargaming_id,
                 $tankStats['damage_dealt'],

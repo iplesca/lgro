@@ -35,22 +35,22 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (('local' == env('APP_ENV') && 1 == env('APP_SCHEDULE', 0))) {
-//            $schedule->job(new UpdateWn8Base())
-//                ->everyMinute()->withoutOverlapping();
-//            $schedule->job(new CheckTankEncyclopedia())
-//                ->everyMinute()->withoutOverlapping();
+            $schedule->job(new UpdateWn8Base())
+                ->withoutOverlapping();
+            $schedule->job(new CheckTankEncyclopedia())
+                ->withoutOverlapping();
             $schedule->job(new CheckClanData())
-                ->everyMinute()->withoutOverlapping();
+                ->withoutOverlapping();
             $schedule->job(new UpdateMemberStats())
-                ->everyMinute()->withoutOverlapping();
+                ->withoutOverlapping();
             $schedule->job(new UpdateTankStats())
-                ->everyMinute()->withoutOverlapping();
+                ->withoutOverlapping();
             $schedule->job(new UpdateMemberWn8Values())
-                ->everyMinute()->withoutOverlapping();
-//            $schedule->job(new SearchNewTanks())
-//                ->everyMinute()->withoutOverlapping();
+                ->withoutOverlapping();
+            $schedule->job(new SearchNewTanks())
+                ->withoutOverlapping();
             $schedule->job(new CheckClanMembers)
-                ->everyMinute()->withoutOverlapping();
+                ->withoutOverlapping();
         }
 
         if ('production' == env('APP_ENV')) {
