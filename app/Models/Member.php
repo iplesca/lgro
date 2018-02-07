@@ -263,12 +263,12 @@ class Member extends Model
      * @param array $tanksData
      * @return array
      */
-    public function createTanks(array $tanksData)
+    public function createTanks(array $tanksData, $update = false)
     {
         $result = [];
         if (!empty($tanksData) && is_array($tanksData)) {
             foreach ($tanksData as $data) {
-                $tank = Tank::createFromWargaming($this, $data);
+                $tank = Tank::createFromWargaming($this, $data, $update);
                 $result[] = $tank->wargaming_id;
             }
         }

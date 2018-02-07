@@ -117,25 +117,38 @@ class TankStat extends Model
     /**
      * @param Member $member
      * @param $data
+     * @param bool $overwrite
      * @return TankStat
      */
-    public static function createFromWargaming(Tank $tank, $data)
+    public static function createFromWargaming(Tank $tank, $data, $overwrite = false)
     {
+        $tankStat = null;
+        if ($overwrite) {
+            $tankStat = TankStat::where([
+                'wargaming_id' => $tank->wargaming_id,
+                'date', '>=', today()
+            ])->first();
+        }
         $data['date'] = date('Y-m-d H:i:s');
         $data['account_id'] = $tank->account->id;
         $data['wargaming_id'] = $tank->wargaming_id;
-        $tankStat = TankStat::create($data);
+
+        if (! is_null($tankStat)) {
+            $tankStat->update($data);
+        } else {
+            $tankStat = TankStat::create($data);
+        }
 
         return $tankStat;
     }
-    public static function updateStats(Tank $tank, $data, $usedExtra)
+    public static function updateStats(Tank $tank, $data, $usedExtra, $overwrite = false)
     {
         $mastery = $data['mastery'];
         $data = self::prepareData($data, $usedExtra);
 
         foreach ($data as $set) {
             $set['mastery'] = $mastery;
-            TankStat::createFromWargaming($tank, $set);
+            TankStat::createFromWargaming($tank, $set, $overwrite);
         }
     }
     /**

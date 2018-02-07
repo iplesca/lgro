@@ -159,17 +159,26 @@ class Tank extends Model
     /**
      * @param Member $member
      * @param $data
+     * @param bool $update
      * @return Tank
      */
-    public static function createFromWargaming(Member $member, $data)
+    public static function createFromWargaming(Member $member, $data, $update = false)
     {
-        $tank = new Tank();
+        $tank = null;
+        if ($update) {
+            $tank = Tank::where('wargaming_id', $data['tank_id'])->first();
+        }
+
+        if (is_null($tank)) {
+            $tank = new Tank();
+        }
+
         $tank->wargaming_id = $data['tank_id'];
         $tank->wins = $data['statistics']['wins'];
         $tank->battles = $data['statistics']['battles'];
         $tank->mastery = empty($data['mark_of_mastery']) ?: 'false';
 
-        $tank->account()->associate($member->account()->first());
+        $tank->account()->associate($member->account);
         $tank->save();
 
         return $tank;
@@ -201,20 +210,23 @@ class Tank extends Model
         return $map[$this->attributes['mastery']];
     }
 
-    public function addStatistics(array $data, array $usedExtra)
+    /**
+     * @param array $data
+     * @param array $usedExtra
+     * @param bool $overwrite
+     * @return bool
+     */
+    public function addStatistics(array $data, array $usedExtra, $overwrite = false)
     {
         $tankData = $this->prepareData($data);
-        if ($this->battles < $tankData['battles']) {
-            $data['mastery'] = $tankData['mastery'];
-            TankStat::updateStats($this, $data, $usedExtra);
+        $data['mastery'] = $tankData['mastery'];
+        TankStat::updateStats($this, $data, $usedExtra);
 
-            $this->update($tankData);
+        $this->update($tankData);
 
-            return true;
-        }
-        return false;
+        return true;
     }
-    public static function updateStats(Member $member, array $data, $extra)
+    public static function updateStats(Member $member, array $data, $extra, $overwrite = false)
     {
         $tankId = $data['tank_id'];
 
@@ -231,7 +243,7 @@ class Tank extends Model
             return false;
         }
 
-        return $tank->addStatistics($data, $extra);
+        return $tank->addStatistics($data, $extra, $overwrite);
     }
 
     /**
