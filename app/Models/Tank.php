@@ -166,7 +166,10 @@ class Tank extends Model
     {
         $tank = null;
         if ($update) {
-            $tank = Tank::where('wargaming_id', $data['tank_id'])->first();
+            $tank = Tank::where([
+                'wargaming_id' => $data['tank_id'],
+                'account_id' => $member->account->id
+            ])->first();
         }
 
         if (is_null($tank)) {
