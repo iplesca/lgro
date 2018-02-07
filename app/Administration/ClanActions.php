@@ -79,6 +79,7 @@ class ClanActions extends Base
         $newMember = 0;
         $existingMembers = $clan->members()->with('account')->get();
         $members = $this->api->server()->getClanMembers($clan->wargaming_id);
+        
         // check for member that left the clan
         foreach ($existingMembers as $em) {
             // no longer present in the members list
@@ -87,6 +88,7 @@ class ClanActions extends Base
                 $em->delete('[auto] no reason');
             }
         }
+        
         // check for new members
         foreach ($members as $wargamingId => $m) {
             $member = $existingMembers->firstWhere('wargaming_id', $wargamingId);
@@ -118,7 +120,7 @@ class ClanActions extends Base
         // filter our member not logged in today
         // and order by desc by last updated (in case some members were skipped)
         $members = $clan->members()->with('user')
-            ->whereDate('logout', '>=', $yesterday)
+//            ->whereDate('logout', '>=', $yesterday)
             ->orderByDesc('updated_at')
             ->get();
         $playerActions = new PlayerActions();

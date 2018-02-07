@@ -116,16 +116,25 @@ class PlayerActions extends Base
     public function getTankStats(Member $member, $tankIds = [], $extraParams = [])
     {
         $result = [];
-        foreach (collect($tankIds)->chunk($this->pageSize) as $tankIds) {
-            $result += $this->api->tanks()->getPlayerTankStats(
+        if (!empty($tankIds)) {
+            foreach (collect($tankIds)->chunk($this->pageSize) as $tankIds) {
+                $result += $this->api->tanks()->getPlayerTankStats(
+                    $member->wargaming_id,
+                    $this->getPlayerToken($member),
+                    $tankIds,
+                    $this->extra,
+                    $extraParams
+                );
+            }
+        } else {
+            $result = $this->api->tanks()->getPlayerTankStats(
                 $member->wargaming_id,
                 $this->getPlayerToken($member),
-                $tankIds,
+                [],
                 $this->extra,
                 $extraParams
             );
         }
-
         return $result;
     }
     /**
@@ -212,6 +221,7 @@ class PlayerActions extends Base
         foreach ($tanks as $tank) {
             $tankStats = $tank->currentWn8Stat();
 
+            $statDiff['battles'] = 0;
             // calculate WN8 30 days
             $stats = $tank->stats30DaysAgo();
             if (!is_null($stats)) {

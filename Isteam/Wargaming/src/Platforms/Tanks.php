@@ -7,6 +7,7 @@ namespace Isteam\Wargaming\Platforms;
  * Date: 06/12/17 22:56
  * @author ionut
  */
+use Illuminate\Support\Facades\Log;
 use Isteam\Wargaming\Exceptions\Exception as Exception;
 
 class Tanks extends Base

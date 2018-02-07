@@ -40,9 +40,9 @@
             'recruit': 'Recrut',
             'reservist': 'Rezervist'
         };
-        var dayPlural = ' zile', daySingular = ' zi';
+        var dayPre = 'acum ', dayPlural = ' zile', daySingular = ' zi';
         var pastDays = {
-            d1: 'ieri',
+            d0: 'ieri',
         };
         var standardDisplay = function (data, type, row, meta) {
             return data;
@@ -139,11 +139,13 @@
                     class: 'text-center',
                     render: function (data, type, row, meta) {
                         var result = data;
+                        
                         if ('display' == type) {
                             if ("undefined" != typeof pastDays['d'+data]) {
                                 result = pastDays['d'+data];
                             } else {
-                                result = data + ' ' + dayPlural;
+                                data++;
+                                result = data  + (data > 1  ? dayPlural : daySingular);
                             }
                             return result;
                         }
