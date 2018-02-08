@@ -30,7 +30,6 @@ class SyncUserTanks extends Command
     public function __construct()
     {
         $this->signature .= '{accountId : User account id}';
-        $this->signature .= '{--force : Force update existing tanks}';
 
         parent::__construct();
     }
@@ -43,7 +42,7 @@ class SyncUserTanks extends Command
     public function handle(PlayerActions $playerActions)
     {
         $accountId = $this->argument('accountId');
-        $force = $this->option('force');
+        $force = true;
 
         $member = Member::where('account_id', $accountId)->first();
         if (! is_null($member)) {
