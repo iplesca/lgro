@@ -39,16 +39,16 @@ class Kernel extends ConsoleKernel
 //                ->withoutOverlapping();
 //            $schedule->job(new CheckTankEncyclopedia())
 //                ->withoutOverlapping();
-            $schedule->job(new CheckClanData())->everyMinute()
-                ->withoutOverlapping();
-            $schedule->job(new CheckClanMembers)->everyMinute()
-                ->withoutOverlapping();
-            $schedule->job(new UpdateMemberStats())->everyMinute()
-                ->withoutOverlapping();
-            $schedule->job(new UpdateTankStats())->everyMinute()
-                ->withoutOverlapping();
-            $schedule->job(new UpdateMemberWn8Values())->everyMinute()
-                ->withoutOverlapping();
+//            $schedule->job(new CheckClanData())->everyMinute()
+//                ->withoutOverlapping();
+//            $schedule->job(new CheckClanMembers)->everyMinute()
+//                ->withoutOverlapping();
+//            $schedule->job(new UpdateMemberStats())->everyMinute()
+//                ->withoutOverlapping();
+//            $schedule->job(new UpdateTankStats())->everyMinute()
+//                ->withoutOverlapping();
+//            $schedule->job(new UpdateMemberWn8Values())->everyMinute()
+//                ->withoutOverlapping();
 //            $schedule->job(new SearchNewTanks())
 //                ->withoutOverlapping();
         }

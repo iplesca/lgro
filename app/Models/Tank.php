@@ -117,6 +117,13 @@ class Tank extends Model
     {
         return $this->hasMany(TankStat::class, 'wargaming_id', 'wargaming_id');
     }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function details()
+    {
+        return $this->hasOne(TankDefinition::class, 'wargaming_id', 'wargaming_id');
+    }
 
     /**
      * @return TankStat|null
@@ -261,7 +268,7 @@ class Tank extends Model
         if (isset($data[self::MASTER_SET])) {
             $result = $data[self::MASTER_SET];
         }
-        $result['mastery'] = $data['mark_of_mastery'] ?: 'false';
+        $result['mastery'] = (0 == $data['mark_of_mastery'] ? 'false' : $data['mark_of_mastery']);
         $result['max_xp'] = $data['max_xp'];
         $result['max_frags'] = $data['max_frags'];
 

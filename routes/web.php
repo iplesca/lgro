@@ -24,8 +24,9 @@ Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/members', 'Clan@members')->name('clanMembers');
-    Route::get('/profile', 'Page@profile')->name('profile');
-    Route::get('/profile/standard', 'Page@profileStandard')->name('profile_standard');
+//    Route::get('/profile', 'Page@profile')->name('profile');
+    Route::get('/profile/{memberId}', 'Profile@index')->name('profile');
+    Route::get('/profile/{memberId}/garage', 'Profile@tanks')->name('profile-tanks');
 
     Route::get('/concurs', 'Page@concurs')->name('concurs');
     Route::get('/concurs/echipe', 'Page@concursEchipe')->name('concurs-echipe');
@@ -35,4 +36,3 @@ Route::middleware(['auth'])->group(function () {
 //    Route::get('/ofiter', 'Page@ofiter')->name('ofiter')->middleware('can:isOfficer');
 });
 
-//Route::get('/home', 'HomeController@index')->name('home');

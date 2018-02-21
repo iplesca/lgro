@@ -19,7 +19,14 @@
                         <a class="nav-link" href="{{ route('clanMembers') }}">Membri</a>
                     </li>
                     <li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">
-                        <a class="nav-link" href="{{ route('profile') }}">Profil</a>
+                        <a class="nav-link" href="{{ route('profile', [
+                        'memberId' => Auth::user()->member_id
+                        ]) }}">Profil</a>
+                    </li>
+                    <li class="nav-item {{ "profile-tanks" == Route::currentRouteName() ? 'active' : ''}}">
+                        <a class="nav-link" href="{{ route('profile-tanks', [
+                        'memberId' => Auth::user()->member_id
+                        ]) }}">Garaj</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Deconectare</a>

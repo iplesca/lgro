@@ -75,6 +75,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Member extends Model
 {
+    protected $primaryKey = 'id';
     protected $casts = [
         'stats' => 'array',
     ];
@@ -110,9 +111,22 @@ class Member extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function tanks()
+    public function tanks($memberId)
     {
         return $this->hasManyThrough('App\Models\Tank', 'App\Models\Account');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function ownTanks($withTankDetails = false)
+    {
+        $result = $this->tanks($this->id)->where([
+            'account_id' => $this->account_id
+        ]);
+        if ($withTankDetails) {
+            $result->with('details');
+        }
+        return $result;
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough

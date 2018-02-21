@@ -18,6 +18,7 @@
                     <li class="nav-item {{ "clanMembers" == Route::currentRouteName() ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('clanMembers') }}">Membri</a>
                     </li>
+
                     <li class="nav-item dropdown {{ in_array(Route::currentRouteName(), ['concurs', 'concurs-echipe', 'concurs-rezultate']) ? 'active' : ''}}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
