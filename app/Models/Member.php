@@ -112,7 +112,7 @@ class Member extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
-    public function tanks($memberId)
+    public function tanks()
     {
         return $this->hasManyThrough('App\Models\Tank', 'App\Models\Account');
     }
