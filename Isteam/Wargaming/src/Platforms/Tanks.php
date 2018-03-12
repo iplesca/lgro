@@ -50,7 +50,7 @@ class Tanks extends Base
      * @param string $accessToken [default=''] Wargaming access token
      * @return array
      */
-    public function getPlayerData($wargamingAccountId, $accessToken = '')
+    public function getPlayerData($wargamingAccountId, $accessToken = '', $extra = [])
     {
         $params = [
             'account_id' => $this->flatten($wargamingAccountId),
@@ -58,6 +58,10 @@ class Tanks extends Base
 
         if (false === $accessToken || !empty($accessToken)) {
             $params['access_token'] = $accessToken;
+        }
+
+        if (!empty($extra)) {
+            $params['fields'] = $this->flatten($extra);
         }
 
         $result = $this->execute('get', 'account/info', $params);

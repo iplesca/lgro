@@ -2,11 +2,12 @@
 
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}"/>
-    <h1>{{ $member->nickname }} [{{ $member->score  }}]</h1>
+    <h1>Tancuri :: {{ $member->nickname }}</h1>
     <small>ID: {{ $member->wargaming_id }}</small><br>
+    {{--<button id="t10" data-toggle="button" class="btn btn-sm btn-primary">Tier X</button>--}}
     @if ($tanks)
         <div class="table-responsive-lg">
-            <table width="100%" id="tanks" class="clan_members table table-sm table-hover table-striped no-footer">
+            <table width="100%" id="tanks" class="member_tanks table table-lg table-hover table-striped no-footer">
                 <thead>
                 <tr>
                     <th class="text-center">Tier</th>
@@ -17,7 +18,7 @@
                     <th class="text-center" scope="col">%Vic</th>
                     <th class="text-center" scope="col">Victorii</th>
                     <th class="text-center" scope="col">Înfrângeri</th>
-                    <th class="text-center" scope="col">Distincție</th>
+                    {{--<th class="text-center" scope="col">Distincție</th>--}}
                     <th class="text-center" scope="col">Max kills</th>
                 </tr>
                 </thead>
@@ -29,41 +30,71 @@
     <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.16/sorting/enum.js"></script>
     <script>
         var tanks = @json($tanks);
+        var typeImg = {
+            'LT': 'ilt1.png', 'MT': 'imt1.png', 'HT': 'iht1.png', 'TD': 'itd1.png', 'SPG': 'ispg1.png'
+        };
+        var masteryImg = {
+            '1': 'i111.png', '2': 'i211.png', '3': 'i311.png', '4': 'im111.png'
+        };
         $(document).ready(function() {
+            $('#t10').on('click.isteam', function () {
+                table.filter(function (v, k) {
+                    var a = v;
+
+                });
+            });
+            $.fn.dataTable.enum(['LT', 'MT', 'HT', 'TD', 'SPG']);
             var table = $('#tanks').DataTable({
                 data: tanks,
-//                order: [[1, 'asc']],
+                order: [[0, 'desc'], [1, 'asc'], [2, 'asc']],
+                orderFixed: {
+                    post: [[0, 'desc'], [1, 'asc'], [2, 'asc']]
+                },
                 paging: false,
+                pagingType: 'numbers',
+                pageLength: 40,
                 renderer: 'bootstrap',
                 info: false,
+                rowGroup: {
+                    dataSrc: 1
+                },
+                columnDefs: {},
                 searching: false,
                 columns: [{
-                    title: 'Tier',
-                    width:'90px',
+                    title: '',
+                    width:'1%',
                     data: 'tier',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
                         return data;
                     }
                 }, {
-                    title: 'Tip',
-                    width:'90px',
+                    title: '',
+                    width:'1%',
                     data: 'type',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
+                        if ('display' == type) {
+                            return '<img width=20 src="{{ asset('/images')  }}/'+ typeImg[data] +'">';
+                        }
                         return data;
                     }
                 }, {
                     title: 'Nume',
-                    width:'90px',
                     data: 'name',
+                    width:'400px',
                     class: 'text-left',
                     render: function (data, type, row, meta) {
+                        if ('display' == type) {
+                            if ('yes' == row.premium) {
+                                return '<span style="width: auto; color:#CC7A00">' + data +'</span>';
+                            }
+                        }
                         return data;
                     }
                 }, {
                     title: 'WN8',
-//                    width:'90px',
+                    width:'5%',
                     data: 'wn8',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -71,7 +102,7 @@
                     }
                 }, {
                     title: 'Lupte',
-//                    width:'90px',
+                    width:'6%',
                     data: 'battles',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -79,7 +110,7 @@
                     }
                 }, {
                     title: '%win',
-//                    width:'90px',
+                    width:'7%',
                     data: 'win_percent',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -87,7 +118,7 @@
                     }
                 }, {
                     title: 'Victorii',
-//                    width:'90px',
+                    width:'10%',
                     data: 'wins',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
@@ -95,23 +126,30 @@
                     }
                 }, {
                     title: 'Înfrângeri',
-//                    width:'90px',
+                    width:'10%',
                     data: 'losses',
                     class: 'text-center',
                     render: function (data, type, row, meta) {
                         return data;
                     }
-                }, {
-                    title: 'Distincție',
-//                    width:'90px',
-                    data: 'mastery',
-                    class: 'text-center',
-                    render: function (data, type, row, meta) {
-                        return data;
-                    }
-                }, {
-                    title: 'Max kills',
-//                    width:'90px',
+                },
+                    {{--{--}}
+                    {{--title: 'Distincție',--}}
+                    {{--width:'10%',--}}
+                    {{--data: 'mastery',--}}
+                    {{--class: 'text-center',--}}
+                    {{--render: function (data, type, row, meta) {--}}
+                        {{--if ('display' == type) {--}}
+                            {{--if (data.length) {--}}
+                                {{--return '<img width=20 src="{{ asset('/images')  }}/' + masteryImg[data] + '">';--}}
+                            {{--}--}}
+                        {{--}--}}
+                        {{--return data;--}}
+                    {{--}--}}
+                {{--}, --}}
+                    {
+                    title: 'Kills',
+                    width:'10%',
                     data: 'max_kills',
                     class: 'text-center',
                     render: function (data, type, row, meta) {

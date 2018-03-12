@@ -216,6 +216,19 @@ h1, h2, h3 {
     border-radius: 15px;
     margin: 2px;
 }
+.member_tanks td span {
+    width: 57px;
+    display: inline-block;
+    text-align: center;
+    color: #FFF;
+    border-radius: 15px;
+    margin: 2px;
+}
+
+.member_tanks td  {
+    padding:2px;
+}
+.player-online {background-color:#4D7326 !important; width: 25px !important;}
 .wn8-superunicum {color:#401070 !important;}
 .wn8-unicum {color:#793DB6 !important;}
 .wn8-great {color:#3972C6 !important;}

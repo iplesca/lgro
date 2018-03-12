@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
 
         if ('production' == env('APP_ENV')) {
             $schedule->job(new UpdateWn8Base())->monthlyOn(1, '02:10')->withoutOverlapping();
-            $schedule->job(new CheckClanMembers)->hourlyAt(5)->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)->everyTenMinutes()->withoutOverlapping();
             
             $schedule->job(new CheckTankEncyclopedia())
                 ->dailyAt('02:00')->withoutOverlapping();

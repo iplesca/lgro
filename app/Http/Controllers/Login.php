@@ -25,6 +25,8 @@ class Login extends Controller
                     // get latest user data
                     $userData = $wgApi->tanks()->getPlayerData($auth['account_id'], $auth['access_token']);
                     $user = User::createFromWargaming($auth, $userData);
+                } else {
+                    $user->updateAccess($auth);
                 }
 
                 if ($user) {

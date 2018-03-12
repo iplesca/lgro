@@ -16,13 +16,19 @@ class Server extends Base
      * Get the full clan info
      *
      * @param integer $clanId Wargaming clan id
+     * @param string $token
+     * @param array $extra
      * @return mixed
      */
-    public function getClanInfo($clanId, $extra = [])
+    public function getClanInfo($clanId, $token = null, $extra = [])
     {
         $params = [
             'clan_id' => $this->flatten($clanId)
         ];
+
+        if (!is_null($token)) {
+            $params['access_token'] = $token;
+        }
 
         if (!empty($extra)) {
             $params['extra'] = $this->flatten($extra);
@@ -36,37 +42,22 @@ class Server extends Base
      * Get all the members of a clan
      *
      * @param integer $clanId Wargaming clan id
-     * @return mixed
+     * @param string $token
+     * @return array
      */
-    public function getClanMembers($clanId, $extra = [])
+    public function getClanMembers($clanId, $token = null)
     {
         $result = [];
-        $response = $this->getClanInfo($clanId, $extra);
+        $response = $this->getClanInfo($clanId, $token, ['private.online_members']);
+
+        $online = [];
+        if (!is_null($token)) {
+            $online = $response['private']['online_members'];
+        }
 
         foreach ($response['members'] as $m) {
             $result[$m['account_id']] = $m;
-        }
-
-        return $result;
-    }
-    /**
-     * Get all the members of a clan
-     *
-     * @param integer $clanId Wargaming clan id
-     * @return mixed
-     */
-    public function getClanOnlineMembers($clanId, $idAsKey = true)
-    {
-        $result = [];
-        $extra = ['private.online_members'];
-        $response = $this->getClanInfo($clanId, $extra);
-        return $response;
-        if ($idAsKey) {
-            foreach ($response['members'] as $m) {
-                $result[$m['account_id']] = $m;
-            }
-        } else {
-            $result = $response['members'];
+            $result[$m['account_id']]['online'] = in_array($m['account_id'], $online) ? true : false;
         }
 
         return $result;

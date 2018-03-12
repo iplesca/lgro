@@ -78,6 +78,7 @@ class Member extends Model
     protected $primaryKey = 'id';
     protected $casts = [
         'stats' => 'array',
+        'online' => 'boolean',
     ];
 
     /**
@@ -179,7 +180,12 @@ class Member extends Model
     public static function reinstate(array $memberData, Clan $clan)
     {
         $newAccount = false;
-        $member = self::createFromWargaming($memberData, $clan);
+
+        // try to find the member first
+        $member = self::where('wargaming_id', $memberData['account_id'])->first();
+        if (is_null($member)) {
+            $member = self::createFromWargaming($memberData, $clan);
+        }
 
         $account = Account::getByWargamingId($member->wargaming_id);
 
@@ -207,6 +213,21 @@ class Member extends Model
         ];
     }
 
+    /**
+     * @param array $data
+     * @param string $logout
+     */
+    public function updatePresence($data, $logout)
+    {
+        $this->nickname = $data['account_name'];
+        $this->role = $data['role'];
+        if (empty($this->granted)) {
+            $this->granted = $data['role'];
+        }
+        $this->online = $data['online'];
+        $this->logout = date('Y-m-d H:i:s', $logout);
+        $this->save();
+    }
     /**
      * Overloaded method.
      * Deletes one member and updates account and history

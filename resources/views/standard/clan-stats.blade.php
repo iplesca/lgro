@@ -42,7 +42,8 @@
         };
         var dayPre = 'acum ', dayPlural = ' zile', daySingular = ' zi';
         var pastDays = {
-            d0: 'ieri',
+            d0: 'azi',
+            d1: 'ieri',
         };
         var standardDisplay = function (data, type, row, meta) {
             return data;
@@ -80,7 +81,13 @@
                     title: 'Nume',
                     data: 'nickname',
                     class: 'text-left',
-                    render: standardDisplay
+                    render: function (data, type, row, meta) {
+                        var result = data;
+                        if ('display' == type) {
+                            return '<a href="{{ route('profile', '') }}/'+ row.id +'">'+ data +'</a>';
+                        }
+                        return result;
+                    }
                 }, {
                     title: 'Lupte',
                     data: 'battles',
@@ -141,11 +148,16 @@
                         var result = data;
                         
                         if ('display' == type) {
-                            if ("undefined" != typeof pastDays['d'+data]) {
-                                result = pastDays['d'+data];
+                            if (data === false) {
+                                // player online
+                                result = '<span class="player-online">&nbsp;</span>';
                             } else {
-                                data++;
-                                result = data  + (data > 1  ? dayPlural : daySingular);
+                                if ("undefined" != typeof pastDays['d' + data]) {
+                                    result = pastDays['d' + data];
+                                } else {
+                                    data++;
+                                    result = data + (data > 1 ? dayPlural : daySingular);
+                                }
                             }
                             return result;
                         }

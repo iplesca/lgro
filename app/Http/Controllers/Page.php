@@ -274,75 +274,9 @@ class Page extends Controller
     }
     public function test(Request $request, Api $api, Wn8 $wn8)
     {
-//        $member = Member::find(1);
-//        $tankId = 5137; // tiger2
-//        $tank = $member->tanks()->where('wargaming_id', $tankId)->first();
-//        $a = 1;
-//        exit;
-//        $act = new PlayerActions();
-//        $act->updateWn8(Member::find(34));
         $act = new ClanActions();
-//        $r = $act->getOnlineMembers(Clan::find(1)->wargaming_id);
-//        echo "<pre>";
-//        print_r($r);
         $act->checkMembers(Clan::find(1));
 
         return;
-    }
-    public function test2(Request $request, Api $api, Wn8 $wn8)
-    {
-        $playerId = 514353122; // fury
-        $playerId = 519931899; // lucas
-        $token = 'f8502f3642b90e33ae7cbdcf427a9b9f310a641b'; // lucas
-        $token = ''; // empty
-        $tankId = 5377; // is3
-        $tankId = 5137; // tiger2
-        $tankId = 0;
-        /*
-        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId);
-
-//        $params = File::getRequire(Storage::path('lucas.php'));
-        $wn8Player = 0;
-        foreach ($params as $tankData) {
-            $tankId = $tankData['tank_id'];
-            $data = $tankData['all'];
-
-            $wn8->addTankData(
-                $tankId,
-                $data['damage_dealt'],
-                $data['spotted'],
-                $data['frags'],
-                $data['dropped_capture_points'],
-                $data['wins'],
-                $data['battles']
-            );
-        }
-        $wn8Player = $wn8->player();
-        echo "WN8 IS-3 = " . $wn8Player . "<br>";
-        */
-//        echo "<pre>";
-//        print_r($params);
-//        $params = $api->tanks()->getPlayerTankAchievements($playerId, $token, $tankId);
-//        echo "<pre>";
-//        print_r($params);
-        $params = $api->tanks()->getPlayerTankStats($playerId, $token, $tankId);
-        echo "<pre>";
-//        $allKeys = array_merge($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']);
-//        echo "common <br>";
-//        print_r(array_intersect_key($allKeys, $params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-//        echo "only clan<br>";
-//        print_r(array_diff_key($params[0]['clan'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-//        echo "only all<br>";
-//        print_r(array_diff_key($params[0]['all'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['random'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-//        echo "only all<br>";
-//        print_r(array_diff_key($params[0]['random'], $params[0]['stronghold_skirmish'], $params[0]['stronghold_skirmish'], $params[0]['regular_team'], $params[0]['regular_team'], $params[0]['company'], $params[0]['all'], $params[0]['company'], $params[0]['clan'], $params[0]['company'], $params[0]['stronghold_defense'], $params[0]['team'], $params[0]['globalmap']));
-
-        print_r($params);
-
-//        $params = $api->tanks()->getPlayerTanks($playerId, $token);
-//        echo "<pre>";
-//        print_r($params);
-        exit;
-        return view('stadard.test', $params);
     }
 }

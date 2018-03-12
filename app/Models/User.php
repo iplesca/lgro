@@ -180,9 +180,14 @@ class User extends Authenticatable
      * @param int $afterMin Shift the time limit upward
      * @return bool
      */
-    public function isValidWotToken($afterMin = 0)
+    public function isValidWotToken($afterMin = 1)
     {
-        $now = Carbon::now()->addMinutes($afterMin);
-        return $this->wot_token_expire > $now ? true : false;
+        $result = false;
+        if (!empty($this->wot_token_expire)) {
+            $now = Carbon::now()->addMinutes($afterMin);
+            $result = $this->wot_token_expire > $now ? true : false;
+        }
+
+        return $result;
     }
 }

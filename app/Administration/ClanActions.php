@@ -8,6 +8,7 @@ namespace App\Administration;
  * @author ionut
  */
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Models\Clan;
 use App\Models\Member;
@@ -77,8 +78,11 @@ class ClanActions extends Base
 
         $leftClan = 0;
         $newMember = 0;
-        $existingMembers = $clan->members()->with('account')->get();
-        $members = $this->api->server()->getClanMembers($clan->wargaming_id);
+        $existingMembers = $clan->members()->with(['account', 'user'])->get();
+
+        // get valid token for online members
+        $token = $this->getValidTokenFromMembers($existingMembers);
+        $members = $this->api->server()->getClanMembers($clan->wargaming_id, $token);
         
         // check for member that left the clan
         foreach ($existingMembers as $em) {
@@ -88,15 +92,19 @@ class ClanActions extends Base
                 $em->delete('[auto] no reason');
             }
         }
-        
+
+        $memberLastLogout = $this->api->tanks()->getPlayerData(array_keys($members), '', ['logout_at']);
         // check for new members
         foreach ($members as $wargamingId => $m) {
             $member = $existingMembers->firstWhere('wargaming_id', $wargamingId);
 
             if (! $member) {
                 $newMember++;
-                $playerActions->reinstateMember($m, $clan);
+                $member = $playerActions->reinstateMember($m, $clan);
             }
+
+            // update presence and role
+            $member->updatePresence($m, $memberLastLogout[$wargamingId]['logout_at']);
         }
         Log::info('[cron][check clan members] Clan <' . $clan->name. '> -- Existing: '.
             count($existingMembers) . '. Query: ' . count($members) . ' Left: '.
@@ -224,8 +232,26 @@ class ClanActions extends Base
         }
         Log::info('[cron][new tanks] Clan '. $clan->name . '. Updated: ' . $updated);
     }
-    public function getOnlineMembers($clanWargamingId)
+
+    /**
+     * @param Collection $members
+     * @return bool|string
+     */
+    private function getValidTokenFromMembers($members)
     {
-        return $this->api->server()->getClanOnlineMembers($clanWargamingId);
+        $result = null;
+
+        if (!empty($members)) {
+            foreach ($members as $member) {
+                if ($member->user->nickname == 'SirLucasIV') {
+                    $a = 1;
+                }
+                if ($member->user->isValidWotToken()) {
+                    $result = $member->user->wot_token;
+                    break;
+                }
+            }
+        }
+        return $result;
     }
 }

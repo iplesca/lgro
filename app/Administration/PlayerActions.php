@@ -185,6 +185,7 @@ class PlayerActions extends Base
      * Reinstates a new/old member to a clan
      * @param array $memberData WarGaming member data
      * @param Clan $clan
+     * @return Member
      */
     public function reinstateMember(array $memberData, Clan $clan)
     {
@@ -201,6 +202,8 @@ class PlayerActions extends Base
         }
 
         $this->updateStats($member);
+
+        return $member;
     }
     public function updateWn8(Member $member)
     {
