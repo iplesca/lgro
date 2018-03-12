@@ -22,8 +22,8 @@ class EncyclopediaActions extends Base
 
         $tanks = $this->api->tanks()->getAllTanks();
         foreach ($tanks as $tank) {
+            $tankId = $tank['tank_id'];
             $data = [
-                'wargaming_id' => $tank['tank_id'],
                 'nation' => $tank['nation'],
                 'tier' => $tank['level'],
                 'type' => TankDefinition::getType($tank['type']),
@@ -35,7 +35,7 @@ class EncyclopediaActions extends Base
                 'image_small' => $tank['image_small'],
                 'image_contour' => $tank['contour_image'],
             ];
-            $dbTank = TankDefinition::updateOrCreate($data);
+            $dbTank = TankDefinition::updateOrCreate(['wargaming_id' => $tankId], $data);
             $dbTank->wargaming_id = $tank['tank_id'];
             $dbTank->save();
         }
