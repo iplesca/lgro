@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-
+    /*
     public function isOfficer(User $user)
     {
         if ($this->isMember($user)) {
@@ -42,4 +42,5 @@ class UserPolicy
         }
         return false;
     }
+    */
 }

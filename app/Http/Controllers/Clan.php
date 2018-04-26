@@ -25,8 +25,11 @@ class Clan extends Controller
             if ($item->online) {
                 $set['logout'] = false;
             } else {
-                $set['logout'] = Carbon::createFromFormat('Y-m-d H:i:s', $item->logout)->startOfDay()
-                    ->diffInDays(Carbon::today()->startOfDay());
+                $set['logout'] = now();
+                if (!is_null($item->logout)) {
+                    $set['logout'] = Carbon::createFromFormat('Y-m-d H:i:s', $item->logout)->startOfDay()
+                        ->diffInDays(Carbon::today()->startOfDay());
+                }
             }
             $set['id'] = $item->id;
             $set['wn8color'] = wn8color($item->wn8);

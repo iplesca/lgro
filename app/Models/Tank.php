@@ -206,8 +206,12 @@ class Tank extends Model
      */
     public function setMastery($wgMastery)
     {
+        $this->attributes['mastery'] = $this-$this->calcMastery($wgMastery);
+    }
+    private function calcMastery($wgMastery)
+    {
         $map = ['false', '3', '2', '1', 'M'];
-        $this->attributes['mastery'] = (string) $map[int($wgMastery)];
+        return (string) $map[intval($wgMastery)];
     }
 
     /**
@@ -268,7 +272,7 @@ class Tank extends Model
         if (isset($data[self::MASTER_SET])) {
             $result = $data[self::MASTER_SET];
         }
-        $result['mastery'] = (0 == $data['mark_of_mastery'] ? 'false' : $data['mark_of_mastery']);
+        $result['mastery'] = $this->calcMastery($data['mark_of_mastery']);
         $result['max_xp'] = $data['max_xp'];
         $result['max_frags'] = $data['max_frags'];
 

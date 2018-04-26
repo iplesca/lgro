@@ -55,6 +55,10 @@ class Server extends Base
             $online = $response['private']['online_members'];
         }
 
+        if (is_null($online)) {
+            $online = [];
+        }
+
         foreach ($response['members'] as $m) {
             $result[$m['account_id']] = $m;
             $result[$m['account_id']]['online'] = in_array($m['account_id'], $online) ? true : false;

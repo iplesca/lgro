@@ -51,3 +51,9 @@ if (!function_exists('ranksOrder')) {
         ];
     }
 }
+if (!function_exists('isGenericUser')) {
+    function isGenericUser()
+    {
+        return \Illuminate\Support\Facades\Auth::user()->isGeneric();
+    }
+}

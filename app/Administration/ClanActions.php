@@ -7,8 +7,10 @@ namespace App\Administration;
  * Date: 07/01/18 23:06
  * @author ionut
  */
+use App\Models\Tank;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Log;
 use App\Models\Clan;
 use App\Models\Member;
@@ -253,5 +255,35 @@ class ClanActions extends Base
             }
         }
         return $result;
+    }
+
+    /**
+     * @param $clanId
+     * @return Builder
+     */
+    private function getAverageWn8($clanId)
+    {
+        return Tank::selectRaw('AVG(member_tanks.wn8) AS avgWn8, members.nickname, members.id')
+            ->join('wg_tanks', 'wg_tanks.wargaming_id', '=', 'member_tanks.wargaming_id')
+            ->join('accounts', 'member_tanks.account_id', '=', 'accounts.id')
+            ->join('members', 'accounts.member_id', '=', 'members.id')
+            ->join('clans', 'clans.id', '=', 'members.clan_id')
+            ->where('clans.id', '=', $clanId);
+    }
+
+    /**
+     * @param $clanId
+     * @param $days
+     * @return Builder
+     */
+    public function topHeavy($clanId, $days)
+    {
+         $query = $this->getAverageWn8($clanId);
+         $query->whereDate('updated', '>=', now()->subDays($days))
+            ->where('wg_tanks.type', '=', 'HT')
+            ->groupBy('members.id')
+            ->orderBy('avgWn8', 'desc');
+
+         return $query;
     }
 }

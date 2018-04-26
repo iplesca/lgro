@@ -5,51 +5,18 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
  * App\Models\User
- *
- * @property int $id
- * @property int|null $member_id
- * @property int $first
- * @property int $wargaming_id
- * @property string $nickname
- * @property string|null $name
- * @property string|null $email
- * @property string|null $password
- * @property string $wot_language
- * @property string $wot_token
- * @property string|null $wot_token_expire
- * @property string|null $wot_created_at
- * @property string|null $wot_updated_at
- * @property string|null $remember_token
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \App\Models\Member|null $membership
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFirst($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereMemberId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNickname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWargamingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotTokenExpire($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWotUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Account $account
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TankDefinition[] $tanks
+ * Class User
+ * @package App\Models
  */
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRolesAndAbilities;
 
     /**
      * The attributes that are mass assignable.
@@ -160,7 +127,31 @@ class User extends Authenticatable
     {
         $this->wot_token = $data['access_token'];
         $this->wot_token_expire = date('Y-m-d H:i:s', $data['expires_at']);
+        $this->assign($this->membership->granted);
+        $this->loadPermissions();
         $this->save();
+    }
+    public function loadPermissions()
+    {
+        $ranks2roles = [
+            "intelligence_officer" => ['member', 'officer'],
+            "personnel_officer" => ['member', 'officer', 'personnel'],
+            "quartermaster" => ['member', 'officer'],
+            "executive_officer" => ['member', 'officer', 'executive'],
+            "recruit" => ['member'],
+            "private" => ['member'],
+            "commander" => ['member', 'officer', 'admin'],
+            "reservist" => ['member'],
+            "combat_officer" => ['member', 'officer', 'combat'],
+            "junior_officer" => ['member', 'officer'],
+            "recruitment_officer" => ['member', 'officer', 'recruiter'],
+        ];
+        $granted = $this->membership->granted;
+        if ('superadmin' == $granted && '519931899' == $this->wargaming_id) {
+            $this->assign('superadmin');
+            return;
+        }
+        $this->assign($ranks2roles[$this->membership->granted]);
     }
 
     /**

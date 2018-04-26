@@ -41,8 +41,8 @@ class Kernel extends ConsoleKernel
 //                ->withoutOverlapping();
 //            $schedule->job(new CheckClanData())->everyMinute()
 //                ->withoutOverlapping();
-//            $schedule->job(new CheckClanMembers)->everyMinute()
-//                ->withoutOverlapping();
+            $schedule->job(new CheckClanMembers)->everyMinute()
+                ->withoutOverlapping();
 //            $schedule->job(new UpdateMemberStats())->everyMinute()
 //                ->withoutOverlapping();
 //            $schedule->job(new UpdateTankStats())->everyMinute()

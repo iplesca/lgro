@@ -15,6 +15,9 @@
                 </li>
                 @endguest
                 @auth
+                    <li class="nav-item {{ "clanDashboard" == Route::currentRouteName() ? 'active' : ''}}">
+                        <a class="nav-link" href="{{ route('clanDashboard') }}">Statistici</a>
+                    </li>
                     <li class="nav-item {{ "clanMembers" == Route::currentRouteName() ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('clanMembers') }}">Membri</a>
                     </li>

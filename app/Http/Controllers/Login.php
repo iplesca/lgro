@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Isteam\Wargaming\Api;
+use Silber\Bouncer\BouncerFacade;
 
 class Login extends Controller
 {
@@ -35,8 +36,8 @@ class Login extends Controller
                         // @todo refactor/think of a clear model pattern
                         $user->membership->updateStats($userData);
                     }
-
-                    if ($user->can('access')) {
+                    $user->loadPermissions();
+                    if ($user->can('login')) {
                         $this->doLogin($user);
                     } else {
                         $this->refreshWgCsrf(true);

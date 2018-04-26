@@ -24,6 +24,7 @@ Route::get('/test', "Page@test");
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/members', 'Clan@members')->name('clanMembers');
+    Route::get('/dashboard', 'Profile@dashboard')->name('clanDashboard');
 //    Route::get('/profile', 'Page@profile')->name('profile');
     Route::get('/profile/{memberId}', 'Profile@index')->name('profile');
     Route::get('/profile/{memberId}/garage', 'Profile@tanks')->name('profile-tanks');
