@@ -6,51 +6,61 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                @guest
                 <li class="nav-item {{ "homepage" == Route::currentRouteName() ? 'active' : ''}}">
                     <a class="nav-link" href="{{ route('homepage') }}">Info</a>
                 </li>
-                @guest
                 <li class="nav-item">
                     <a class="nav-link" href="{{ $wotLogin }}{{ Session::get('wgAuth') }}/">Autentificare</a>
                 </li>
                 @endguest
                 @auth
-                    <li class="nav-item {{ "clanDashboard" == Route::currentRouteName() ? 'active' : ''}}">
-                        <a class="nav-link" href="{{ route('clanDashboard') }}">Statistici</a>
+                    {{-- CLAN TAG --}}
+                    <li class="nav-item dropdown {{ in_array(Route::currentRouteName(), ['homepage', 'profile', 'clanMembers']) ? 'active' : ''}}">
+                        <a class="nav-link dropdown-toggle" href="{{ route('homepage') }}" role="button"
+                           aria-haspopup="true" aria-expanded="true">
+                            {{ $clanData->tag }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('clanMembers') }}">Membri</a>
+                            <a class="dropdown-item" href="{{ route('profile', ['memberId' => Auth::user()->member_id]) }}">Bine ai venit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('profile', ['memberId' => Auth::user()->member_id]) }}">Regulament</a>
+                        </div>
                     </li>
-                    <li class="nav-item {{ "clanMembers" == Route::currentRouteName() ? 'active' : ''}}">
-                        <a class="nav-link" href="{{ route('clanMembers') }}">Membri</a>
+
+                    {{-- DASHBOARD --}}
+                    <li class="nav-item dropdown {{ in_array(Route::currentRouteName(), ['profile', 'clanDashboard']) ? 'active' : ''}}">
+                        <a class="nav-link dropdown-toggle" href="{{ route('clanDashboard') }}" role="button" aria-haspopup="true" aria-expanded="true">
+                            Dashboard
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('profile', ['memberId' => Auth::user()->member_id]) }}">Statistici</a>
+                        </div>
                     </li>
-                    <li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">
-                        <a class="nav-link" href="{{ route('profile', [
-                        'memberId' => Auth::user()->member_id
-                        ]) }}">Profil</a>
+
+                    <li class="nav-item dropdown {{ in_array(Route::currentRouteName(), ['profile', 'profileGarage', 'profileMessages']) ? 'active' : ''}}">
+                        <a class="nav-link dropdown-toggle" href="{{ route('profile', ['memberId' => Auth::user()->member_id]) }}" role="button" aria-haspopup="true" aria-expanded="true">
+                            Dosar personal
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('profileGarage', ['memberId' => Auth::user()->member_id]) }}">Garaj</a>
+                            <a class="dropdown-item" href="{{ route('profileMessages', ['memberId' => Auth::user()->member_id]) }}">Mesaje</a>
+                        </div>
                     </li>
-                    <li class="nav-item {{ "profile-tanks" == Route::currentRouteName() ? 'active' : ''}}">
-                        <a class="nav-link" href="{{ route('profile-tanks', [
-                        'memberId' => Auth::user()->member_id
-                        ]) }}">Garaj</a>
-                    </li>
+                    {{--<li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">--}}
+                        {{--<a class="nav-link" href="{{ route('profile') }}">Recrutare</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">--}}
+                        {{--<a class="nav-link" href="{{ route('profile') }}">Strategie</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">--}}
+                        {{--<a class="nav-link" href="{{ route('profile') }}">Comandant</a>--}}
+                    {{--</li>--}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Deconectare</a>
                     </li>
-
                 @endauth
-                {{--<li class="nav-item dropdown">--}}
-                    {{--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"--}}
-                       {{--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-                        {{--Dropdown--}}
-                    {{--</a>--}}
-                    {{--<div class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
-                        {{--<a class="dropdown-item" href="#">Action</a>--}}
-                        {{--<a class="dropdown-item" href="#">Another action</a>--}}
-                        {{--<div class="dropdown-divider"></div>--}}
-                        {{--<a class="dropdown-item" href="#">Something else here</a>--}}
-                    {{--</div>--}}
-                {{--</li>--}}
-                {{--<li class="nav-item">--}}
-                    {{--<a class="nav-link disabled" href="#">Disabled</a>--}}
-                {{--</li>--}}
             </ul>
             @auth
                 <ul class="nav navbar-nav navbar-right">
@@ -59,10 +69,6 @@
                     </li>
                 </ul>
             @endauth
-            {{--<form class="form-inline my-3 my-lg-0">--}}
-            {{--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">--}}
-            {{--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>--}}
-            {{--</form>--}}
         </div>
     </nav>
 </div>

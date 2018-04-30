@@ -11,6 +11,23 @@ a {
     min-height:1000px;
     padding:0px !important;
 }
+.dropdown-toggle::after {
+    margin-left:-3px;
+}
+.nav-item.dropdown .dropdown-menu {
+    display: none;
+    margin-top:-1px;
+}
+.nav-item.dropdown:hover .nav-link {
+    border-radius: 3px 3px 0 0;
+    background-color: #8c8c8c;
+}
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+.dropdown-item:hover {
+    background-color:#ffcc23;
+}
 .header {
     padding: 20px 0 20px 0;
     background-image: url("/images/background.jpg");
@@ -108,92 +125,6 @@ h1, h2, h3 {
     background:#fff;
     width:100%;
     border-bottom:1px solid #666;
-}
-/* Concurs*/
-.concurs {
-    width:100%;
-}
-.concurs .team {
-    width: 20%;
-    display:inline-block;
-    border: solid #F0F0F0 1px;
-    margin: 5px;
-    padding: 10px;
-}
-.concurs .team-id {
-    width: 70px;
-    display: inline-block;
-}
-.concurs .group {
-    width: 100%;
-    margin-left:100px;
-    display: inline-block;
-}
-.concurs .group span {
-
-}
-.concurs .group .group-teams {
-    display: inline-block;
-}
-.concurs .group .group-teams li {
-    font-size:34px;
-}
-.concurs .group table.clasament {
-    margin-right: 100px;
-
-}
-.concurs .group table.clasament td {
-    width: 20px;
-}
-.concurs .group table.clasament td:nth-child(1) {
-    width: 70px;
-}
-.concurs .group .games {
-    display: inline-block;
-}
-.concurs .group .games ol {
-    list-style-type: none;
-}
-.concurs .group .games ol li {
-    counter-increment: step-counter;
-}
-.concurs .group .games ol li:before {
-    content: counter(step-counter);
-    margin: 4px 5px 0 0;
-    font-size: 80%;
-    background-color: rgb(0,200,200);
-    color: white;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 3px;
-    float:left;
-}
-.concurs .group .games .match_action {
-    text-decoration: none;
-}
-.concurs .group .games table {
-    display: block;
-    width: 100%;
-}
-.concurs .group .games table td {
-    text-align: center;
-}
-.concurs .group .games table td input {
-    font-size:12px;
-    text-align: center;
-}
-.concurs .group .games table td:nth-child(1){
-    width: 100px;
-}
-.concurs .group .games table td:nth-child(2){
-    width: 10px;
-    font-size:9px;
-}
-.concurs .group .games table td:nth-child(3){
-    width: 100px;
-}
-.concurs .group .games table td:nth-child(4){
-    width: 30px;
 }
 .clan_members table {
     width: 100%;

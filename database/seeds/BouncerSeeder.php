@@ -53,7 +53,10 @@ class BouncerSeeder extends Seeder
             'name' => 'superadmin',
             'title' => 'Super Admin',
         ]);
-        // Abilities
+        /**
+         * Abilities
+         */
+        /** General */
         Bouncer::ability()->create([
             'name' => 'login',
             'title' => 'Login',
@@ -98,6 +101,11 @@ class BouncerSeeder extends Seeder
             'name' => 'take',
             'title' => 'Take',
         ]);
+        /** Specific */
+//        Bouncer::ability()->create([
+//            'name' => 'view-member',
+//            'title' => 'View clan info',
+//        ]);
         /*
         Bouncer::ability()->create([
             'name' => 'remove-view',
@@ -140,22 +148,10 @@ class BouncerSeeder extends Seeder
         Bouncer::allow('guest')->to('login');
         Bouncer::allow('member')->to('login');
 
-        // ClanInfo
-//        Bouncer::allow('guest')->to(['view'], ClanInfo::class);
-//        Bouncer::allow('member')->to(['view'], ClanInfo::class);
-//
-//        // ClanMembers
-//        Bouncer::allow('guest')->to(['list', 'view'], ClanMembers::class);
-//        Bouncer::allow('member')->to(['list', 'view'], ClanMembers::class);
-//
-//        // ClanGeneralStats
-//        Bouncer::allow('guest')->to(['view'], ClanGeneralStats::class);
-//        Bouncer::allow('member')->to(['view'], ClanGeneralStats::class);
-//
 //        // Member
-//        Bouncer::forbid('guest')->to(['access'], Member::class);
-//        Bouncer::allow('member')->toOwn(Member::class);
-//        Bouncer::allow('member')->to(['access', 'view'], Member::class);
+        Bouncer::forbid('guest')->to(['access'], \App\Models\Member::class);
+        Bouncer::allow('member')->toOwn(\App\Models\Member::class);
+        Bouncer::allow('member')->to(['access', 'view'], \App\Models\Member::class);
 //
 //        // MemberPrivate
 //        Bouncer::allow('member')->toOwn(MemberPrivate::class);
