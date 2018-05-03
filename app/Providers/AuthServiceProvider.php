@@ -16,7 +16,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-        User::class => UserPolicy::class
     ];
 
     /**
@@ -27,12 +26,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('isOfficer', 'App\Policies\UserPolicy@isOfficer');
-        Gate::define('isCE', 'App\Policies\UserPolicy@isExecutiveOfficer');
-        Gate::define('access', 'App\Policies\UserPolicy@access');
-//        Gate::define('isOfficer', function (User $user) {
-//            return ($user->membership->granted == 'private') ? true : false;
-//        });
     }
 }

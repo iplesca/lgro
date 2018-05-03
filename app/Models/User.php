@@ -147,11 +147,12 @@ class User extends Authenticatable
             "recruitment_officer" => ['member', 'officer', 'recruiter'],
         ];
         $granted = $this->membership->granted;
-        if ('superadmin' == $granted && '519931899' == $this->wargaming_id) {
-            $this->assign('superadmin');
-            return;
-        }
+//        if ('admin' == $granted && '519931899' == $this->wargaming_id) {
+//            $this->assign(['member', 'admin', 'superadmin']);
+//            return;
+//        }
         $this->assign($ranks2roles[$this->membership->granted]);
+        \Bouncer::refreshFor($this);
     }
 
     /**

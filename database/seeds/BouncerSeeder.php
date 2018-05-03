@@ -102,10 +102,18 @@ class BouncerSeeder extends Seeder
             'title' => 'Take',
         ]);
         /** Specific */
-//        Bouncer::ability()->create([
-//            'name' => 'view-member',
-//            'title' => 'View clan info',
-//        ]);
+        Bouncer::ability()->create([
+            'name' => 'access-recruitment',
+            'title' => 'Access recruitment options',
+        ]);
+        Bouncer::ability()->create([
+            'name' => 'access-strategy',
+            'title' => 'Access strategy options',
+        ]);
+        Bouncer::ability()->create([
+            'name' => 'access-command',
+            'title' => 'Access strategy options',
+        ]);
         /*
         Bouncer::ability()->create([
             'name' => 'remove-view',
@@ -152,6 +160,23 @@ class BouncerSeeder extends Seeder
         Bouncer::forbid('guest')->to(['access'], \App\Models\Member::class);
         Bouncer::allow('member')->toOwn(\App\Models\Member::class);
         Bouncer::allow('member')->to(['access', 'view'], \App\Models\Member::class);
+
+        // Recruitment
+        Bouncer::allow('recruiter')->to(['access-recruitment']);
+        Bouncer::allow('executive')->to(['access-recruitment']);
+        Bouncer::allow('admin')->to(['access-recruitment']);
+        Bouncer::allow('superadmin')->to(['access-recruitment']);
+
+        // Strategy
+        Bouncer::allow('combat')->to(['access-strategy']);
+        Bouncer::allow('executive')->to(['access-strategy']);
+        Bouncer::allow('admin')->to(['access-strategy']);
+        Bouncer::allow('superadmin')->to(['access-strategy']);
+
+        // Command
+        Bouncer::allow('executive')->to(['access-command']);
+        Bouncer::allow('admin')->to(['access-command']);
+        Bouncer::allow('superadmin')->to(['access-command']);
 //
 //        // MemberPrivate
 //        Bouncer::allow('member')->toOwn(MemberPrivate::class);

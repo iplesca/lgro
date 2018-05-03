@@ -48,6 +48,10 @@
                             <a class="dropdown-item" href="{{ route('profileMessages', ['memberId' => Auth::user()->member_id]) }}">Mesaje</a>
                         </div>
                     </li>
+                    @if (Bouncer::is(\Illuminate\Support\Facades\Auth::user())->an('officer'))
+                        @include ('piroman.officer-menu')
+                    @endif
+
                     {{--<li class="nav-item {{ "profile" == Route::currentRouteName() ? 'active' : ''}}">--}}
                         {{--<a class="nav-link" href="{{ route('profile') }}">Recrutare</a>--}}
                     {{--</li>--}}
