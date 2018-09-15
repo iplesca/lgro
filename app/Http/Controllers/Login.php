@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Clan;
-use App\Models\Member;
+//use App\Models\Clan;
+//use App\Models\Member;
 use App\Models\User;
-use Carbon\Carbon;
+//use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Isteam\Wargaming\Api;
-use Silber\Bouncer\BouncerFacade;
+//use Silber\Bouncer\BouncerFacade;
 
 class Login extends Controller
 {
@@ -26,9 +26,9 @@ class Login extends Controller
                     // get latest user data
                     $userData = $wgApi->tanks()->getPlayerData($auth['account_id'], $auth['access_token']);
                     $user = User::createFromWargaming($auth, $userData);
-                } else {
-                    $user->updateAccess($auth);
                 }
+
+                $user->updateAccess($auth);
 
                 if ($user) {
                     // check if member
@@ -36,7 +36,7 @@ class Login extends Controller
                         // @todo refactor/think of a clear model pattern
                         $user->membership->updateStats($userData);
                     }
-                    $user->loadPermissions();
+
                     if ($user->can('login')) {
                         $this->doLogin($user);
                     } else {

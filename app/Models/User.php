@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\RankPermissions;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +18,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRolesAndAbilities;
+    use RankPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -127,31 +129,15 @@ class User extends Authenticatable
     {
         $this->wot_token = $data['access_token'];
         $this->wot_token_expire = date('Y-m-d H:i:s', $data['expires_at']);
-        $this->assign($this->membership->granted);
-        $this->loadPermissions();
         $this->save();
+
+        $this->loadPermissions();
     }
     public function loadPermissions()
     {
-        $ranks2roles = [
-            "intelligence_officer" => ['member', 'officer'],
-            "personnel_officer" => ['member', 'officer', 'personnel'],
-            "quartermaster" => ['member', 'officer'],
-            "executive_officer" => ['member', 'officer', 'executive'],
-            "recruit" => ['member'],
-            "private" => ['member'],
-            "commander" => ['member', 'officer', 'admin'],
-            "reservist" => ['member'],
-            "combat_officer" => ['member', 'officer', 'combat'],
-            "junior_officer" => ['member', 'officer'],
-            "recruitment_officer" => ['member', 'officer', 'recruiter'],
-        ];
         $granted = $this->membership->granted;
-//        if ('admin' == $granted && '519931899' == $this->wargaming_id) {
-//            $this->assign(['member', 'admin', 'superadmin']);
-//            return;
-//        }
-        $this->assign($ranks2roles[$this->membership->granted]);
+
+        $this->assign($this->getPermissions($this, $granted));
         \Bouncer::refreshFor($this);
     }
 
