@@ -110,7 +110,6 @@ class User extends Authenticatable
         if (! is_null($member)) {
             $member->user()->save($user);
             $member->save();
-//            $member->refresh();
 
             $user->membership()->save($member);
             $user->save();
@@ -137,6 +136,7 @@ class User extends Authenticatable
     {
         $granted = $this->membership->granted;
 
+        \Bouncer::scope()->to($this->membership->clan_id)->onlyRelations();
         $this->assign($this->getPermissions($this, $granted));
         \Bouncer::refreshFor($this);
     }

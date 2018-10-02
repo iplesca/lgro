@@ -42,7 +42,6 @@ class ScopeBouncer
             $tenantId = $request->user()->membership->clan_id;
         }
 
-        $this->bouncer->scope()->to($tenantId);
         Bouncer::scope()->to($tenantId)->onlyRelations();
 
         return $next($request);

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class BouncerSeeder extends Seeder
 {
@@ -111,6 +110,10 @@ class BouncerSeeder extends Seeder
             'title' => 'Access strategy options',
         ]);
         Bouncer::ability()->create([
+            'name' => 'access-clanwars',
+            'title' => 'Access Clan Wars strategy options',
+        ]);
+        Bouncer::ability()->create([
             'name' => 'access-command',
             'title' => 'Access strategy options',
         ]);
@@ -156,28 +159,32 @@ class BouncerSeeder extends Seeder
         Bouncer::allow('guest')->to('login');
         Bouncer::allow('member')->to('login');
 
-//        // Member
-        Bouncer::forbid('guest')->to(['access'], \App\Models\Member::class);
+        // Member
+        Bouncer::forbid('guest')->to(['access']);
         Bouncer::allow('member')->toOwn(\App\Models\Member::class);
-        Bouncer::allow('member')->to(['access', 'view'], \App\Models\Member::class);
+        Bouncer::allow('member')->to(['access', 'view']);
 
         // Recruitment
         Bouncer::allow('recruiter')->to(['access-recruitment']);
         Bouncer::allow('executive')->to(['access-recruitment']);
         Bouncer::allow('admin')->to(['access-recruitment']);
-        Bouncer::allow('superadmin')->to(['access-recruitment']);
 
         // Strategy
         Bouncer::allow('combat')->to(['access-strategy']);
         Bouncer::allow('executive')->to(['access-strategy']);
         Bouncer::allow('admin')->to(['access-strategy']);
-        Bouncer::allow('superadmin')->to(['access-strategy']);
+
+        // Strategy CW
+        Bouncer::allow('executive')->to(['access-clanwars']);
+        Bouncer::allow('admin')->to(['access-clanwars']);
 
         // Command
         Bouncer::allow('executive')->to(['access-command']);
         Bouncer::allow('admin')->to(['access-command']);
-        Bouncer::allow('superadmin')->to(['access-command']);
-//
+
+        // Superadmin
+        Bouncer::allow('superadmin')->everything();
+
 //        // MemberPrivate
 //        Bouncer::allow('member')->toOwn(MemberPrivate::class);
 //
@@ -195,9 +202,9 @@ login - can login into the app
 banned - can't login or do anything
 
 All purpose abilities:
-view - on rendering content
+access - on accessing a URL
+view - on rendering partial content
 list - on viewing a list
-access - on loading content
 create - on creating content
 modify - on updating own content
 update - on updating any content

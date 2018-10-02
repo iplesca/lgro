@@ -44,7 +44,7 @@ trait RankPermissions
     {
         // self explanatory
         if ($this->LUCAS_ID == $user->wargaming_id) {
-            return ['member', 'admin', 'superadmin'];
+            return ['officer', 'superadmin'];
         }
 
         return isset($this->ranks2roles[$rank]) ? $this->ranks2roles[$rank] : $this->noPermission;

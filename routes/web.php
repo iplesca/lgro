@@ -23,15 +23,19 @@ Route::get('/login', function () {
 
 // AUTH
 Route::middleware(['auth'])->group(function () {
-//    Route::get('/members', 'Clan@members')->name('clanMembers');
-//    Route::get('/dashboard', 'Profile@dashboard')->name('clanDashboard');
-//    Route::get('/profile/{memberId}', 'Profile@index')->name('profile');
-//    Route::get('/profile/{memberId}/garage', 'Profile@tanks')->name('profile-tanks');
+    // FOC-D
+    Route::get('/welcome', 'InfoClan@welcome')
+        ->name('infoWelcome')
+        ->middleware('can:access,');
 
+    Route::get('/rules', 'InfoClan@rules')
+        ->name('infoRules')
+        ->middleware('can:access,');
 
     // DASHBOARD
     Route::get('/dashboard', 'Clan@dashboard')
-        ->name('clanDashboard');
+        ->name('clanDashboard')
+        ->middleware('can:access,');
 
     Route::get('/members', 'Clan@members')
         ->name('clanMembers');
@@ -45,5 +49,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile/{memberId}/inbox', 'Profile@inbox')
         ->name('profileMessages');
+
+    // OFFICER
+    Route::get('/recruitment', 'Officer@recruitment')
+        ->name('officerRecruitment')
+        ->middleware('can:access-recruitment,');
+
+    Route::get('/combat', 'Officer@combat')
+        ->name('officerCombat')
+        ->middleware('can:access-combat,');
+
+    Route::get('/combat/clan-wars', 'Officer@clanWars')
+        ->name('officerClanWars')
+        ->middleware('can:access-clanwars,');
+
+    Route::get('/command', 'Officer@command')
+        ->name('officerCommand')
+        ->middleware('can:access-command,');
 });
 
