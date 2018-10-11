@@ -68,5 +68,19 @@ class Clan extends Controller
             'ht30' => $top15HeavyLast30Days
         ]);
     }
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function rules()
+    {
+        return $this->useView('info-rules');
+    }
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function welcome()
+    {
+        return $this->useView('info-welcome');
+    }
 }
 

@@ -165,14 +165,16 @@ class Api implements Definition
      * Get the login url for WarGaming
      * @return string
      */
-    public function getLoginUrl()
+    public function getLoginUrl($clanTag)
     {
         $url = $this->getBaseUrl() . Definition::PLATFORM_WOTANKS;
         $authEndpoint = '/auth/login/';
 
+        $this->redirectUri .= $clanTag ? ':' . strtolower($clanTag) . ':' : '';
+
         $params = [
             'application_id' => $this->applicationId,
-            'redirect_uri' =>$this->redirectUri
+            'redirect_uri'   => $this->redirectUri
         ];
         return $url. $authEndpoint .'?'. http_build_query($params);
         

@@ -55,7 +55,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof AuthorizationException) {
-            $request->session()->flash('pop_message', 'Acces interzis');
+            if ($request->hasSession()) {
+                $request->session()->flash('pop_message', 'Acces interzis');
+            }
             return redirect('');
         }
         return parent::render($request, $exception);

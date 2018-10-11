@@ -13,7 +13,7 @@
 use Illuminate\Support\Facades\Route;
 
 // PUBLIC
-//Route::get('/', 'Clan@info')->name('homepage');
+Route::get('/', 'Landing@index')->name('homepage');
 
 Route::get('/auth_wargaming/{wgCsrf}', 'Login@wargaming');
 Route::get('/logout', 'Login@logout')->name('logout');
@@ -21,46 +21,50 @@ Route::get('/login', function () {
     return redirect('');
 })->name('login');
 
-function ___Get($route, $action, $name = '', $middleware = '') {
-    ___('get', $route, $action, $name, $middleware);
-}
-function ___Post($route, $action, $name = '', $middleware = '') {
-    ___('post', $route, $action, $name, $middleware);
-}
-function ___($verb, $route, $action, $name = '', $middleware = '') {
-    $clanTag = '/clan:{clanTag}';
-    $cr = Route::$verb($clanTag . $route, $action);
-    $r = Route::$verb($route, $action);
-
-    if (!empty($name)) {
-        $r->name($name);
-    }
-    if (!empty($middleware)) {
-        $r->middleware($middleware);
-    }
-}
-
-___Get('/', 'Clan@info', 'homepage');
-
 // AUTH
-Route::middleware(['prepare', 'auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // CLAN
-    ___Get('/welcome', 'InfoClan@welcome', 'infoWelcome');
-    ___Get('/rules', 'InfoClan@rules', 'infoRules', 'can:access,');
+    Route::get('/welcome', 'Clan@welcome')
+        ->name('infoWelcome')
+        ->middleware('can:access,');
+
+    Route::get('/rules', 'Clan@rules')
+        ->name('infoRules')
+        ->middleware('can:access,');
 
     // DASHBOARD
-    ___Get('/dashboard', 'Clan@dashboard', 'clanDashboard', 'can:access,');
-    ___Get('/members', 'Clan@members', 'clanMembers');
+    Route::get('/dashboard', 'Clan@dashboard')
+        ->name('clanDashboard')
+        ->middleware('can:access,');
+
+    Route::get('/members', 'Clan@members')
+        ->name('clanMembers');
 
     // PROFILE
-    ___Get('/profile/{memberId}', 'Profile@index', 'profile');
-    ___Get('/profile/{memberId}/garage', 'Profile@garage', 'profileGarage');
-    ___Get('/profile/{memberId}/inbox', 'Profile@inbox', 'profileMessages');
+    Route::get('/profile/{memberId}', 'Profile@index')
+        ->name('profile');
+
+    Route::get('/profile/{memberId}/garage', 'Profile@garage')
+        ->name('profileGarage');
+
+    Route::get('/profile/{memberId}/inbox', 'Profile@inbox')
+        ->name('profileMessages');
 
     // OFFICER
-    ___Get('/recruitment', 'Officer@recruitment', 'officerRecruitment', 'can:access-recruitment,');
-    ___Get('/combat', 'Officer@combat', 'officerCombat', 'can:access-combat,');
-    ___Get('/combat/clan-wars', 'Officer@clanWars', 'officerClanWars', 'can:access-clanwars,');
-    ___Get('/command', 'Officer@command', 'officerCommand', 'can:access-command,');
+    Route::get('/recruitment', 'Officer@recruitment')
+        ->name('officerRecruitment')
+        ->middleware('can:access-recruitment,');
+
+    Route::get('/combat', 'Officer@combat')
+        ->name('officerCombat')
+        ->middleware('can:access-combat,');
+
+    Route::get('/combat/clan-wars', 'Officer@clanWars')
+        ->name('officerClanWars')
+        ->middleware('can:access-clanwars,');
+
+    Route::get('/command', 'Officer@command')
+        ->name('officerCommand')
+        ->middleware('can:access-command,');
 });
 
