@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use App\Models\Clan;
-//use App\Models\Member;
+use App\Managers\ClanManager;
 use App\Models\User;
-//use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Isteam\Wargaming\Api;
-//use Silber\Bouncer\BouncerFacade;
 
 class Login extends Controller
 {
@@ -53,19 +50,20 @@ class Login extends Controller
             // @todo log error
             // csrf mismatch
         }
-        return redirect('');
+        return isteamRedirect('');
     }
     private function doLogin(User $user)
     {
         Auth::login($user, true);
         if (! is_null($user->membership)) {
-            return redirect('profile');
+            return isteamRedirect('profile');
         }
-        return redirect('profile/standard');
+        return isteamRedirect('profile/standard');
     }
     public function logout()
     {
+        ClanManager::loadDataById(Auth::user()->wargaming_id);
         Auth::logout();
-        return redirect('');
+        return isteamRedirect('');
     }
 }

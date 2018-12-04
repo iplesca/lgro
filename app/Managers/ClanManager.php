@@ -51,14 +51,14 @@ class ClanManager
 
         return false;
     }
-    static public function getSubdomain($secure, $trail = false)
+    static public function getSubdomain($secure, $withProto = false, $trail = false)
     {
         $result = false;
         $trail = $trail ? '/' : '';
 
-        $proto = 'http' . ($secure ? 's' : '');
+        $proto = !is_null($secure) ? 'http' . ($secure === true ? 's' : '') . ':' : '';
         if (!empty(self::$clan->subdomain)) {
-            $result = $proto . '://' . self::$clan->subdomain . '.isteam.dev' . $trail;
+            $result = $proto . '//' . self::$clan->subdomain . '.isteam.dev' . $trail;
         }
 
         return $result;
@@ -78,5 +78,9 @@ class ClanManager
     static public function getClan()
     {
         return self::$clan;
+    }
+    static public function setClan(Clan $clan)
+    {
+        self::$clan = $clan;
     }
 }

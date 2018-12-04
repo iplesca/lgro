@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Managers\ClanManager;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

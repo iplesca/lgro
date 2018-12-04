@@ -7,6 +7,7 @@ use App\Models\Clan;
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class LoadClanData
@@ -21,30 +22,77 @@ class LoadClanData
      */
     public function handle($request, Closure $next)
     {
-        $result = null;
-        $clanId = ClanManager::isClan() ? ClanManager::getClanId() : (int) getenv('CLAN_ID');
+        $isSubdomain = false;
+        $stripTag = false;
+        $redirect = false;
+        $result = false;
+        $clanId = -1;
+        $clan = false;
 
-        if (!empty($clanId) && $clanId != -1) {
+        // is there a clan from a previous redirect?
+//        if (ClanManager::isClan()) {
+//            $clanId = ClanManager::getClanId();
+//        } else {
+            // ... or are we on a subdomain
+            $envClanId = (int) getenv('CLAN_ID');
+            if ($envClanId !== $clanId) {
+                $clanId = $envClanId;
+                $isSubdomain = true;
+            }
+//        }
+
+        if ($clanId !== -1) {
             $result = ClanManager::loadDataById($clanId);
-        }
-        // look for a potential clan tag anyway
-        $clanTag = $this->getClanTag($request);
 
-        $sub = ClanManager::getSubdomain($request->secure());
-
-        // no clan subdomain
-        if ($sub === false) {
-            if (!empty($clanTag)) {
-                $result = ClanManager::identifyTag($clanTag);
+            // preserve found clan
+            if ($result) {
+                $clan = ClanManager::getClan();
             }
         }
+
+        // look for a potential clan tag anyway
+        $urlClanTag = $this->getClanTag($request);
+
+        if ($isSubdomain) {
+            if (!empty($urlClanTag)) {
+                if (strtolower($urlClanTag) === strtolower($clan->tag)) {
+                    $stripTag = true;
+                } else {
+                    $badCall = true;
+                }
+            }
+        } else {
+            if (!empty($urlClanTag)) {
+                if (ClanManager::identifyTag($urlClanTag)) {
+                    if (! is_null(ClanManager::getClan()->subdomain)) {
+                        $redirect = true;
+                        $stripTag = true;
+                    }
+                } else {
+                    $badCall = true;
+                }
+            }
+        }
+
+        // is there a clan tag and no subdomain?
+        if (! $isSubdomain && !empty($urlClanTag)) {
+            $result = ClanManager::identifyTag($urlClanTag);
+        }
+
+        // is there a clan id but nothing was found as clan?
         if (! $result && $clanId != -1) {
+            // then it is an unauthorized access
             throw new AuthorizationException();
         }
-        if ($result !== null && $clanTag) {
-            // rebuild request
-            $newUri = str_replace($request->segment(1), '', $request->path());
 
+        // if there is a clan found and a clan tag
+        // rebuild request, either redirect to subdomain or strip the clan tag from the URL
+        if ($result !== null && $urlClanTag) {
+            $newUri = str_replace($request->segment(1), '', $request->getRequestUri());
+
+            if ($newUri == '/') {
+                $newUri = '/:' . strtolower($urlClanTag);
+            }
             $request->server->set('REQUEST_URI', $newUri);
 
             $sub = ClanManager::getSubdomain($request->secure());
@@ -54,7 +102,9 @@ class LoadClanData
                 $request = Request::createFrom($request);
             }
         }
-        $this->loadClan(ClanManager::getClan(), $clanId);
+
+        // set constants for the clan
+        $this->setConstants(ClanManager::getClan(), $clanId);
 
         return $next($request);
     }
@@ -75,23 +125,23 @@ class LoadClanData
         }
         return $result;
     }
-    private function loadClan(Clan $clan = null, $clanId = -1)
+    private function setConstants(Clan $foundClan = null, $foundClanId = -1)
     {
-        if (! is_null($clan)) {
-            $clanId = $clan->wargaming_id;
+        // set default template
+        $template = (-1 !== $foundClanId) ? 'standard' : 'isteam';
+
+        if (! is_null($foundClan) && $foundClan->template) {
+            // use clan template
+            $template = $foundClan->template;
         }
 
-        $template = (-1 !== $clanId) ? 'standard' : 'isteam';
-        if (! is_null($clan) && $clan->template) {
-            $template = $clan->template;
-        }
         if (! defined('CLAN_ID')) {
-            define('CLAN_ID', $clanId);
+            define('CLAN_ID', $foundClanId);
         }
         if (! defined('ISTEAM_TEMPLATE')) {
             define('ISTEAM_TEMPLATE', $template);
         }
 
-        View::share('clanData', $clan);
+        View::share('clanData', $foundClan);
     }
 }

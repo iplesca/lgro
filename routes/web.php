@@ -12,13 +12,16 @@
 */
 use Illuminate\Support\Facades\Route;
 
+Route::domain('{account}.isteam.ro')->group(function () {
+
+});
 // PUBLIC
 Route::get('/', 'Landing@index')->name('homepage');
 
 Route::get('/auth_wargaming/{wgCsrf}', 'Login@wargaming');
 Route::get('/logout', 'Login@logout')->name('logout');
 Route::get('/login', function () {
-    return redirect('');
+    return isteamRedirect('');
 })->name('login');
 
 // AUTH

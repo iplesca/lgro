@@ -57,3 +57,18 @@ if (!function_exists('isGenericUser')) {
         return \Illuminate\Support\Facades\Auth::user()->isGeneric();
     }
 }
+if (!function_exists('isteamRedirect')) {
+    function isteamRedirect($to = null, $status = 302, $headers = [], $secure = null)
+    {
+        $domain = \App\Managers\ClanManager::getSubdomain($secure);
+
+        if (!empty($domain)) {
+            $goTo = $domain . $to;
+        } else {
+            $tag = \App\Managers\ClanManager::getClanTag();
+            $goTo = (empty($tag) ? '' : ':' . $tag) . '/';
+        }
+
+        return redirect($goTo . $to, $status, $headers, $secure);
+    }
+}

@@ -12,11 +12,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
-    {
-        \View::share('wotLogin', $this->api()->getLoginUrl(ClanManager::getClanTag()));
-    }
-
     protected function refreshWgCsrf($do = false)
     {
         if ($do || ! session('wgAuth')) {
@@ -25,7 +20,8 @@ class Controller extends BaseController
     }
     protected function useView($name, $data = array())
     {
-
+        \View::share('wotLogin', $this->api()->getLoginUrl(ClanManager::getClanTag()));
+        session()->save();
         return view(ISTEAM_TEMPLATE . '.' . $name, $data);
     }
     /**
