@@ -53,54 +53,55 @@ class LoadClanData
         // look for a potential clan tag anyway
         $urlClanTag = $this->getClanTag($request);
 
+        // are we on a subdomain?
         if ($isSubdomain) {
+            // yes, is there a clan tag provided?
             if (!empty($urlClanTag)) {
+                // yes, does it match the subdomain clan?
                 if (strtolower($urlClanTag) === strtolower($clan->tag)) {
+                    // yes, do them a favour and strip the tag
                     $stripTag = true;
                 } else {
+                    // nope, bad call
                     $badCall = true;
                 }
             }
         } else {
+            // no subdomain, is there a clan tag?
             if (!empty($urlClanTag)) {
+                // yes, is it a valid tag?
                 if (ClanManager::identifyTag($urlClanTag)) {
+                    // yes, does the clan have a subdomain?
                     if (! is_null(ClanManager::getClan()->subdomain)) {
+                        // yes, lets redirect to that subdomain and strip the tag
                         $redirect = true;
                         $stripTag = true;
                     }
+                    // else - no subdomain, do nothing
                 } else {
+                    // no, clan tag bad and no subdomain, fail
                     $badCall = true;
                 }
             }
         }
 
-        // is there a clan tag and no subdomain?
-        if (! $isSubdomain && !empty($urlClanTag)) {
-            $result = ClanManager::identifyTag($urlClanTag);
-        }
-
-        // is there a clan id but nothing was found as clan?
-        if (! $result && $clanId != -1) {
-            // then it is an unauthorized access
+        // is it a bad call?
+        if ($badCall) {
             throw new AuthorizationException();
         }
 
-        // if there is a clan found and a clan tag
-        // rebuild request, either redirect to subdomain or strip the clan tag from the URL
-        if ($result !== null && $urlClanTag) {
+        // habemus clan, what to do
+        $newUri = $request->getRequestUri();
+        if ($stripTag) {
             $newUri = str_replace($request->segment(1), '', $request->getRequestUri());
+        }
 
-            if ($newUri == '/') {
-                $newUri = '/:' . strtolower($urlClanTag);
-            }
-            $request->server->set('REQUEST_URI', $newUri);
-
+        if ($isSubdomain) {
             $sub = ClanManager::getSubdomain($request->secure());
-            if ($sub) {
-                return redirect($sub . $newUri);
-            } else {
-                $request = Request::createFrom($request);
-            }
+            return redirect($sub . $newUri);
+        } else {
+            $request->server->set('REQUEST_URI', $newUri);
+            $request = Request::createFrom($request);
         }
 
         // set constants for the clan
