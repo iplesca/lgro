@@ -26,6 +26,7 @@ class LoadClanData
         $stripTag = false;
         $redirect = false;
         $result = false;
+        $badCall = false;
         $clanId = -1;
         $clan = false;
 
@@ -40,7 +41,7 @@ class LoadClanData
                 $isSubdomain = true;
             }
 //        }
-
+        $a = $request->getHost();
         if ($clanId !== -1) {
             $result = ClanManager::loadDataById($clanId);
 
